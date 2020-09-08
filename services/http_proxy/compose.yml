@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  caddy:
+    image: caddy:2.1.1-alpine
+    volumes:
+      - "${COMPOSE_ROOT}/services/http_proxy/Caddyfile:/etc/caddy/Caddyfile"
+      - "${COMPOSE_ROOT}/data/caddy:/data"
+    ports:
+      - "80:80"
+      - "443:443"

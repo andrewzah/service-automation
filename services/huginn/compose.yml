@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  huginn:
+    image: huginn/huginn:1f2c78c804309c9d74bdd385a3b986b39cb707a4
+    environment:
+      - RAILS_ENV=production
+      - PORT=3000
+      - FORCE_SSL=true
+      - DOMAIN=huginn.zah.rocks
+      - DOMAINS=huginn.zah.rocks
+      - HUGINN_DOMAIN=huginn.zah.rocks
+      - HUGINN_DOMAINS=huginn.zah.rocks
+      - DATABASE_USERNAME=huginn
+      - DATABASE_ADAPTER=postgresql
+      - DATABASE_HOST=postgres
+    env_file:
+      - "${COMPOSE_ROOT}/services/huginn/secret.env"
+    ports:
+      - "3010:3000"
+
