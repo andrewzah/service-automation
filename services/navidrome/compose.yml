@@ -17,4 +17,6 @@ services:
         - "4533:4533"
     volumes:
       - "${COMPOSE_ROOT}/data/navidrome:/data"
-      - "/mnt/nfs/media/music:/music:ro"
+      - "/mnt/media/music:/music:ro"
+      - "/mnt/data/rips:/mnt/data/rips:ro"
+    restart: unless-stopped

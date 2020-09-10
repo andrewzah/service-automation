@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  goatcounter:
+    build: .
+    environment:
+      GC_PORT: "3443"
+      GC_LISTEN: "0.0.0.0:3443"
+      GC_DB: "sqlite:///config/goatcounter.db"
+      GC_TLS: "none"
+      GC_ERRORS: "mailto:zah@andrewzah.com"
+      GC_EMAIL_FROM: "goatcounter@zah.rocks"
+    env_file:
+      - "${COMPOSE_ROOT}/services/goatcounter/secret.env"
+    volumes:
+      - "${COMPOSE_ROOT}/data/goatcounter:/data"
+    ports:
+      - "3443:3443"

@@ -18,3 +18,16 @@ https://huginn.zah.rocks {
     header_up X-Forwarded-Host {host}
   }
 }
+
+https://stats.andrewzah.com, https://stats.benzah.com {
+  reverse_proxy * goatcounter:3443 {
+    header_up X-Forwarded-Ssl on
+    header_up Host {host}
+    header_up X-Real-IP {remote}
+    header_up X-Forwarded-For {remote}
+    header_up X-Forwarded-Port {server_port}
+    header_up X-Forwarded-Proto {scheme}
+    header_up X-Url-Scheme {scheme}
+    header_up X-Forwarded-Host {host}
+  }
+}

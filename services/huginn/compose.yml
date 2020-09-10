@@ -18,4 +18,5 @@ services:
       - "${COMPOSE_ROOT}/services/huginn/secret.env"
     ports:
       - "3010:3000"
+    restart: unless-stopped
 
