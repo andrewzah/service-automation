@@ -58,3 +58,14 @@ https://rel.zah.rocks {
     header_up X-Forwarded-Proto {scheme}
   }
 }
+
+https://cal.zah.rocks {
+  encode gzip
+
+  reverse_proxy * radicale:5232 {
+    header_up Host {host}
+    header_up X-Real-IP {remote}
+    header_up X-Forwarded-For {remote}
+    header_up X-Forwarded-Proto {scheme}
+  }
+}

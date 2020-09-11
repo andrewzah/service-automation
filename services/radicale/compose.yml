@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  radicale:
+    image: tomsquest/docker-radicale:latest
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETUID
+      - SETGID
+      - CHOWN
+      - KILL
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:5232 || exit 1"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 60s
+    volumes:
+      - "${COMPOSE_ROOT}/data/radicale:/data"
+      - "${COMPOSE_ROOT}/services/radicale/config:/etc/radicale/config:ro"
+      - "${COMPOSE_ROOT}/services/radicale/users:/etc/radicale/users:ro"
+    restart:
+      unless-stopped
+    ports:
+      - "5232"
