@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  bitwarden:
+    image: bitwardenrs/server:latest
+    environment:
+      WEBSOCKET_ENABLED: 'true'
+      SIGNUPS_ALLOWED: 'false'
+      LOG_FILE: '/data/bitwarden.log'
+    ports:
+      - "80"
+      - "3012"
+    volumes:
+      - "${COMPOSE_ROOT}/data/bitwarden-rs:/data/"

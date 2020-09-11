@@ -31,3 +31,30 @@ https://stats.andrewzah.com, https://stats.benzah.com {
     header_up X-Forwarded-Host {host}
   }
 }
+
+# https://github.com/dani-garcia/bitwarden_rs/wiki/Proxy-examples
+https://bit.zah.rocks {
+  encode gzip
+
+  header {
+    X-XSS-Protection "1; mode=block"
+    X-Frame-Options "DENY"
+    X-Robots-Tag "none"
+    -Server
+  }
+
+  reverse_proxy /notifications/hub/negotiate bitwarden:80
+  reverse_proxy /notifications/hub bitwarden:3012
+  reverse_proxy bitwarden:80
+}
+
+https://rel.zah.rocks {
+  encode gzip
+
+  reverse_proxy * monica:80 {
+    header_up Host {host}
+    header_up X-Real-IP {remote}
+    header_up X-Forwarded-For {remote}
+    header_up X-Forwarded-Proto {scheme}
+  }
+}

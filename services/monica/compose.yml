@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  monica:
+    image: monica:2-apache
+    env_file:
+      - "${COMPOSE_ROOT}/services/monica/secret.env"
+    environment:
+      APP_ENV: 'production'
+      APP_URL: 'https://rel.zah.rocks'
+      APP_TRUSTED_PROXIES: '172.18.0.4'
+      DB_HOST: 'mysql'
+      DB_DATABASE: 'monica'
+      DB_USERNAME: 'homestead'
+    volumes:
+      - "${COMPOSE_ROOT}/data/monica/:/var/www/html/storage/"
+    ports:
+      - "80"
+    restart: unless-stopped
