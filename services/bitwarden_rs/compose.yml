@@ -12,3 +12,5 @@ services:
       - "3012"
     volumes:
       - "${COMPOSE_ROOT}/data/bitwarden-rs:/data/"
+    read_only: true
+    restart: unless-stopped

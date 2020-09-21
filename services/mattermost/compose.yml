@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  mattermost:
+    #image: mattermost/mattermost-team-edition:latest
+    build:
+      context: "${COMPOSE_ROOT}/services/mattermost"
+      args:
+        - edition=team
+        - PUID=2000
+        - PGID=2000
+    environment:
+      DB_HOST: postgres
+      MM_USERNAME: mattermost
+      MM_DBNAME: mattermost
+      MM_LOGSETTINGS_ENABLEDDIAGNOSTICS: 'false'
+      MM_SERVICESETTINGS_ENABLESECURITYFIXALERT: 'false'
+    env_file:
+      - "${COMPOSE_ROOT}/services/mattermost/secret.env"
+    volumes:
+      - "${COMPOSE_ROOT}/services/mattermost/config.json:/config.json:rw"
+      - "${COMPOSE_ROOT}/data/mattermost/data:/mattermost/data:rw"
+      - "${COMPOSE_ROOT}/data/mattermost/logs:/mattermost/logs:rw"
+      - "${COMPOSE_ROOT}/data/mattermost/plugins:/mattermost/plugins:rw"
+      - "${COMPOSE_ROOT}/data/mattermost/client-plugins:/mattermost/client/plugins:rw"
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "8000:8000"
+    restart: unless-stopped

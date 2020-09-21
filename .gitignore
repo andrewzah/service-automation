@@ -4,3 +4,4 @@ data/
 .pass
 
 /services/radicale/users
+/services/mpd/mpd.conf

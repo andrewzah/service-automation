@@ -6,7 +6,7 @@ services:
     environment:
       GC_PORT: "3443"
       GC_LISTEN: "0.0.0.0:3443"
-      GC_DB: "sqlite:///config/goatcounter.db"
+      GC_DB: "sqlite:///data/goatcounter.db"
       GC_TLS: "none"
       GC_ERRORS: "mailto:zah@andrewzah.com"
       GC_EMAIL_FROM: "goatcounter@zah.rocks"
@@ -16,3 +16,4 @@ services:
       - "${COMPOSE_ROOT}/data/goatcounter:/data"
     ports:
       - "3443:3443"
+    restart: unless-stopped

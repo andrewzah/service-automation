@@ -23,7 +23,7 @@ services:
       - "${COMPOSE_ROOT}/data/radicale:/data"
       - "${COMPOSE_ROOT}/services/radicale/config:/etc/radicale/config:ro"
       - "${COMPOSE_ROOT}/services/radicale/users:/etc/radicale/users:ro"
-    restart:
-      unless-stopped
     ports:
       - "5232"
+    read_only: true
+    restart: unless-stopped

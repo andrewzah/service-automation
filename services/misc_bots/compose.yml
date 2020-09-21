@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  sub_watcher1:
+    image: andrewzah/rust-reddit-watcher-telegram-notifier
+    environment:
+      RUST_BACKTRACE: 'full'
+      BOT_CHAT_ID: '664430725'
+      BOT_SUBREDDIT: 'gundeals'
+      BOT_DB_PATH: '/data/sub_watcher1.db'
+      BOT_DESIRED_KEYWORDS: 'g43x,147g'
+      BOT_UNDESIRED_KEYWORDS: 'jhp'
+    env_file:
+      - "${COMPOSE_ROOT}/services/misc_bots/secret.env"
+    volumes:
+      - "${COMPOSE_ROOT}/data/hk_watcher/:/data/:rw"
+    restart: unless-stopped
+    read_only: true
+
+  sub_watcher2:
+    image: andrewzah/rust-reddit-watcher-telegram-notifier
+    environment:
+      RUST_BACKTRACE: 'full'
+      BOT_CHAT_ID: '664430725'
+      BOT_SUBREDDIT: 'gundeals'
+      BOT_DB_PATH: '/data/sub_watcher2.db'
+      BOT_DESIRED_KEYWORDS: '45,acp'
+      BOT_UNDESIRED_KEYWORDS: 'optic,parts,pistol,handgun,acc'
+    env_file:
+      - "${COMPOSE_ROOT}/services/misc_bots/secret.env"
+    volumes:
+      - "${COMPOSE_ROOT}/data/hk_watcher/:/data/:rw"
+    restart: unless-stopped
+    read_only: true

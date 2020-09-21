@@ -1,9 +1,0 @@
-version: '3.7'
-
-services:
-  hk_watcher:
-    build:
-      context: "${COMPOSE_ROOT}/services/go_bots/hk_watcher"
-    env_file:
-      - "${COMPOSE_ROOT}/services/go_bots/hk_watcher/secret.env"
-    restart: unless-stopped

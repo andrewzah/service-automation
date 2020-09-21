@@ -19,4 +19,5 @@ services:
       - "${COMPOSE_ROOT}/data/navidrome:/data"
       - "/mnt/media/music:/music:ro"
       - "/mnt/data/rips:/mnt/data/rips:ro"
+    read_only: true
     restart: unless-stopped

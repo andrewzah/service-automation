@@ -5,3 +5,5 @@ services:
     image: containous/whoami
     ports:
       - "3011:80"
+    read_only: true
+    restart: unless-stopped

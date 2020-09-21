@@ -9,5 +9,8 @@ services:
     env_file:
       - "${COMPOSE_ROOT}/services/postgres/secret.env"
     volumes:
+      - "${COMPOSE_ROOT}/services/postgres/entrypoint.sh:/entrypoint.sh"
+      - "${COMPOSE_ROOT}/services/postgres/zulip_english.stop:/usr/local/share/postgresql/tsearch_data/zulip_english.stop"
       - "${COMPOSE_ROOT}/services/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/"
       - "${COMPOSE_ROOT}/data/postgres/:/var/lib/postgresql/data/"
+    restart: unless-stopped
