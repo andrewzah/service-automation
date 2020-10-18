@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  homeassistant:
+    image: homeassistant/home-assistant:stable
+    environment:
+      TZ: 'America/New_York'
+    ports:
+      - "8123"
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - "${COMPOSE_ROOT}/data/homeassistant/config:/config"
+      - "/etc/localtime:/etc/localtime:ro"

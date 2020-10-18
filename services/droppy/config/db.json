@@ -1,0 +1,51 @@
+{
+  "users": {
+    "andrew": {
+      "hash": "7b038098bd51c6367a28f2339588f3829971835e71d98dbecbbd128f35b74ab0$c4401774",
+      "privileged": true
+    },
+    "ben": {
+      "hash": "19760507eafe60e1b5343b2e313e910ec1a04076ea960790aca77f0de6a32193$a93c9da4",
+      "privileged": false
+    }
+  },
+  "sessions": {
+    "x0iggiBi1luYmPzT9pvZZyi07HIel28eVy3u7xiuwZj8eNOA": {
+      "privileged": true,
+      "username": "andrew",
+      "lastSeen": 1601391857451
+    },
+    "FvK8XhAAWqXUed2+wVwVkSMUFmvbzAiHXo7SA8Sh0jz5XhPt": {
+      "privileged": true,
+      "username": "andrew",
+      "lastSeen": 1601173158698
+    },
+    "+zV1iZ74F6y9zIkmnprLs6Es00BzER69otz+AyPBbgOOVhoR": {
+      "privileged": true,
+      "username": "andrew",
+      "lastSeen": 1602772429786
+    }
+  },
+  "links": {
+    "Nazdh": {
+      "location": "/andrew/mermaid.svg",
+      "attachement": true,
+      "ext": ".svg"
+    },
+    "QtmdB": {
+      "location": "/andrew/mermaid.svg",
+      "attachement": false,
+      "ext": ".svg"
+    },
+    "La2JB": {
+      "location": "/andrew/graphviz.png",
+      "attachement": true,
+      "ext": ".png"
+    },
+    "VSh4N": {
+      "location": "/andrew/graphviz.png",
+      "attachement": false,
+      "ext": ".png"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  kanban:
+    image: kanboard/kanboard:v1.2.16
+    environment:
+      DB_USERNAME: kanboard
+      DB_HOSTNAME: postgres
+      DB_NAME: kanboard
+      DEBUG: 'true'
+    env_file:
+      - "${COMPOSE_ROOT}/services/kanban/secret.env"
+    ports:
+      - "80"
+    volumes:
+      - "${COMPOSE_ROOT}/data/kanboard/data:/var/www/app/data"
+      - "${COMPOSE_ROOT}/data/kanboard/plugins:/var/www/app/plugins"
+      - "${COMPOSE_ROOT}/data/kanboard/ssl:/etc/nginx/ssl"
+    restart: unless-stopped

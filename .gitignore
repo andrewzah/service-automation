@@ -5,3 +5,4 @@ data/
 
 /services/radicale/users
 /services/mpd/mpd.conf
+/services/redis/redis.conf

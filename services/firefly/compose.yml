@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  firefly:
+    image: jc5x/firefly-iii:latest
+    environment:
+      APP_URL: 'https://z.zah.rocks'
+      TZ: 'America/New_York'
+      TRUSTED_PROXIES: '**'
+      DB_HOST: 'postgres'
+      DB_PORT: 5432
+      DB_CONNECTION: 'pgsql'
+      DB_DATABASE: 'firefly'
+      DB_USERNAME: 'firefly'
+    env_file:
+      - "${COMPOSE_ROOT}/services/firefly/secret.env"
+    volumes:
+      - "${COMPOSE_ROOT}/data/firefly:/var/www/html/storage/upload:rw"
+    ports:
+      - "8080"
+    restart: unless-stopped
+

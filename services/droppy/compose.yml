@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  droppy:
+    container_name: droppy
+    image: silverwind/droppy:latest
+    environment:
+      UID: 1005
+      GID: 1005
+    ports:
+      - '8989'
+    volumes:
+      - "${COMPOSE_ROOT}/services/droppy/config/:/config/:rw"
+      - "/mnt/data/droppy/:/files/:rw"
+    restart: unless-stopped

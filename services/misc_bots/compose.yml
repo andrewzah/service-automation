@@ -8,8 +8,8 @@ services:
       BOT_CHAT_ID: '664430725'
       BOT_SUBREDDIT: 'gundeals'
       BOT_DB_PATH: '/data/sub_watcher1.db'
-      BOT_DESIRED_KEYWORDS: 'g43x,147g'
-      BOT_UNDESIRED_KEYWORDS: 'jhp'
+      BOT_DESIRED_KEYWORDS: '9m,147g'
+      BOT_UNDESIRED_KEYWORDS: 'magazine,7n6,x39,rifle,shotgun,pistol,gun,acc,part,optic,jhp'
     env_file:
       - "${COMPOSE_ROOT}/services/misc_bots/secret.env"
     volumes:
@@ -25,7 +25,39 @@ services:
       BOT_SUBREDDIT: 'gundeals'
       BOT_DB_PATH: '/data/sub_watcher2.db'
       BOT_DESIRED_KEYWORDS: '45,acp'
-      BOT_UNDESIRED_KEYWORDS: 'optic,parts,pistol,handgun,acc'
+      BOT_UNDESIRED_KEYWORDS: '5.56,556,223,magazine,optic,rifle,parts,pistol,gun,acc,jhp,shotgun'
+    env_file:
+      - "${COMPOSE_ROOT}/services/misc_bots/secret.env"
+    volumes:
+      - "${COMPOSE_ROOT}/data/hk_watcher/:/data/:rw"
+    restart: unless-stopped
+    read_only: true
+
+  sub_watcher3:
+    image: andrewzah/rust-reddit-watcher-telegram-notifier
+    environment:
+      RUST_BACKTRACE: 'full'
+      BOT_CHAT_ID: '664430725'
+      BOT_DB_PATH: '/data/sub_watcher3.db'
+      BOT_SUBREDDIT: 'frugalmalefashion'
+      BOT_DESIRED_KEYWORDS: 'reigning champ,uniqlo'
+      BOT_UNDESIRED_KEYWORDS: 'aaesoriuasoeiruser'
+    env_file:
+      - "${COMPOSE_ROOT}/services/misc_bots/secret.env"
+    volumes:
+      - "${COMPOSE_ROOT}/data/hk_watcher/:/data/:rw"
+    restart: unless-stopped
+    read_only: true
+
+  sub_watcher4:
+    image: andrewzah/rust-reddit-watcher-telegram-notifier
+    environment:
+      RUST_BACKTRACE: 'full'
+      BOT_CHAT_ID: '664430725'
+      BOT_DB_PATH: '/data/sub_watcher4.db'
+      BOT_SUBREDDIT: 'koreanvariety'
+      BOT_DESIRED_KEYWORDS: 'newjourneytothewest,runningman,hangoutwithyoo,kitchenalone'
+      BOT_UNDESIRED_KEYWORDS: 'aaesoriuasoeiruser'
     env_file:
       - "${COMPOSE_ROOT}/services/misc_bots/secret.env"
     volumes:

@@ -3,10 +3,13 @@ version: '3.7'
 services:
   mysql:
     image: mysql:5.7
+    environment:
+      MYSQL_ROOT_HOST: '192.168.1.%'
     env_file:
       - "${COMPOSE_ROOT}/services/mysql/secret.env"
     volumes:
       - "${COMPOSE_ROOT}/data/mysql:/var/lib/mysql"
     ports:
       - "3306"
+      - "3307:3306"
     restart: unless-stopped

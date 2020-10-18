@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  mayan_edms:
+    image: mayanedms/mayanedms:3.5
+    environment:
+      MAYAN_APT_INSTALLS: "tesseract-ocr-kor"
+      MAYAN_DOCKER_WAIT: "postgres:5432 redis:6379"
+      MAYAN_LOGGING_LEVEL: "DEBUG"
+    env_file:
+      - "${COMPOSE_ROOT}/services/mayan_edms/secret.env"
+    volumes:
+      - "${COMPOSE_ROOT}/data/mayan_edms/media/:/var/lib/mayan/:rw"
+    ports:
+      - "8000"
+    restart: unless-stopped
+    depends_on:
+      - postgres
+      - redis

@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  papermerge:
+    image: linuxserver/papermerge
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - "${COMPOSE_ROOT}/data/papermerge/config/:/config/:rw"
+      - "${COMPOSE_ROOT}/data/papermerge/data/:/data/:rw"
+    ports:
+      - "8000"
+    restart: unless-stopped
