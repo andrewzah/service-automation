@@ -4,13 +4,17 @@ services:
   postgres:
     image: postgres:12.4-alpine
     restart: always
+    ports:
+      - "5432"
+      - "35432:5432"
     environment:
       - PGDATA=/var/lib/postgresql/data
     env_file:
       - "${COMPOSE_ROOT}/services/postgres/secret.env"
     volumes:
-      - "${COMPOSE_ROOT}/services/postgres/entrypoint.sh:/entrypoint.sh"
-      - "${COMPOSE_ROOT}/services/postgres/zulip_english.stop:/usr/local/share/postgresql/tsearch_data/zulip_english.stop"
-      - "${COMPOSE_ROOT}/services/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d/"
+      - "${COMPOSE_ROOT}/services/postgres/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/"
+      - "${COMPOSE_ROOT}/services/postgres/.pgpass:/.pgpass"
+      - "${COMPOSE_ROOT}/services/postgres/.pgpass:/root/.pgpass"
       - "${COMPOSE_ROOT}/data/postgres/:/var/lib/postgresql/data/"
+      - "${COMPOSE_ROOT}/data/postgres_backups/:/postgres_backups"
     restart: unless-stopped

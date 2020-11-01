@@ -2,7 +2,9 @@ data/
 
 *.env
 .pass
+.pgpass
 
+/services/droppy/config/db.json
 /services/radicale/users
 /services/mpd/mpd.conf
 /services/redis/redis.conf

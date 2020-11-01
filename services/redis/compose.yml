@@ -6,6 +6,7 @@ services:
     command: 'redis-server /redis.conf'
     ports:
       - "6379"
+      - "36379:6379"
     volumes:
       - "${COMPOSE_ROOT}/services/redis/redis.conf:/redis.conf"
       - "${COMPOSE_ROOT}/data/redis/data:/data"

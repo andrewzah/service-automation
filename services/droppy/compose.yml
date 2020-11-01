@@ -2,7 +2,6 @@ version: '3.7'
 
 services:
   droppy:
-    container_name: droppy
     image: silverwind/droppy:latest
     environment:
       UID: 1005

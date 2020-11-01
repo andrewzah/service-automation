@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+    CREATE USER backup;
+    ALTER USER backup SET default_transaction_read_only = on;
+    ALTER ROLE backup with NOSUPERUSER NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION NOBYPASSRLS;
+
+    GRANT SELECT ON ALL TABLES IN SCHEMA public TO backup;
+    ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO backup;
+EOSQL
