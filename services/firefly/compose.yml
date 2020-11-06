@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   firefly:
-    image: jc5x/firefly-iii:latest
+    image: jc5x/firefly-iii:version-5.4.5
     environment:
       APP_URL: 'https://z.zah.rocks'
       TZ: 'America/New_York'

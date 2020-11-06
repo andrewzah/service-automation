@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   bitwarden:
-    image: bitwardenrs/server:latest
+    image: bitwardenrs/server:1.17.0-alpine
     environment:
       WEBSOCKET_ENABLED: 'true'
       SIGNUPS_ALLOWED: 'false'

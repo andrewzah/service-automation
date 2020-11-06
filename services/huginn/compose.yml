@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   huginn:
-    image: huginn/huginn:1f2c78c804309c9d74bdd385a3b986b39cb707a4
+    image: huginn/huginn:a61924f90333b8305365273c1746bb9ea75ede57
     environment:
       - RAILS_ENV=production
       - PORT=3000
@@ -17,5 +17,5 @@ services:
     env_file:
       - "${COMPOSE_ROOT}/services/huginn/secret.env"
     ports:
-      - "3010:3000"
+      - "3000"
     restart: unless-stopped

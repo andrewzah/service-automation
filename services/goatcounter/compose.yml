@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   goatcounter:
-    build: .
+    build: "${COMPOSE_ROOT}/services/goatcounter"
     environment:
       GC_PORT: "3443"
       GC_LISTEN: "0.0.0.0:3443"
