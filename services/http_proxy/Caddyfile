@@ -72,8 +72,9 @@ https://irc.zah.rocks {
   }
 }
 
+# lives on black apu2e2
 https://home.zah.rocks {
-  reverse_proxy * 192.168.2.3:8123 {
+  reverse_proxy * 192.168.1.10:8123 {
     header_up Host {http.reverse_proxy.upstream.hostport}
     header_up X-Forwarded-For {http.request.remote}
     header_up X-Real-IP {http.reverse_proxy.upstream.port}
