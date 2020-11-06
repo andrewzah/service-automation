@@ -2,19 +2,18 @@ version: '3.7'
 
 services:
   navidrome:
-    image: deluan/navidrome:develop
+    image: deluan/navidrome:sha-6542842
     environment:
       ND_PORT: 4533
+      ND_MUSICFOLDER: /music
+      ND_DATAFOLDER: /data
+      ND_SCANINTERVAL: 1m
       ND_ENABLETRANSCODINGCONFIG: "false"
       ND_AUTOIMPORTPLAYLISTS: "false"
       ND_COVERJPEGQUALITY: 85
       ND_TRANSCODINGCACHESIZE: 500MB
-      ND_MUSICFOLDER: /music
-      ND_DATAFOLDER: /data
-      ND_SCANINTERVAL: 1m
-      ND_LOGLEVEL: debug
     ports:
-        - "4533:4533"
+        - "4533"
     volumes:
       - "${COMPOSE_ROOT}/data/navidrome:/data"
       - "/mnt/media/music:/music:ro"

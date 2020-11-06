@@ -1,10 +1,11 @@
-IGNORED_SERVICES := http_proxy|nodered|homeassistant|mayan_edms|droppy|misc_bots
+IGNORED_DIRS := http_proxy|nodered|homeassistant|mayan_edms|droppy|misc_bots
+
+update: dependencies up
 
 up:
-	IGNORED_SERVICES="${IGNORED_SERVICES}" ./compose.sh up -d
-	@echo "Started services except '${IGNORED_SERVICES}'"
-	@echo "Started http_proxy manually to avoid LetsEncrypt rate limiting by accident"
+	IGNORED_DIRS="${IGNORED_DIRS}" ./compose.sh up -d
+	@echo "Started services except '${IGNORED_DIRS}'"
+	@echo "Started 'http_proxy' manually to avoid LetsEncrypt rate limiting by accident"
 
-update:
+dependencies:
 	./compose.sh pull
-	./compose.sh up -d

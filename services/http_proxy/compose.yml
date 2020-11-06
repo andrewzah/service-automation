@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   http_proxy:
-    image: caddy:2.1.1-alpine
+    image: caddy:2.2.1-alpine
     volumes:
       - "${COMPOSE_ROOT}/services/http_proxy/Caddyfile:/etc/caddy/Caddyfile"
       - "${COMPOSE_ROOT}/data/caddy:/data"

@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   redis:
-    image: redis:6-alpine
+    image: redis:6.0.9-alpine3.12
     command: 'redis-server /redis.conf'
     ports:
       - "6379"
