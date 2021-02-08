@@ -2,21 +2,21 @@ version: '3.7'
 
 services:
   navidrome:
-    image: deluan/navidrome:sha-6542842
+    # 02-07-2020, v0.40.0
+    image: deluan/navidrome:0.40.0
     environment:
       ND_PORT: 4533
       ND_MUSICFOLDER: /music
       ND_DATAFOLDER: /data
       ND_SCANINTERVAL: 1m
-      ND_ENABLETRANSCODINGCONFIG: "false"
-      ND_AUTOIMPORTPLAYLISTS: "false"
+      ND_ENABLETRANSCODINGCONFIG: 'true'
+      ND_AUTOIMPORTPLAYLISTS: 'false'
       ND_COVERJPEGQUALITY: 85
       ND_TRANSCODINGCACHESIZE: 500MB
     ports:
         - "4533"
     volumes:
       - "${COMPOSE_ROOT}/data/navidrome:/data"
-      - "/mnt/media/music:/music:ro"
-      - "/mnt/data/rips:/mnt/data/rips:ro"
+      - "/mnt/media/music:/music"
     read_only: true
     restart: unless-stopped

@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  miniflux:
+    build: 
+      context: "${COMPOSE_ROOT}/services/miniflux"
+    environment:
+      LISTEN_ADDR: '0.0.0.0:8080'
+    env_file:
+      - "${COMPOSE_ROOT}/services/miniflux/secret.env"
+    ports:
+      - "8080"
+    restart: unless-stopped

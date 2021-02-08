@@ -8,3 +8,5 @@ data/
 /services/radicale/users
 /services/mpd/mpd.conf
 /services/redis/redis.conf
+
+**/droppy/config/db.json

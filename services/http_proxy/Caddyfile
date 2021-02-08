@@ -1,3 +1,24 @@
+# ---------------- #
+# static web pages #
+# ---------------- #
+
+http://zah.rocks {
+  respond "Go away"
+}
+
+# -------- #
+# services #
+# -------- #
+
+http://192.168.1.10 {
+  basicauth * {
+    andrew JDJhJDE0JDJ2bXhHbUpqd3VUNnQ5UkJCVFNXRE9RUnRlNHozcVdqLlBlbGdWNFBtWFI5eXFwbmNFMVdD
+  }
+
+  root * /backup
+  file_server browse
+}
+
 # https://github.com/dani-garcia/bitwarden_rs/wiki/Proxy-examples
 https://bit.zah.rocks {
   encode gzip
@@ -25,11 +46,14 @@ https://cal.zah.rocks {
   }
 }
 
-https://droppy.zah.rocks {
-  reverse_proxy * droppy:8989 {
-    header_up Host {http.reverse_proxy.upstream.hostport}
-    header_up X-Forwarded-For {http.request.remote}
-    header_up X-Real-IP {http.reverse_proxy.upstream.port}
+https://dav.zah.rocks {
+  encode gzip
+
+  reverse_proxy * webdav:6969 {
+    header_up Host {host}
+    header_up X-Real-IP {remote}
+    header_up X-Forwarded-For {remote}
+    header_up X-Forwarded-Proto {scheme}
   }
 }
 
@@ -47,11 +71,46 @@ https://ds.zah.rocks {
   }
 }
 
+https://fabric.genessee.zah.rocks {
+  reverse_proxy * http://192.168.1.16:8100 {
+    header_up Host {http.request.host}
+    header_up X-Forwarded-For {http.request.remote}
+    header_up X-Real-IP {http.request.remote}
+    header_up X-Forwarded-Port {http.request.port}
+    header_up X-Forwarded-Proto {http.request.scheme}
+    header_up X-Forwarded-Host {http.request.host}
+  }
+}
+
 https://flix.zah.rocks {
-  reverse_proxy * http://192.168.2.20:8096 {
+  reverse_proxy * http://192.168.1.20:8096 {
     header_up Host {http.request.host}
     header_up X-Real-IP {http.request.remote}
     header_up X-Forwarded-For {http.request.remote}
+    header_up X-Forwarded-Port {http.request.port}
+    header_up X-Forwarded-Proto {http.request.scheme}
+    header_up X-Forwarded-Host {http.request.host}
+  }
+}
+
+https://files.zah.rocks {
+  reverse_proxy * filerun:80 {
+    header_up X-Forwarded-Ssl on
+    header_up Host {host}
+    header_up X-Real-IP {remote}
+    header_up X-Forwarded-For {remote}
+    header_up X-Forwarded-Port {server_port}
+    header_up X-Forwarded-Proto {scheme}
+    header_up X-Url-Scheme {scheme}
+    header_up X-Forwarded-Host {host}
+  }
+}
+
+https://home.genessee.zah.rocks {
+  reverse_proxy * http://192.168.1.10:8123 {
+    header_up Host {http.request.host}
+    header_up X-Forwarded-For {http.request.remote}
+    header_up X-Real-IP {http.request.remote}
     header_up X-Forwarded-Port {http.request.port}
     header_up X-Forwarded-Proto {http.request.scheme}
     header_up X-Forwarded-Host {http.request.host}
@@ -69,15 +128,6 @@ https://irc.zah.rocks {
     header_up X-Url-Scheme {scheme}
     header_up X-Forwarded-Host {host}
 
-  }
-}
-
-# lives on black apu2e2
-https://home.zah.rocks {
-  reverse_proxy * 192.168.1.10:8123 {
-    header_up Host {http.reverse_proxy.upstream.hostport}
-    header_up X-Forwarded-For {http.request.remote}
-    header_up X-Real-IP {http.reverse_proxy.upstream.port}
   }
 }
 
@@ -113,6 +163,16 @@ https://mattermost.zah.rocks {
   }
 }
 
+# node_exporter on apu-d4d
+https://router.genessee.zah.rocks {
+  reverse_proxy * 192.168.1.1:9100 {
+    header_up Host {http.reverse_proxy.upstream.hostport}
+    header_up X-Forwarded-For {http.request.remote}
+    header_up X-Real-IP {http.reverse_proxy.upstream.port}
+  }
+}
+
+
 https://music.zah.rocks {
   reverse_proxy * navidrome:4533 {
     header_up Host {http.reverse_proxy.upstream.hostport}
@@ -122,7 +182,7 @@ https://music.zah.rocks {
 }
 
 https://photos.zah.rocks {
-  reverse_proxy * piwigo:80 {
+  reverse_proxy * lychee:80 {
     header_up X-Forwarded-Ssl on
     header_up Host {host}
     header_up X-Real-IP {remote}
@@ -145,6 +205,14 @@ https://rel.zah.rocks {
   }
 }
 
+https://rss.zah.rocks {
+  reverse_proxy * miniflux:8080 {
+    header_up Host {http.reverse_proxy.upstream.hostport}
+    header_up X-Forwarded-For {http.request.remote}
+    header_up X-Real-IP {http.reverse_proxy.upstream.port}
+  }
+}
+
 https://stats.andrewzah.com, https://stats.benzah.com {
   reverse_proxy * goatcounter:3443 {
     header_up X-Forwarded-Ssl on
@@ -158,8 +226,8 @@ https://stats.andrewzah.com, https://stats.benzah.com {
   }
 }
 
-https://stats.saur.zah.rocks {
-  reverse_proxy * 192.168.2.7:8083 {
+https://sync.genessee.zah.rocks {
+  reverse_proxy * 192.168.1.9:8384 {
     header_up X-Forwarded-Ssl on
     header_up Host {host}
     header_up X-Real-IP {remote}
@@ -170,6 +238,7 @@ https://stats.saur.zah.rocks {
     header_up X-Forwarded-Host {host}
   }
 }
+
 
 https://z.zah.rocks {
   reverse_proxy * firefly:8080 {

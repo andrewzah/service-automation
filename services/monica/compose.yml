@@ -6,6 +6,7 @@ services:
     env_file:
       - "${COMPOSE_ROOT}/services/monica/secret.env"
     environment:
+      APP_DISABLE_SIGNUP: 'true'
       APP_ENV: 'production'
       APP_URL: 'https://rel.zah.rocks'
       APP_TRUSTED_PROXIES: '172.18.0.4'

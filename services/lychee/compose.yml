@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  lychee:
+    image: lycheeorg/lychee:gha-pr79
+    environment:
+      APP_NAME: 'Lychee'
+      APP_ENV: 'production'
+      PHP_TZ: 'America/New_York'
+      DB_HOST: 'postgres'
+      DB_CONNECTION: 'pgsql'
+      DB_PORT: 5432
+      DB_DATABASE: 'lychee'
+      DB_USERNAME: 'lychee'
+    env_file:
+      - "${COMPOSE_ROOT}/services/lychee/secret.env"
+    ports:
+      - "80"
+    volumes:
+      - "${COMPOSE_ROOT}/services/lychee/conf/:/conf/:rw"
+      - "${COMPOSE_ROOT}/data/lychee/uploads/:/uploads/:rw"
+    restart: unless-stopped

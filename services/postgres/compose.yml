@@ -6,7 +6,6 @@ services:
     restart: always
     ports:
       - "5432"
-      - "35432:5432"
     environment:
       - PGDATA=/var/lib/postgresql/data
     env_file:

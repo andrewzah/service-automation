@@ -2,11 +2,14 @@ version: '3.7'
 
 services:
   homeassistant:
-    image: homeassistant/home-assistant:0.117.4
+    image: homeassistant/home-assistant:stable
     environment:
+      PUID: 1000
+      PGID: 1000
       TZ: 'America/New_York'
-    ports:
-      - "8123"
+    devices:
+      - /dev/ttyUSB0
+      - /dev/ttyUSB1
     network_mode: host
     restart: unless-stopped
     volumes:

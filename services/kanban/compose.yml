@@ -12,6 +12,7 @@ services:
       - "${COMPOSE_ROOT}/services/kanban/secret.env"
     ports:
       - "80"
+      - "3280"
     volumes:
       - "${COMPOSE_ROOT}/data/kanboard/data:/var/www/app/data"
       - "${COMPOSE_ROOT}/data/kanboard/plugins:/var/www/app/plugins"

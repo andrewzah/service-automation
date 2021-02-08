@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  filerun:
+    image: zaggash/docker-filerun:latest
+    depends_on:
+      - mysql
+    environment:
+      PGID: 1005
+      PUID: 1005
+      TZ: America/New_York
+    ports:
+      - "80"
+    volumes:
+      - "${COMPOSE_ROOT}/data/filerun/:/user-files/:rw"
+    restart: unless-stopped
