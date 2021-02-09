@@ -1,12 +1,10 @@
 data/
 
 *.env
-.pass
-.pgpass
+*.pass
+*.pgpass
 
-/services/droppy/config/db.json
-/services/radicale/users
-/services/mpd/mpd.conf
-/services/redis/redis.conf
-
-**/droppy/config/db.json
+**/radicale/users
+**/mpd.conf
+**/redis.conf
+**/invidious.yml

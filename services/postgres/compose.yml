@@ -16,4 +16,5 @@ services:
       - "${COMPOSE_ROOT}/services/postgres/.pgpass:/root/.pgpass"
       - "${COMPOSE_ROOT}/data/postgres/:/var/lib/postgresql/data/"
       - "${COMPOSE_ROOT}/data/postgres_backups/:/postgres_backups"
+      - "${COMPOSE_ROOT}/services/invidious/sql/:/config/sql/:ro"
     restart: unless-stopped

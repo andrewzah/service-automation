@@ -117,6 +117,20 @@ https://home.genessee.zah.rocks {
   }
 }
 
+https://invidious.zah.rocks {
+  reverse_proxy * invidious:3000 {
+    header_up X-Forwarded-Ssl on
+    header_up Host {host}
+    header_up X-Real-IP {remote}
+    header_up X-Forwarded-For {remote}
+    header_up X-Forwarded-Port {server_port}
+    header_up X-Forwarded-Proto {scheme}
+    header_up X-Url-Scheme {scheme}
+    header_up X-Forwarded-Host {host}
+
+  }
+}
+
 https://irc.zah.rocks {
   reverse_proxy * thelounge:9000 {
     header_up X-Forwarded-Ssl on

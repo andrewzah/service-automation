@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  invidious:
+    image: andrewzah/invidious:0.20.1-alpine3.13
+    environment:
+      INVIDIOUS_CONFIG_FILE: /config/invidious.yml
+    depends_on:
+      - postgres
+    ports:
+      - "3000"
+    volumes:
+      - "${COMPOSE_ROOT}/services/invidious/invidious.yml:/config/invidious.yml:ro"
+    restart: unless-stopped
