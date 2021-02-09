@@ -13,7 +13,7 @@ log_file_path: /config/authelia.log
 # The secret used to generate JWT tokens when validating user identity by
 # email confirmation.
 # JWT Secret can also be set using a secret: https://docs.authelia.com/configuration/secrets.html
-jwt_secret: "0c69ece95dc9d1f1df27ec5b7fb2fca2f05155c7a85fa9883c24d12affaeb44e531ec4d9ea164e873c7b10aeea4cb3082685f85450604fc249ee248db2ea2777" 
+jwt_secret: AUTHELIA_JWT_SECRET_FILE
 
 # Default redirection URL
 #
