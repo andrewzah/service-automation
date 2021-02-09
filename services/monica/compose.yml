@@ -17,9 +17,14 @@ services:
       - "${COMPOSE_ROOT}/data/monica/:/var/www/html/storage/"
     ports:
       - "80"
+    depends_on:
+      - authelia
+      - mysql
+      - traefik
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.monicahq.rule=Host(`rel.zah.rocks`)"
       - "traefik.http.routers.monicahq.entrypoints=websecure"
+      - 'traefik.http.routers.monicahq.middlewares=authelia@docker'
       - "traefik.http.routers.monicahq.tls.certresolver=myresolver"

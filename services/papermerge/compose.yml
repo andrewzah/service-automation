@@ -13,8 +13,12 @@ services:
     ports:
       - "8000"
     restart: unless-stopped
+    depends_on:
+      - authelia
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.papermerge.rule=Host(`ds.zah.rocks`)"
       - "traefik.http.routers.papermerge.entrypoints=websecure"
+      - 'traefik.http.routers.papermerge.middlewares=authelia@docker'
       - "traefik.http.routers.papermerge.tls.certresolver=myresolver"

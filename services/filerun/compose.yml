@@ -14,8 +14,12 @@ services:
     volumes:
       - "${COMPOSE_ROOT}/data/filerun/:/user-files/:rw"
     restart: unless-stopped
+    depends_on:
+      - authelia
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.filerun.rule=Host(`files.zah.rocks`)"
       - "traefik.http.routers.filerun.entrypoints=websecure"
+      - 'traefik.http.routers.filerun.middlewares=authelia@docker'
       - "traefik.http.routers.filerun.tls.certresolver=myresolver"

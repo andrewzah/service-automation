@@ -11,8 +11,13 @@ services:
     ports:
       - "8080"
     restart: unless-stopped
+    depends_on:
+      - authelia
+      - postgres
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.miniflux.rule=Host(`rss.zah.rocks`)"
       - "traefik.http.routers.miniflux.entrypoints=websecure"
+      - 'traefik.http.routers.miniflux.middlewares=authelia@docker'
       - "traefik.http.routers.miniflux.tls.certresolver=myresolver"

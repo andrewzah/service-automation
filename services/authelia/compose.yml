@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  authelia:
+    # 02-08-21
+    image: authelia/authelia:4.26
+    container_name: authelia
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: 'America/New_York'
+      AUTHELIA_STORAGE_POSTGRES_PASSWORD_FILE: '/config/secrets/postgres'
+      AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE: '/config/secrets/smtp'
+      AUTHELIA_NOTIFIER_REDIS_PASSWORD_FILE: '/config/secrets/redis'
+    env_file:
+      - "${COMPOSE_ROOT}/services/authelia/secret.env"
+    volumes:
+      - "${COMPOSE_ROOT}/services/authelia/config/:/config/:rw"
+    ports:
+      - "9091"
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.authelia.rule=Host(`login.zah.rocks`)'
+      - 'traefik.http.routers.authelia.entrypoints=websecure'
+      - "traefik.http.routers.authelia.tls.certresolver=myresolver"
+      - 'traefik.http.middlewares.authelia.forwardauth.address=http://authelia:9091/api/verify?rd=https://login.zah.rocks'
+      - 'traefik.http.middlewares.authelia.forwardauth.trustForwardHeader=true'
+      - 'traefik.http.middlewares.authelia.forwardauth.authResponseHeaders=Remote-User, Remote-Groups, Remote-Name, Remote-Email'
+    restart: unless-stopped

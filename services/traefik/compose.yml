@@ -15,13 +15,23 @@ services:
       - "--certificatesresolvers.myresolver.acme.email=admin@andrewzah.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https@docker"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+
       - "traefik.http.routers.domain.rule=Host(`zah.rocks`)"
       - "traefik.http.routers.domain.entrypoints=websecure"
       - "traefik.http.routers.domain.tls.certresolver=myresolver"
 
+      - "traefik.http.middlewares.redir.redirectScheme.scheme=https"
       - "traefik.http.routers.bluemap.rule=Host(`fabric.genessee.zah.rocks`)"
       - "traefik.http.routers.bluemap.entrypoints=websecure"
+      - "traefik.http.routers.bluemap.middlewares=redir"
       - "traefik.http.routers.bluemap.tls.certresolver=myresolver"
+      - "traefik.http.services.bluemap.loadbalancer.server.url=http://host.docker.internal2"
+      - "traefik.http.services.bluemap.loadbalancer.server.port=8100"
     ports:
       - "80:80"
       - "443:443"
@@ -31,3 +41,4 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     extra_hosts: 
       - host.docker.internal:172.18.0.1
+      - host.docker.internal2:192.168.1.1

@@ -8,3 +8,7 @@ data/
 **/mpd.conf
 **/redis.conf
 **/invidious.yml
+
+**/authelia/config/authelia.log
+**/authelia/config/secrets/
+**/authelia/config/users_database.yml
