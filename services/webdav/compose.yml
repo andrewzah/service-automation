@@ -10,3 +10,8 @@ services:
     ports:
       - "6969"
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.webdav.rule=Host(`dav.zah.rocks`)"
+      - "traefik.http.routers.webdav.entrypoints=websecure"
+      - "traefik.http.routers.webdav.tls.certresolver=myresolver"

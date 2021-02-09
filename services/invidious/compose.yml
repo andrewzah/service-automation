@@ -12,3 +12,8 @@ services:
     volumes:
       - "${COMPOSE_ROOT}/services/invidious/invidious.yml:/config/invidious.yml:ro"
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.invidious.rule=Host(`invidious.zah.rocks`)"
+      - "traefik.http.routers.invidious.entrypoints=websecure"
+      - "traefik.http.routers.invidious.tls.certresolver=myresolver"

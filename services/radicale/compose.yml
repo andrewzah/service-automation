@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
   radicale:
+    # 02-08-21
     image: tomsquest/docker-radicale:3.0.6.0
     read_only: true
     security_opt:
@@ -13,12 +14,6 @@ services:
       - SETGID
       - CHOWN
       - KILL
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:5232 || exit 1"]
-      interval: 30s
-      timeout: 15s
-      retries: 3
-      start_period: 60s
     volumes:
       - "${COMPOSE_ROOT}/data/radicale:/data"
       - "${COMPOSE_ROOT}/services/radicale/config:/etc/radicale/config:ro"
@@ -27,3 +22,8 @@ services:
       - "5232"
     read_only: true
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.radicale.rule=Host(`cal.zah.rocks`)"
+      - "traefik.http.routers.radicale.entrypoints=websecure"
+      - "traefik.http.routers.radicale.tls.certresolver=myresolver"

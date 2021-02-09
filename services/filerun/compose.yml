@@ -14,3 +14,8 @@ services:
     volumes:
       - "${COMPOSE_ROOT}/data/filerun/:/user-files/:rw"
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.filerun.rule=Host(`files.zah.rocks`)"
+      - "traefik.http.routers.filerun.entrypoints=websecure"
+      - "traefik.http.routers.filerun.tls.certresolver=myresolver"

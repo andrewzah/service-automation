@@ -2,7 +2,8 @@ version: '3.7'
 
 services:
   lychee:
-    image: lycheeorg/lychee:gha-pr79
+    # 02-08-2021
+    image: lycheeorg/lychee:v4.2.1
     environment:
       APP_NAME: 'Lychee'
       APP_ENV: 'production'
@@ -20,3 +21,8 @@ services:
       - "${COMPOSE_ROOT}/services/lychee/conf/:/conf/:rw"
       - "${COMPOSE_ROOT}/data/lychee/uploads/:/uploads/:rw"
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.lychee.rule=Host(`photos.zah.rocks`)"
+      - "traefik.http.routers.lychee.entrypoints=websecure"
+      - "traefik.http.routers.lychee.tls.certresolver=myresolver"

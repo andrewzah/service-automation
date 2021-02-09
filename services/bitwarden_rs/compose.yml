@@ -2,7 +2,8 @@ version: '3.7'
 
 services:
   bitwarden:
-    image: bitwardenrs/server:1.17.0-alpine
+    # 02-08-2021
+    image: bitwardenrs/server:1.19.0-alpine
     environment:
       WEBSOCKET_ENABLED: 'true'
       SIGNUPS_ALLOWED: 'false'
@@ -14,3 +15,16 @@ services:
       - "${COMPOSE_ROOT}/data/bitwarden-rs:/data/"
     read_only: true
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bitwarden-ui.rule=Host(`bit.zah.rocks`)"
+      - "traefik.http.routers.bitwarden-ui.entrypoints=websecure"
+      - "traefik.http.routers.bitwarden-ui.tls.certresolver=myresolver"
+      - "traefik.http.routers.bitwarden-ui.service=bitwarden-ui"
+      - "traefik.http.services.bitwarden-ui.loadbalancer.server.port=80"
+
+      - "traefik.http.routers.bitwarden-wss.rule=Host(`bit.zah.rocks`) && Path(`/notifications/hub`)"
+      - "traefik.http.routers.bitwarden-wss.tls.certresolver=myresolver"
+      - "traefik.http.routers.bitwarden-wss.entrypoints=websecure"
+      - "traefik.http.routers.bitwarden-wss.service=bitwarden-wss"
+      - "traefik.http.services.bitwarden-wss.loadbalancer.server.port=3012"

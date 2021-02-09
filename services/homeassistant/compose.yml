@@ -7,11 +7,18 @@ services:
       PUID: 1000
       PGID: 1000
       TZ: 'America/New_York'
-    devices:
-      - /dev/ttyUSB0
-      - /dev/ttyUSB1
+   #devices:
+      #- /dev/ttyUSB0
+      #- /dev/ttyUSB1
     network_mode: host
     restart: unless-stopped
     volumes:
       - "${COMPOSE_ROOT}/data/homeassistant/config:/config"
       - "/etc/localtime:/etc/localtime:ro"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=8123"
+      - "traefik.http.routers.homeassistant.rule=Host(`home.genessee.zah.rocks`)"
+      - "traefik.http.routers.homeassistant.entrypoints=websecure"
+      - "traefik.http.routers.homeassistant.tls.certresolver=myresolver"
+      - "traefik.http.services.homeassistant.loadBalancer.server.port=8123"
