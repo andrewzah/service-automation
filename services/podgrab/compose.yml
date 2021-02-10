@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  podgrab:
+    # 02-09-2020, v0.40.0
+    image: akhilrex/podgrab:1.0.0
+    environment:
+      CHECK_FREQUENCY: 240
+    ports:
+        - "8080"
+    volumes:
+      - "${COMPOSE_ROOT}/data/podgrab/assets/:/assets/"
+      - "${COMPOSE_ROOT}/data/podgrab/config/:/config/"
+    read_only: true
+    restart: unless-stopped
+    depends_on:
+      - authelia
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.podgrab.rule=Host(`podcasts.zah.rocks`)"
+      - "traefik.http.routers.podgrab.entrypoints=websecure"
+      - 'traefik.http.routers.podgrab.middlewares=authelia@docker'
+      - "traefik.http.routers.podgrab.tls.certresolver=myresolver"

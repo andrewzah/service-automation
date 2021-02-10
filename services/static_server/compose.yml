@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  static_server:
+    # 2-09-21
+    image: caddy:2.2.1-alpine
+    volumes:
+      - "${COMPOSE_ROOT}/services/static_server/Caddyfile:/etc/caddy/Caddyfile:ro"
+      - "${COMPOSE_ROOT}/services/static_server/index.html:/var/www/index.html:ro"
+    ports:
+      - "8080"
+    read_only: true
+    restart: unless-stopped
+    depends_on:
+      - authelia
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.static-server.rule=Host(`zah.rocks`)"
+      - "traefik.http.routers.static-server.entrypoints=websecure"
+      - 'traefik.http.routers.static-server.middlewares=authelia@docker'
+      - "traefik.http.routers.static-server.tls.certresolver=myresolver"
+      - "traefik.http.services.static-server.loadBalancer.server.port=8080"

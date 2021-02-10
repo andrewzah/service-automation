@@ -18,6 +18,10 @@ services:
       - "${COMPOSE_ROOT}/services/authelia/config/:/config/:rw"
     ports:
       - "9091"
+    depends_on:
+      - traefik
+      - postgres
+      - redis
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.authelia.rule=Host(`login.zah.rocks`)'

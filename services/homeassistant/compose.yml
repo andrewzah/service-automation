@@ -12,6 +12,9 @@ services:
       #- /dev/ttyUSB1
     network_mode: host
     restart: unless-stopped
+    depends_on:
+      - authelia
+      - traefik
     volumes:
       - "${COMPOSE_ROOT}/data/homeassistant/config:/config"
       - "/etc/localtime:/etc/localtime:ro"
@@ -22,3 +25,4 @@ services:
       - "traefik.http.routers.homeassistant.entrypoints=websecure"
       - "traefik.http.routers.homeassistant.tls.certresolver=myresolver"
       - "traefik.http.services.homeassistant.loadBalancer.server.port=8123"
+      - 'traefik.http.routers.homeassistant.middlewares=authelia@docker'

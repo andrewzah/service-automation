@@ -195,17 +195,30 @@ access_control:
       networks: 10.9.0.0/16
 
   rules:
-    # Rules applied to everyone
-    #- domain: public.example.com
-    #  policy: bypass
-    
+    - domain: "zah.rocks"
+      policy: bypass
+
+    - domain: "bit.zah.rocks"
+      policy: bypass
+
+    - domain: "music.zah.rocks"
+      policy: bypass
+
+    - domain: "photos.zah.rocks"
+      policy: bypass
+
+    - domain: "benzah.andrewzah.com"
+      policy: bypass
+
+    - domain: "stats.andrewzah.com"
+      policy: bypass
+
     - domain: "*.zah.rocks"
       policy: one_factor
-    
+
     - domain: "*.zah.rocks"
       subject:
-        - "group:admins"
-        - "group:moderators"
+        - "group:operator"
       policy: two_factor
 
     #- domain: secure.example.com

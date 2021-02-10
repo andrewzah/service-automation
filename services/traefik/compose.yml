@@ -9,6 +9,9 @@ services:
       - "--api.dashboard=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
+      - "--providers.file=true"
+      - "--providers.file.watch=true"
+      - "--providers.file.filename=/etc/traefik/rules.toml"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
@@ -20,25 +23,21 @@ services:
       - "traefik.http.routers.http-catchall.entrypoints=web"
       - "traefik.http.routers.http-catchall.middlewares=redirect-to-https@docker"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-
-      - "traefik.http.routers.domain.rule=Host(`zah.rocks`)"
-      - "traefik.http.routers.domain.entrypoints=websecure"
-      - "traefik.http.routers.domain.tls.certresolver=myresolver"
-
       - "traefik.http.middlewares.redir.redirectScheme.scheme=https"
-      - "traefik.http.routers.bluemap.rule=Host(`fabric.genessee.zah.rocks`)"
-      - "traefik.http.routers.bluemap.entrypoints=websecure"
-      - "traefik.http.routers.bluemap.middlewares=redir"
-      - "traefik.http.routers.bluemap.tls.certresolver=myresolver"
-      - "traefik.http.services.bluemap.loadbalancer.server.url=http://host.docker.internal2"
-      - "traefik.http.services.bluemap.loadbalancer.server.port=8100"
+
+        #- "traefik.http.routers.bluemap.rule=Host(`fabric.genessee.zah.rocks`)"
+        #- "traefik.http.routers.bluemap.entrypoints=websecure"
+        #- "traefik.http.routers.bluemap.tls.certresolver=myresolver"
+        #- "traefik.http.services.bluemap.loadbalancer.server.url=http://192.168.1.16"
+        #- "traefik.http.services.bluemap.loadbalancer.server.port=8100"
     ports:
       - "80:80"
       - "443:443"
       - "8080:8080"
     volumes:
+      - "${COMPOSE_ROOT}/services/traefik/rules.toml:/etc/traefik/rules.toml"
       - "${COMPOSE_ROOT}/data/traefik/letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    extra_hosts: 
+    extra_hosts:
       - host.docker.internal:172.18.0.1
       - host.docker.internal2:192.168.1.1

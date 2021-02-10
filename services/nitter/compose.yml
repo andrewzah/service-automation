@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  nitter:
+    # 02-09-21
+    image: zedeus/nitter:latest
+    ports:
+      - "8080"
+    volumes:
+      - "${COMPOSE_ROOT}/services/nitter/nitter.conf:/src/nitter.conf:ro"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nitter.rule=Host(`nitter.zah.rocks`)"
+      - "traefik.http.routers.nitter.entrypoints=websecure"
+      - 'traefik.http.routers.nitter.middlewares=authelia@docker'
+      - "traefik.http.routers.nitter.tls.certresolver=myresolver"
+      - "traefik.http.services.nitter.loadBalancer.server.port=8080"
