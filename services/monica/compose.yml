@@ -18,7 +18,7 @@ services:
     ports:
       - "80"
     depends_on:
-      - authelia
+      - eas
       - mysql
       - traefik
     restart: unless-stopped
@@ -26,5 +26,5 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.monicahq.rule=Host(`rel.zah.rocks`)"
       - "traefik.http.routers.monicahq.entrypoints=websecure"
-      - 'traefik.http.routers.monicahq.middlewares=authelia@docker'
+      - 'traefik.http.routers.monicahq.middlewares=eas-default'
       - "traefik.http.routers.monicahq.tls.certresolver=myresolver"

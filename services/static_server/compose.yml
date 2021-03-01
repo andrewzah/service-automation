@@ -12,12 +12,12 @@ services:
     read_only: true
     restart: unless-stopped
     depends_on:
-      - authelia
+      - eas
       - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.static-server.rule=Host(`zah.rocks`)"
       - "traefik.http.routers.static-server.entrypoints=websecure"
-      - 'traefik.http.routers.static-server.middlewares=authelia@docker'
+      - 'traefik.http.routers.static-server.middlewares=eas-default'
       - "traefik.http.routers.static-server.tls.certresolver=myresolver"
       - "traefik.http.services.static-server.loadBalancer.server.port=8080"

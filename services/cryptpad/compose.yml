@@ -11,7 +11,7 @@ services:
       - "3000"
       - "3001"
     depends_on:
-      - authelia
+      - eas
       - traefik
     volumes:
       - "${COMPOSE_ROOT}/data/cryptpad/blob:/cryptpad/blob"
@@ -23,7 +23,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.cryptpad.rule=Host(`cryptpad.zah.rocks`)"
       - "traefik.http.routers.cryptpad.entrypoints=websecure"
-      - 'traefik.http.routers.cryptpad.middlewares=authelia@docker'
+      - 'traefik.http.routers.cryptpad.middlewares=eas-default'
       - "traefik.http.routers.cryptpad.service=cryptpad"
       - "traefik.http.routers.cryptpad.tls.certresolver=myresolver"
       - "traefik.http.services.cryptpad.loadbalancer.server.port=3000"
@@ -36,7 +36,7 @@ services:
 
       - "traefik.http.routers.cryptpad-sandbox.rule=Host(`sandbox.cryptpad.zah.rocks`)"
       - "traefik.http.routers.cryptpad-sandbox.entrypoints=websecure"
-      - 'traefik.http.routers.cryptpad-sandbox.middlewares=authelia@docker'
+      - 'traefik.http.routers.cryptpad-sandbox.middlewares=eas-default'
       - "traefik.http.routers.cryptpad-sandbox.service=cryptpad-sandbox"
       - "traefik.http.routers.cryptpad-sandbox.tls.certresolver=myresolver"
       - "traefik.http.services.cryptpad-sandbox.loadbalancer.server.port=3001"

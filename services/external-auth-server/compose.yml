@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  eas:
+    image: travisghansen/external-auth-server:latest
+    env_file:
+      - "${COMPOSE_ROOT}/services/external-auth-server/secret.env"
+    environment:
+      EAS_PORT: 8080
+      EAS_CONFIG_TOKEN_STORES: '{}'
+      EAS_LOG_LEVEL: "info"
+    ports:
+      - "8080"
+    restart: unless-stopped
+    depends_on:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.eas.rule=Host(`eas.zah.rocks`)"
+      - "traefik.http.routers.eas.entrypoints=websecure"
+      - "traefik.http.routers.eas.tls.certresolver=myresolver"
+
+      - "traefik.http.middlewares.eas-default.forwardauth.trustForwardHeader=true"
+      - "traefik.http.middlewares.eas-default.forwardauth.authResponseHeaders=X-Userinfo, X-Id-Token, X-Access-Token, Authorization"
+        

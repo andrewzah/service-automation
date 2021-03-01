@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  healthchecks:
+    image: ghcr.io/linuxserver/healthchecks:version-v1.19.0
+    environment:
+      #SITE_ROOT: "healthchecks.zah.rocks"
+      SITE_NAME: "healthchecks.zah.rocks"
+      EMAIL_HOST: "smtp-relay.sendinblue.com"
+      EMAIL_PORT: 587
+      EMAIL_HOST_USER: "zah@andrewzah.com"
+      EMAIL_USE_TLS: "True"
+      ALLOWED_HOSTS: "*"
+      SUPERUSER_EMAIL: "zah@andrewzah.com"
+      REGENERATE_SETTINGS: "True"
+      UWSGI_BUFFER_SIZE: 65535
+    env_file:
+      - "${COMPOSE_ROOT}/services/healthchecks/secret.env"
+    ports:
+      - "8000"
+    volumes:
+      - "${COMPOSE_ROOT}/data/healthchecks/config/:/config/"
+    restart: unless-stopped
+    depends_on:
+      - traefik
+      - eas
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.healthchecks.rule=Host(`healthchecks.zah.rocks`)"
+      - "traefik.http.routers.healthchecks.entrypoints=websecure"
+      - 'traefik.http.routers.healthchecks.middlewares=eas-default'
+      - "traefik.http.routers.healthchecks.tls.certresolver=myresolver"
+      

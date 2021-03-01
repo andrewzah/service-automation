@@ -14,6 +14,8 @@ services:
       - "--providers.file.filename=/etc/traefik/rules.toml"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
+      - "--entryPoints.web.forwardedHeaders.insecure"
+      - "--entryPoints.websecure.forwardedHeaders.insecure"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       - "--certificatesresolvers.myresolver.acme.email=admin@andrewzah.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"

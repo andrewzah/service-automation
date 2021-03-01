@@ -21,12 +21,12 @@ services:
       - "3000"
     restart: unless-stopped
     depends_on:
-      - authelia
+      - eas
       - postgres
       - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.huginn.rule=Host(`huginn.zah.rocks`)"
       - "traefik.http.routers.huginn.entrypoints=websecure"
-      - 'traefik.http.routers.huginn.middlewares=authelia@docker'
+      - 'traefik.http.routers.huginn.middlewares=eas-default'
       - "traefik.http.routers.huginn.tls.certresolver=myresolver"

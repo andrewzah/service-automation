@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  keycloak:
+    # 02-16-21
+    image: jboss/keycloak:12.0.3
+    env_file: 
+      "${COMPOSE_ROOT}/services/keycloak/secret.env"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak.rule=Host(`idp.zah.rocks`)"
+      - "traefik.http.routers.keycloak.entrypoints=websecure"
+      - "traefik.http.routers.keycloak.tls.certresolver=myresolver"
+    restart: unless-stopped
+
+    #traefik-auth:
+    #  image: thomseddon/traefik-forward-auth
+    #  environment:
+    #    DEFAULT_PROVIDER: 'oidc'
+    #    PROVIDERS_OIDC_CLIENT_ID: 'traefik'
+    #    PROVIDERS_OIDC_ISSUER_URL: 'https://idp.zah.rocks/auth/realms/lilac'
+    #    AUTH_HOST: 'auth.zah.rocks'
+    #    COOKIE_DOMAIN: 'zah.rocks'
+    #    LOGOUT_REDIRECT: 'https://zah.rocks'
+    #    LOG_LEVEL: 'debug'
+    #  depends_on:
+    #    - keycloak
+    #    - traefik
+    #  env_file:
+    #    - "${COMPOSE_ROOT}/services/keycloak/secret.env"
+    #  labels:
+    #    - "traefik.enable=true"
+    #    - "traefik.http.middlewares.traefik-forward.forwardauth.address=http://traefik-auth:4181"
+    #    - "traefik.http.middlewares.traefik-forward.forwardauth.authResponseHeaders=X-Forwarded-User"
+    #    - "traefik.http.routers.traefik-auth.rule=Host(`auth.zah.rocks`)"
+    #    - "traefik.http.routers.traefik-auth.entrypoints=websecure"
+    #    - "traefik.http.routers.traefik-auth.middlewares=traefik-forward"
+    #    - "traefik.http.routers.traefik-auth.tls.certresolver=myresolver"
+    #  restart: unless-stopped

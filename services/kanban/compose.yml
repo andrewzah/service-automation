@@ -19,12 +19,12 @@ services:
       - "${COMPOSE_ROOT}/data/kanboard/ssl:/etc/nginx/ssl"
     restart: unless-stopped
     depends_on:
-      - authelia
+      - eas
       - postgres
       - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.kanban.rule=Host(`kanban.zah.rocks`)"
-      - 'traefik.http.routers.kanban.middlewares=authelia@docker'
+      - 'traefik.http.routers.kanban.middlewares=eas-default'
       - "traefik.http.routers.kanban.entrypoints=websecure"
       - "traefik.http.routers.kanban.tls.certresolver=myresolver"

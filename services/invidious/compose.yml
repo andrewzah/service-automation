@@ -13,7 +13,7 @@ services:
       - "${COMPOSE_ROOT}/services/invidious/invidious.yml:/config/invidious.yml:ro"
     restart: unless-stopped
     depends_on:
-      - authelia
+      - eas
       - postgres
       - traefik
     labels:
@@ -21,4 +21,4 @@ services:
       - "traefik.http.routers.invidious.rule=Host(`invidious.zah.rocks`)"
       - "traefik.http.routers.invidious.entrypoints=websecure"
       - "traefik.http.routers.invidious.tls.certresolver=myresolver"
-      - 'traefik.http.routers.invidious.middlewares=authelia@docker'
+      - 'traefik.http.routers.invidious.middlewares=eas-default'

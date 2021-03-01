@@ -13,11 +13,11 @@ services:
       - "9000"
     restart: unless-stopped
     depends_on:
-      - authelia
+      - eas
       - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.thelounge.rule=Host(`irc.zah.rocks`)"
       - "traefik.http.routers.thelounge.entrypoints=websecure"
-      - 'traefik.http.routers.thelounge.middlewares=authelia@docker'
+      - 'traefik.http.routers.thelounge.middlewares=eas-default'
       - "traefik.http.routers.thelounge.tls.certresolver=myresolver"

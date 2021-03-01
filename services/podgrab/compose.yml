@@ -14,11 +14,11 @@ services:
     read_only: true
     restart: unless-stopped
     depends_on:
-      - authelia
+      - eas
       - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.podgrab.rule=Host(`podcasts.zah.rocks`)"
       - "traefik.http.routers.podgrab.entrypoints=websecure"
-      - 'traefik.http.routers.podgrab.middlewares=authelia@docker'
+      - 'traefik.http.routers.podgrab.middlewares=eas-default'
       - "traefik.http.routers.podgrab.tls.certresolver=myresolver"

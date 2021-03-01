@@ -1,9 +1,16 @@
 [http.routers]
   [http.routers.bluemap]
     entrypoints = [ "websecure" ]
-    rule = "Host(`fabric.genessee.zah.rocks`)"
+    rule = "Host(`map.fabric.genessee.zah.rocks`)"
     service = "bluemap"
     [http.routers.bluemap.tls]
+      certResolver = "myresolver"
+
+  [http.routers.deltalogger]
+    entrypoints = [ "websecure" ]
+    rule = "Host(`deltalogger.fabric.genessee.zah.rocks`)"
+    service = "deltalogger"
+    [http.routers.deltalogger.tls]
       certResolver = "myresolver"
 
   [http.routers.jellyfin]
@@ -24,6 +31,10 @@
   [http.services.bluemap.loadBalancer]
     [[http.services.bluemap.loadBalancer.servers]]
       url = "http://192.168.1.16:8100"
+
+  [http.services.deltalogger.loadBalancer]
+    [[http.services.deltalogger.loadBalancer.servers]]
+      url = "http://192.168.1.16:8081"
 
   [http.services.jellyfin.loadBalancer]
     [[http.services.jellyfin.loadBalancer.servers]]

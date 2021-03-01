@@ -16,13 +16,11 @@ services:
     read_only: true
     restart: unless-stopped
     depends_on:
-      - authelia
       - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.bitwarden-ui.rule=Host(`bit.zah.rocks`)"
       - "traefik.http.routers.bitwarden-ui.entrypoints=websecure"
-      - 'traefik.http.routers.bitwarden-ui.middlewares=authelia@docker'
       - "traefik.http.routers.bitwarden-ui.tls.certresolver=myresolver"
       - "traefik.http.routers.bitwarden-ui.service=bitwarden-ui"
       - "traefik.http.services.bitwarden-ui.loadbalancer.server.port=80"

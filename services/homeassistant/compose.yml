@@ -13,7 +13,7 @@ services:
     network_mode: host
     restart: unless-stopped
     depends_on:
-      - authelia
+      - eas
       - traefik
     volumes:
       - "${COMPOSE_ROOT}/data/homeassistant/config:/config"
@@ -25,4 +25,4 @@ services:
       - "traefik.http.routers.homeassistant.entrypoints=websecure"
       - "traefik.http.routers.homeassistant.tls.certresolver=myresolver"
       - "traefik.http.services.homeassistant.loadBalancer.server.port=8123"
-      - 'traefik.http.routers.homeassistant.middlewares=authelia@docker'
+      - 'traefik.http.routers.homeassistant.middlewares=eas-default'

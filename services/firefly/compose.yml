@@ -20,13 +20,13 @@ services:
       - "8080"
     restart: unless-stopped
     depends_on:
-      - authelia
+      - eas
       - postgres
       - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.firefly.rule=Host(`z.zah.rocks`)"
       - "traefik.http.routers.firefly.entrypoints=websecure"
-      - 'traefik.http.routers.firefly.middlewares=authelia@docker'
+      - 'traefik.http.routers.firefly.middlewares=eas-default'
       - "traefik.http.routers.firefly.tls.certresolver=myresolver"
 

@@ -22,7 +22,7 @@ services:
       - "${COMPOSE_ROOT}/data/lychee/uploads/:/uploads/:rw"
     restart: unless-stopped
     depends_on:
-      - authelia
+      - eas
       - postgres
       - traefik
     labels:
@@ -30,4 +30,4 @@ services:
       - "traefik.http.routers.lychee.rule=Host(`photos.zah.rocks`)"
       - "traefik.http.routers.lychee.entrypoints=websecure"
       - "traefik.http.routers.lychee.tls.certresolver=myresolver"
-      - 'traefik.http.routers.lychee.middlewares=authelia@docker'
+      - 'traefik.http.routers.lychee.middlewares=eas-default'

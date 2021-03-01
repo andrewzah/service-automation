@@ -2,8 +2,8 @@ version: '3.7'
 
 services:
   navidrome:
-    # 02-07-2020, v0.40.0
-    image: deluan/navidrome:0.40.0
+    # 02-16-2020
+    image: deluan/navidrome:sha-64ceb53
     environment:
       ND_PORT: 4533
       ND_MUSICFOLDER: /music
@@ -22,10 +22,8 @@ services:
     restart: unless-stopped
     depends_on:
       - traefik
-      - authelia
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.navidrome.rule=Host(`music.zah.rocks`)"
       - "traefik.http.routers.navidrome.entrypoints=websecure"
-      - 'traefik.http.routers.navidrome.middlewares=authelia@docker'
       - "traefik.http.routers.navidrome.tls.certresolver=myresolver"
