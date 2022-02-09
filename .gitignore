@@ -1,5 +1,7 @@
 data/
 
+.venv
+
 *.env
 *.pass
 *.pgpass

@@ -4,6 +4,7 @@
 #  roles:
 #    - base
 
-- hosts: workstations
+- hosts: workstation
   roles:
-    - docker
+    #- docker
+    - workstation
