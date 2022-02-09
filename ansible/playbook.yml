@@ -1,12 +1,12 @@
 ---
-
-#- hosts: all
-#  roles:
-#    - base
+- hosts: all
+  become_method: su
+  roles:
+    - base
 
 - hosts: workstations
   become_method: su
   roles:
-    #- docker
+    - docker
     - workstation
     - java
