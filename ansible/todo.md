@@ -1,0 +1,6 @@
+- [ ] bootstrapping for ssh keys
+- [ ] monitoring: telegraf / influx setup
+- [ ] roles:
+  - [ ] minecraft
+  - [ ] java - openjdk17
+  - [ ] 

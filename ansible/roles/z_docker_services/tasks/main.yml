@@ -1,15 +1,15 @@
 ---
 - name: Ensure packages are installed
-  become: yes
+  become: 'yes'
   ansible.builtin.apt:
     name:
-      - git
-    state: present
-    update_cache: yes
+      - 'git'
+    state: 'present'
+    update_cache: 'yes'
 
 - name: Clone the service-automation repo
   git:
-    dest: ~/docker
-    clone: yes
-    update: yes
+    dest: '~/docker'
+    clone: 'yes'
+    update: 'yes'
     repo: "{{ github_repo_url }}"

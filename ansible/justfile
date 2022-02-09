@@ -3,3 +3,6 @@ run:
 
 runv:
   ansible-playbook playbook.yml --verbose
+
+lint:
+  ansible-lint --project-dir .
