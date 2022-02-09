@@ -1,12 +1,20 @@
-- name: add ssh key for andrew
-  authorized_key:
-    user: andrew
-    key: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4QQicORF5poerSC2Arj4In/qWhYqPxzEoLg+BH5W0D zah@andrewzah.com <m3dd>'
+# TODO: figure out bootstrapping user/root access
+#- name: add ssh key for andrew
+#  authorized_key:
+#    user: andrew
+#    key: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4QQicORF5poerSC2Arj4In/qWhYqPxzEoLg+BH5W0D zah@andrewzah.com <m3dd>'
+#
+#- name: add ssh key for root
+#  authorized_key:
+#    user: root
+#    key: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4QQicORF5poerSC2Arj4In/qWhYqPxzEoLg+BH5W0D zah@andrewzah.com <m3dd>'
 
 - name: Ensure packages are installed
   become: yes
   ansible.builtin.apt:
-    name: ntp
+    name:
+      - ntp
+      - neovim
     state: present
     update_cache: yes
   when: ansible_distribution == "Debian"

@@ -4,9 +4,15 @@
   roles:
     - base
 
-- hosts: workstations
+- hosts: docker_services
   become_method: su
   roles:
     - docker
-    - workstation
+    - z_docker_services
+
+- hosts: minecraft_test
+  become_method: su
+  roles:
     - java
+    #- minecraft
+    #- neptunemc
