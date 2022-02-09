@@ -1,0 +1,5 @@
+run:
+  ansible-playbook playbook.yml
+
+runv:
+  ansible-playbook playbook.yml --verbose

@@ -1,0 +1,17 @@
+- name: add ssh key for andrew
+  authorized_key:
+    user: andrew
+    key: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4QQicORF5poerSC2Arj4In/qWhYqPxzEoLg+BH5W0D zah@andrewzah.com <m3dd>'
+
+- name: Ensure packages are installed
+  become: yes
+  ansible.builtin.apt:
+    name: ntp
+    state: present
+    update_cache: yes
+  when: ansible_distribution == "Debian"
+
+- name: Ensure NTP is enabled
+  ansible.builtin.service:
+    name: ntp
+    state: started
