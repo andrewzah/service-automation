@@ -1,0 +1,38 @@
+---
+- name: Ensure packages are installed
+  become: yes
+  ansible.builtin.apt:
+    name: curl
+    state: present
+    update_cache: yes
+  when: ansible_distribution == "Debian"
+
+- name: create download directory
+  file:
+    state: directory
+    mode: 'u=rwx,go=rx'
+    dest: '{{ java_download_dir }}'
+
+- name: check for JDK on remote box
+  stat:
+    path: '{{ java_download_dir }}/{{ java_redis_filename }}'
+    checksum_algorithm: sha256
+  register: remote_JDK_file
+  ignore_errors: yes
+
+- name: assert existing JDK matches checksum
+  assert:
+    that:
+      - remote_JDK_file.stat.checksum == jdk_checksum
+    msg: 'Checksum failed: {{ remote_JDK_file.stat.checksum }} != {{ jdk_checksum }}'
+  when: remote_JDK_file.stat.exists
+
+- name: download JDK
+  get_url:
+    url: '{{ jdk_download_url }}'
+    dest: '{{ java_download_dir }}/{{ java_redis_filename }}'
+    checksum: 'sha256:{{ jdk_checksum }}'
+    force: no
+    timeout: 30
+    mode: 'u=rw,go=r'
+  when: not remote_JDK_file.stat.exists

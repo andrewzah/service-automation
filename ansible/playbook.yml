@@ -4,7 +4,9 @@
 #  roles:
 #    - base
 
-- hosts: workstation
+- hosts: workstations
+  become_method: su
   roles:
     #- docker
     - workstation
+    - java
