@@ -2,8 +2,10 @@ version: "3.7"
 
 services:
   traefik:
-    image: "traefik:v2.4"
+    # 09-20-21
+    image: traefik:v2.5.2@sha256:68f43dcc76a589f56839c997a50428a50b296b52299c42637d3cc98101252a43
     container_name: "traefik"
+    restart: unless-stopped
     command:
       - "--api.insecure=true"
       - "--api.dashboard=true"
@@ -14,8 +16,13 @@ services:
       - "--providers.file.filename=/etc/traefik/rules.toml"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.ssh.address=:22"
+      - "--entrypoints.hkps.address=:11371"
       - "--entryPoints.web.forwardedHeaders.insecure"
       - "--entryPoints.websecure.forwardedHeaders.insecure"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       - "--certificatesresolvers.myresolver.acme.email=admin@andrewzah.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
@@ -33,9 +40,11 @@ services:
         #- "traefik.http.services.bluemap.loadbalancer.server.url=http://192.168.1.16"
         #- "traefik.http.services.bluemap.loadbalancer.server.port=8100"
     ports:
+      - "22:22"
       - "80:80"
       - "443:443"
       - "8080:8080"
+      - "11371:11371"
     volumes:
       - "${COMPOSE_ROOT}/services/traefik/rules.toml:/etc/traefik/rules.toml"
       - "${COMPOSE_ROOT}/data/traefik/letsencrypt:/letsencrypt"

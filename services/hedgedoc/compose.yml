@@ -2,8 +2,8 @@ version: '3.7'
 
 services:
   hedgedoc:
-    # 02-23-21
-    image: ghcr.io/linuxserver/hedgedoc:version-1.7.2
+    # 12-11-21
+    image: andrewzah/hedgedoc:1.9.2-alpine3.12
     environment:
       DB_HOST: 'mysql'
       DB_USER: 'hedgedoc'
@@ -16,13 +16,13 @@ services:
       CMD_ALLOW_ANONYMOUS: 'false'
       CMD_ALLOW_FREEURL: 'true'
       CMD_REQUIRE_FREEURL_AUTHENTICATION: 'true'
-      # actually uses libravatar
+      ### actually uses libravatar
       CMD_ALLOW_GRAVATAR: 'true' 
       CMD_EMAIL: 'false'
       CMD_ALLOW_EMAIL_REGISTER: 'false'
       CMD_USECDN: 'false'
 
-      # keycloak oauth
+      ## keycloak oauth
       CMD_DOMAIN: 'hedgedoc.zah.rocks'
       CMD_OAUTH2_CLIENT_ID: 'hedgedoc'
       CMD_OAUTH2_PROVIDERNAME: 'keycloak'
@@ -51,7 +51,10 @@ services:
       - keycloak
       - mysql
     volumes:
-      - "${COMPOSE_ROOT}/data/hedgedoc/config/:/config/:rw"
+      - "${COMPOSE_ROOT}/data/hedgedoc/config/config.json:/config/config.json:rw"
+      - "${COMPOSE_ROOT}/data/hedgedoc/config/default.md:/config/default.md:rw"
+      - "${COMPOSE_ROOT}/data/hedgedoc/config/docs/:/config/docs/:rw"
+      - "${COMPOSE_ROOT}/data/hedgedoc/config/uploads/:/config/uploads/:rw"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.hedgedoc.rule=Host(`hedgedoc.zah.rocks`)"

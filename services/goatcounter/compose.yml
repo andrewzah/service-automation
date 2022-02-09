@@ -25,4 +25,4 @@ services:
       - "traefik.http.routers.goatcounter.rule=Host(`stats.benzah.com`) || Host(`stats.andrewzah.com`)"
       - "traefik.http.routers.goatcounter.entrypoints=websecure"
       - "traefik.http.routers.goatcounter.tls.certresolver=myresolver"
-      - 'traefik.http.routers.goatcounter.middlewares=eas-default'
+      #- 'traefik.http.routers.goatcounter.middlewares=eas-default'

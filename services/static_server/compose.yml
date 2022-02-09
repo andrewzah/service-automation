@@ -7,6 +7,7 @@ services:
     volumes:
       - "${COMPOSE_ROOT}/services/static_server/Caddyfile:/etc/caddy/Caddyfile:ro"
       - "${COMPOSE_ROOT}/services/static_server/index.html:/var/www/index.html:ro"
+      - "${COMPOSE_ROOT}/services/static_server/openfortress-index.html:/var/www/openfortress/index.html:ro"
     ports:
       - "8080"
     read_only: true
@@ -18,6 +19,6 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.static-server.rule=Host(`zah.rocks`)"
       - "traefik.http.routers.static-server.entrypoints=websecure"
-      - 'traefik.http.routers.static-server.middlewares=eas-default'
+      #- 'traefik.http.routers.static-server.middlewares=eas-default'
       - "traefik.http.routers.static-server.tls.certresolver=myresolver"
       - "traefik.http.services.static-server.loadBalancer.server.port=8080"

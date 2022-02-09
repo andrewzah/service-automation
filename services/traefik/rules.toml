@@ -1,4 +1,11 @@
 [http.routers]
+  [http.routers.ben-website]
+    entrypoints = [ "websecure" ]
+    rule = "Host(`new.benzah.com`)"
+    service = "ben-website"
+    [http.routers.ben-website.tls]
+      certResolver = "myresolver"
+
   [http.routers.bluemap]
     entrypoints = [ "websecure" ]
     rule = "Host(`map.fabric.genessee.zah.rocks`)"
@@ -27,7 +34,39 @@
     [http.routers.syncthing.tls]
       certResolver = "myresolver"
 
+  [http.routers.zulip]
+    entrypoints = [ "websecure" ]
+    rule = "Host(`zulip.zah.rocks`)"
+    service = "zulip"
+    [http.routers.zulip.tls]
+      certResolver = "myresolver"
+
+  [http.routers.auth-zulip]
+    entrypoints = [ "websecure" ]
+    rule = "Host(`auth.zulip.zah.rocks`)"
+    service = "auth-zulip"
+    [http.routers.auth-zulip.tls]
+      certResolver = "myresolver"
+
+  [http.routers.lab-zulip]
+    entrypoints = [ "websecure" ]
+    rule = "Host(`lab.zulip.zah.rocks`)"
+    service = "lab-zulip"
+    [http.routers.lab-zulip.tls]
+      certResolver = "myresolver"
+
+  [http.routers.ossys-zulip]
+    entrypoints = [ "websecure" ]
+    rule = "Host(`ossys.zulip.zah.rocks`)"
+    service = "ossys-zulip"
+    [http.routers.ossys-zulip.tls]
+      certResolver = "myresolver"
+
 [http.services]
+  [http.services.ben-website.loadBalancer]
+    [[http.services.ben-website.loadBalancer.servers]]
+      url = "http://192.168.1.30:80"
+
   [http.services.bluemap.loadBalancer]
     [[http.services.bluemap.loadBalancer.servers]]
       url = "http://192.168.1.16:8100"
@@ -43,3 +82,19 @@
   [http.services.syncthing.loadBalancer]
     [[http.services.syncthing.loadBalancer.servers]]
       url = "http://192.168.1.9:8384"
+
+  [http.services.zulip.loadBalancer]
+    [[http.services.zulip.loadBalancer.servers]]
+      url = "http://192.168.1.18:80"
+
+  [http.services.auth-zulip.loadBalancer]
+    [[http.services.auth-zulip.loadBalancer.servers]]
+      url = "http://192.168.1.18:80"
+
+  [http.services.lab-zulip.loadBalancer]
+    [[http.services.lab-zulip.loadBalancer.servers]]
+      url = "http://192.168.1.18:80"
+
+  [http.services.ossys-zulip.loadBalancer]
+    [[http.services.ossys-zulip.loadBalancer.servers]]
+      url = "http://192.168.1.18:80"

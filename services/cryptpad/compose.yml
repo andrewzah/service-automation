@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   cryptpad:
-    image: promasu/cryptpad:v4.0.0-alpine
+    image: promasu/cryptpad:alpine
     environment:
       CPAD_MAIN_DOMAIN: 'cryptpad.zah.rocks'
       CPAD_SANDBOX_DOMAIN: 'sandbox.cryptpad.zah.rocks'
@@ -16,6 +16,7 @@ services:
     volumes:
       - "${COMPOSE_ROOT}/data/cryptpad/blob:/cryptpad/blob"
       - "${COMPOSE_ROOT}/data/cryptpad/block:/cryptpad/block"
+      - "${COMPOSE_ROOT}/data/cryptpad/config:/cryptpad/config"
       - "${COMPOSE_ROOT}/data/cryptpad/customize/:/cryptpad/customize/"
       - "${COMPOSE_ROOT}/data/cryptpad/data/:/cryptpad/data/"
       - "${COMPOSE_ROOT}/data/cryptpad/files/:/cryptpad/datastore/"

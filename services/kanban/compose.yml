@@ -2,12 +2,21 @@ version: '3.7'
 
 services:
   kanban:
-    image: kanboard/kanboard:v1.2.16
+    # 07-07-2021
+    image: kanboard/kanboard:v1.2.20
     environment:
       DB_USERNAME: kanboard
       DB_HOSTNAME: postgres
       DB_NAME: kanboard
-      DEBUG: 'true'
+      # ldap
+      LDAP_AUTH: 'true'
+      LDAP_SERVER: 'openldap'
+      LDAP_BIND_TYPE: 'proxy'
+      LDAP_USERNAME: 'cn=admin,dc=zah,dc=rocks'
+      LDAP_USER_BASE_DN: 'ou=people,dc=zah,dc=rocks'
+      LDAP_USER_FILTER: '(|(mail=%s)(uid=%s))'
+      LDAP_USER_CREATION: 'true'
+      EXTERNAL_AUTH_EXCLUDE_FIELDS: 'email,username,role'
     env_file:
       - "${COMPOSE_ROOT}/services/kanban/secret.env"
     ports:
@@ -25,6 +34,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.kanban.rule=Host(`kanban.zah.rocks`)"
-      - 'traefik.http.routers.kanban.middlewares=eas-default'
       - "traefik.http.routers.kanban.entrypoints=websecure"
       - "traefik.http.routers.kanban.tls.certresolver=myresolver"
+      #- 'traefik.http.routers.kanban.middlewares=eas-default'

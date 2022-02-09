@@ -2,8 +2,8 @@ version: '3.7'
 
 services:
   podgrab:
-    # 02-09-2020, v0.40.0
-    image: akhilrex/podgrab:1.0.0
+    # 09-20-21
+    image: akhilrex/podgrab:latest@sha256:29fddccdce800427cdaa33412cefdfcfbba8ad5f0ded90d2d08e0f026a0517cf
     environment:
       CHECK_FREQUENCY: 240
     ports:

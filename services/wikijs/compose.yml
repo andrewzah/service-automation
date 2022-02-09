@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  wikijs:
+    # 06-07-2021
+    image: ghcr.io/linuxserver/wikijs:version-2.5.201
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: 'America/New_York'
+    volumes:
+      - "${COMPOSE_ROOT}/data/wikijs/config/:/config/:rw"
+      - "${COMPOSE_ROOT}/data/wikijs/data/:/data/:rw"
+    ports:
+      - "3000"
+    restart: unless-stopped
+    depends_on:
+      - eas
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wikijs.rule=Host(`wiki.zah.rocks`)"
+      - "traefik.http.routers.wikijs.entrypoints=websecure"
+      - 'traefik.http.routers.wikijs.middlewares=eas-default'
+      - "traefik.http.routers.wikijs.tls.certresolver=myresolver"

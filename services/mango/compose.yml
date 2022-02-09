@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  # 06-06-21
+  # TODO: make own s6 image since it's just a crystal binary
+  mango:
+    image: andrewzah/s6-mango:latest
+    environment:
+      PUID: 1005
+      PGID: 1005
+      TZ: 'America/New_York'
+    volumes:
+      - "${COMPOSE_ROOT}/data/mango/config/:/home/abc/.config/mango/:rw"
+      - "/mnt/media/manga/:/home/abc/mango/library/:rw"
+    ports:
+      - "9000"
+    restart: unless-stopped
+    depends_on:
+      - eas
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mango.rule=Host(`manga.zah.rocks`)"
+      - "traefik.http.routers.mango.entrypoints=websecure"
+      - 'traefik.http.routers.mango.middlewares=eas-default'
+      - "traefik.http.routers.mango.tls.certresolver=myresolver"

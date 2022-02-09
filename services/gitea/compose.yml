@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  # 07-04-2021
+  gitea:
+    image: gitea/gitea:1.14.3
+    environment:
+      USER_UID: 1000
+      USER_PID: 1000
+      TZ: 'America/New_York'
+      SSH_PORT: 15222
+    volumes:
+      - "${COMPOSE_ROOT}/data/gitea/:/data/:rw"
+    ports:
+      - "3000"
+      - "15222"
+    restart: unless-stopped
+    depends_on:
+      - eas
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gitea-web.rule=Host(`git.andrewzah.com`)"
+      - "traefik.http.routers.gitea-web.entrypoints=websecure"
+      #- 'traefik.http.routers.gitea-web.middlewares=eas-default'
+      - "traefik.http.routers.gitea-web.tls.certresolver=myresolver"
+      - "traefik.http.routers.gitea-web.service=gitea-web"
+      - "traefik.http.services.gitea-web.loadbalancer.server.port=3000"
+      #
+      - "traefik.tcp.routers.gitea-ssh.entrypoints=ssh"
+      - "traefik.tcp.routers.gitea-ssh.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.gitea-ssh.service=gitea-ssh"
+      - "traefik.tcp.services.gitea-ssh.loadbalancer.server.port=15222"

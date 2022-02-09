@@ -3,7 +3,8 @@ version: '3.7'
 services:
   bitwarden:
     # 02-08-2021
-    image: bitwardenrs/server:1.19.0-alpine
+    #image: bitwardenrs/server:1.19.0-alpine
+    image: vaultwarden/server:1.23.0-alpine
     environment:
       WEBSOCKET_ENABLED: 'true'
       SIGNUPS_ALLOWED: 'false'

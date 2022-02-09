@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>openfortress instructions</title>
+    <style>
+      code {
+        background-color: rgb(238,238,238);
+        padding: 2px 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>How to install OpenFortress [Linux]</h3>
+    <p> 1. Install <code>subversion</code> via your distro's package manager.</p>
+    <p> 2. Install <code>Team Fortress 2</code> and <code>Source SDK Base 2013 Multiplayer</code>.</p>
+    <p> TF2 is around 25gb, Source SDK is about 3.1gb.</p>
+    <p> 3. Locate your <code>sourcemods</code> folder.</p>
+    <p> This is likely either <code>~/.local/share/Steam/steamapps</code>, or <code>~/.steam/debian-installation/steamapps/sourcemods</code>. </p>
+    <p> 4. In the <code>sourcemods</code> dir, run <code>svn checkout https://svn.openfortress.fun/svn/open_fortress/ open_fortress</code>.</p>
+    <p> This should be around 10gb. </p>
+    <p> 5. Restart steam. </p>
+    <p> 6. Find <code>Open Fortress</code> in your steam library, and add these launch flags: <code>-steam -secure</code>.</p>
+    <p> 7. Launch! Warning: the audio is likely very loud. </p>
+    <p> 8. In game, open the console with <code>`</code> and type <code>connect of.genessee.zah.rocks</code>.</p>
+    <p> If there are issues with the resolution/monitor, add these launch flags: <code> -displayindex 1 -h 1440 -w 2560</code>.</p>
+    <p> For more performance, try adding: <code>-novid -nojoy -nosteamcontroller -reuse -nohltv</code>.</p>
+  <body>
+</html>
+

@@ -2,9 +2,9 @@ version: '3.7'
 
 services:
   healthchecks:
-    image: ghcr.io/linuxserver/healthchecks:version-v1.19.0
+    image: ghcr.io/linuxserver/healthchecks:1.24.1@sha256:d352c6be1a4a8c4b7197b879afa31305c17dcf70857a9dbb9e725301e0040ffa
     environment:
-      #SITE_ROOT: "healthchecks.zah.rocks"
+      SITE_ROOT: "healthchecks.zah.rocks"
       SITE_NAME: "healthchecks.zah.rocks"
       EMAIL_HOST: "smtp-relay.sendinblue.com"
       EMAIL_PORT: 587
@@ -28,6 +28,9 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.healthchecks.rule=Host(`healthchecks.zah.rocks`)"
       - "traefik.http.routers.healthchecks.entrypoints=websecure"
-      - 'traefik.http.routers.healthchecks.middlewares=eas-default'
+      - 'traefik.http.routers.healthchecks.middlewares=eas-healthchecks'
       - "traefik.http.routers.healthchecks.tls.certresolver=myresolver"
       
+      - "traefik.http.middlewares.eas-healthchecks.forwardauth.trustForwardHeader=true"
+      - "traefik.http.middlewares.eas-healthchecks.forwardauth.authResponseHeaders=X-Userinfo, X-Id-Token, X-Access-Token, Authorization"
+      - "traefik.http.middlewares.eas-healthchecks.forwardauth.address=https://eas.zah.rocks/verify?config_token=%2BihV6%2F9CcXNCAOoc4grrmOmyxW0Xnbh0n8sY9qcgptvi1ct1bT857LxZBuctz8Qd%2BxSuhciOSvwxe66pmbl0uTG0WxZkoh5lygIvqdYQQ70i8%2FpUBVF91JTHWURDPHnrnT7EmJLcc2hr%2FRwzRyVLe7vhla86q0nzeQGgjcRksFeNpE62GCGjT0IYKN67Wm6KGPpZXSShwnW617TbpBVbmcKmIVINuPFwTQa%2BkQd0cZTncGWDEe10Vj3FchBrJbGTUtd1XCkOrB9GjSTv8oY1nU8VoboiDl9rAExMi%2FGcPEfCj9M6ZPCwIYBUCY2uPyi4h0AA%2F1hqKIrkKYz9%2B84aotkVFItSyxS8VrcXJ6yJUECKPckmfrhp3Gbg7KDiaSehBJPX1jvFDt%2BNfmm75Hh6v2IIo%2FPgzdr2j%2FPlZcvuEVyZ00%2BBAsQo2sKpw0yPSYhCk6h9%2FRWkRnmoqM%2FPjngJzGZ865uP8zHyHYqoRrHfHg464CSti0cd2zUa%2FEIQ%2BWWZmN1LJLIOlQ9KIULfG6PlWTSRHGHaYRHewb73%2B8lAIA5KeUIwLSRKoHO8b4oBQ%2FK3t7G6xqs3Y%2BRd2jooYrrU33%2FGJm9vf9Q3vO3iBAsclxm6sE3lXyAMyx64m%2BFYzY43w5%2FQsRK9R%2F9shhYQz5rKRZ9gEeazd8%2FL%2FwuHPYaYdlGcMg7cP24Cby1wmBWC8AKiiTpahBCdZfFzJ2iIFmvrySocx8mz8CNdF8rBI9xTLpf5gciVPitd7KtlP9P%2Fgf47VEQtsUx0kgAaey4mzsN9SiJ0fc9%2Bu0uz9%2BtzT%2B2FBDUWc6wH9Viijdfs48UxfYYImc3%2BhDqgKswucr1NCBCtE60SC%2Fj84KDChWo4cJCKE%2FoMWGf2bfS3VB%2FUTVxZkTHV1N86JhCAGhXZ2NE4AbZ5gwzNF4JSsDkA%2BoXE3SbsOqt9A6W8xz8QtPy0DPK35QhjRNovgpRZykioqvzZHCRuRLSXFKV%2BmufHa9%2FuoM%2BjeSdkIQ8ZkStfkcb0eWlNcFEK7mkwpE39ecuw%2B%2BbVFScxjhw2ba13T519n6yZxjOEZu8sEc4HroHSCo8WtvMdTGrDxZUKyXoFbya4aTp%2FkGcrpyq5FDsdQ0bIlwLSlipBUiczL6P3hhTrv3TIqNjD4ccea7dI9VA4wGoVSj8dANRrvFvhCGfgOHyQVrwrO7NtR909ovS1mAEk%2BYGpIoBEY34c1pGu9%2BwaUptou9oEenWK0ADZdeCvkBBvJU6%2FC2Ho%2FhhOUfjBM4ghiZsOvZdGnq0SAKBPr0JgfaTnRzIBldhj4OXN8R3f6CotNck0LQOyEVccC3wpszi5Bgp5P%2FWB%2BLemSoX77YuKB6QrZoz84RV5dAlEJNfAVXHymV2PcxAKDVNrxdRO%2FD5j0tpogO35wBO2rdsn%2BGG3XpQCVrxRh%2B8RrOFMifHb6xay%2FEHqDDgqdkNpledqSW3GYN8Ms2ijb9nzFXDBvfJ9BA7oQG3OAUoxWG287sUguOY9Fuo4BxBwOnOcLE371euJq%2FTUQy1XZivbc1DhHexF4MkpTuu9s4jHl6i%2B257T3R2wo6NXaSu42Doka2mYwtwzX4cMik%2BS6evrmx9ciNtqzMXf2gZd86a7rMfM6oHPLK7Rq3AGUB2f4xwvGF0QdSHJuVro5yG8dICxyxmkYa5QWnQuPziqQKZTLoir8hLT4nNIIj6CKsSXc6ilnDKEl6GnTLP0x5Je9sXSZCHLbF8o4hKVtq8CawCujoAFcLpaWO%2FKlgbjliCCai9AT%2BNwP1YEKI6l%2F5YY1iEqcG7xRNYALnpsfParGo4%2BFap%2BKBR2nDWBn8W2rObQSWSNsbN%2BEWlcZjMTxIcwLLZIZP9%2FHGarOhlCTcGVLYCuZguNdb6z%2B6WaxNQtGS3Sn%2FMg%2BCNYLsKFw0O1OpxGpzmIYQoG4APkfaBUwwrKH8OyURJdytrChQgh9xa1%2FetE96bgJSSc4%2BFycexYRpI0C5cxcFIql7f4qZADxNkWKPFuPBGy7C6LHAiPzB5R7S%2BwGFeMA6kjwIgAs0xGLWHmMw06QQpuuU5iZhKBvrWjv9mosA%3D%3D"

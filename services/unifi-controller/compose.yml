@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  unifi-controller:
+    # 2022-02-06
+    image: linuxserver/unifi-controller:6.5.55@sha256:9d4cae869628ffc0650314df6d64c8b4197718ce5d37c2606ae09375df64b17e
+    environment:
+      MEM_LIMIT: '1024M'
+    ports:
+      - "3478:3478/udp"
+      - "10001:10001/udp"
+      - "8081:8080"
+      - "8444:8443"
+    volumes:
+      - "${COMPOSE_ROOT}/data/unifi-controller/:/config/"
+    restart: unless-stopped

@@ -2,23 +2,35 @@ version: '3.7'
 
 services:
   navidrome:
-    # 02-16-2020
-    image: deluan/navidrome:sha-64ceb53
+    # 01-22-2022
+    image: deluan/navidrome:0.47.5@sha256:4114446451d1122717c33e46339bb9e36ff6568c7c2f92a1a4e008648b49a2bf
     environment:
       ND_PORT: 4533
       ND_MUSICFOLDER: /music
       ND_DATAFOLDER: /data
-      ND_SCANINTERVAL: 1m
-      ND_ENABLETRANSCODINGCONFIG: 'true'
-      ND_AUTOIMPORTPLAYLISTS: 'false'
+      ND_SCANSCHEDULE: '@every 1m'
       ND_COVERJPEGQUALITY: 85
-      ND_TRANSCODINGCACHESIZE: 500MB
+      ND_TRANSCODINGCACHESIZE: "500MB"
+      ND_LOGLEVEL: 'info'
+      # enable things we want
+      ND_ENABLEDOWNLOADS: 'true'
+      # disable for performance fix
+      ND_DEVACTIVITYPANEL: 'false'
+      # TODO: spotify
+      #ND_SPOTIFY_ID:
+      #ND_SPOTIFY_SECRET:
+      # disable things we don't need / want
+      ND_AUTOIMPORTPLAYLISTS: 'false'
+      ND_ENABLEGRAVATAR: 'false'
+      ND_ENABLESTARRATING: 'false'
+      ND_LASTFM_ENABLED: 'false'
+      # disable for security
+      ND_ENABLETRANSCODINGCONFIG: 'false'
     ports:
         - "4533"
     volumes:
       - "${COMPOSE_ROOT}/data/navidrome:/data"
       - "/mnt/media/music:/music"
-    read_only: true
     restart: unless-stopped
     depends_on:
       - traefik

@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  bookstack-ossys:
+    # 09-29-21
+    image: lscr.io/linuxserver/bookstack
+    environment:
+      PUID: 1000
+      PGID: 1000
+      APP_URL: 'https://bookstack-ossys.andrewzah.com'
+      DB_HOST: mysql
+      DB_USER: 'bookstack'
+      DB_DATABASE: 'bookstack'
+    env_file:
+      - "${COMPOSE_ROOT}/services/bookstack-ossys/secret.env"
+    volumes:
+      - "${COMPOSE_ROOT}/data/bookstack-ossys/"
+    ports:
+        - "80"
+    restart: unless-stopped
+    depends_on:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bookstack.rule=Host(`bookstack-ossys.andrewzah.com`)"
+      - "traefik.http.routers.bookstack.entrypoints=websecure"
+      - "traefik.http.routers.bookstack.tls.certresolver=myresolver"
