@@ -1,6 +1,10 @@
-- [ ] bootstrapping for ssh keys
 - [ ] monitoring: telegraf / influx setup
-- [ ] roles:
-  - [ ] minecraft
-  - [ ] java - openjdk17
-  - [ ] 
+- [ ] minecraft
+  - [ ] `guest` user with ssh access
+  - [ ] server pictures
+  - [ ] cache mod/plugin downloads and check shasums
+  - [ ] cache fabric.jar/server.jar downloads
+  - [ ] store mods/plugins/etc in aws s3
+  - [ ] clean up group_vars / defaults
+  - [x] java - openjdk17
+- [ ] investigate bootstrapping for ssh keys
