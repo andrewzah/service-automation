@@ -8,6 +8,6 @@ services:
       - "6379"
       - "36379:6379"
     volumes:
-      - "${COMPOSE_ROOT}/services/redis/redis.conf:/redis.conf"
-      - "${COMPOSE_ROOT}/data/redis/data:/data"
+      - "/mnt/data/services/redis/redis.conf:/redis.conf"
+      - "/mnt/data/redis/data:/data"
     restart: unless-stopped

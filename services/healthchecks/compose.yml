@@ -15,11 +15,11 @@ services:
       REGENERATE_SETTINGS: "True"
       UWSGI_BUFFER_SIZE: 65535
     env_file:
-      - "${COMPOSE_ROOT}/services/healthchecks/secret.env"
+      - "/mnt/data/services/healthchecks/secret.env"
     ports:
       - "8000"
     volumes:
-      - "${COMPOSE_ROOT}/data/healthchecks/config/:/config/"
+      - "/mnt/data/healthchecks/config/:/config/"
     restart: unless-stopped
     depends_on:
       - traefik

@@ -10,7 +10,7 @@ services:
       PGID: 1005
       TZ: 'America/New_York'
     volumes:
-      - "${COMPOSE_ROOT}/data/mango/config/:/home/abc/.config/mango/:rw"
+      - "/mnt/data/mango/config/:/home/abc/.config/mango/:rw"
       - "/mnt/media/manga/:/home/abc/mango/library/:rw"
     ports:
       - "9000"

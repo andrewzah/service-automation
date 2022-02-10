@@ -9,12 +9,12 @@ services:
     environment:
       - PGDATA=/var/lib/postgresql/data
     env_file:
-      - "${COMPOSE_ROOT}/services/postgres/secret.env"
+      - "/mnt/data/services/postgres/secret.env"
     volumes:
-      - "${COMPOSE_ROOT}/services/postgres/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/"
-      - "${COMPOSE_ROOT}/services/postgres/.pgpass:/.pgpass"
-      - "${COMPOSE_ROOT}/services/postgres/.pgpass:/root/.pgpass"
-      - "${COMPOSE_ROOT}/data/postgres/:/var/lib/postgresql/data/"
-      - "${COMPOSE_ROOT}/data/postgres_backups/:/postgres_backups"
-      - "${COMPOSE_ROOT}/services/invidious/sql/:/config/sql/:ro"
+      - "/mnt/data/services/postgres/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/"
+      - "/mnt/data/services/postgres/.pgpass:/.pgpass"
+      - "/mnt/data/services/postgres/.pgpass:/root/.pgpass"
+      - "/mnt/data/postgres/:/var/lib/postgresql/data/"
+      - "/mnt/data/postgres_backups/:/postgres_backups"
+      - "/mnt/data/services/invidious/sql/:/config/sql/:ro"
     restart: unless-stopped

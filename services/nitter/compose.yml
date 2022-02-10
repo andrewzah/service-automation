@@ -7,7 +7,7 @@ services:
     ports:
       - "8080"
     volumes:
-      - "${COMPOSE_ROOT}/services/nitter/nitter.conf:/src/nitter.conf:ro"
+      - "/mnt/data/services/nitter/nitter.conf:/src/nitter.conf:ro"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nitter.rule=Host(`nitter.zah.rocks`)"

@@ -11,7 +11,7 @@ services:
       BASE_URL: 'https://searx.zah.rocks'
       INSTANCE_NAME: 'searx.zah.rocks'
     volumes:
-      - "${COMPOSE_ROOT}/data/searx/:/etc/searx/"
+      - "/mnt/data/searx/:/etc/searx/"
     restart: unless-stopped
     depends_on:
       - traefik

@@ -7,8 +7,8 @@ services:
     environment:
       FILESTASH_DOMAIN: files.zah.rocks
     volumes:
-      - "${COMPOSE_ROOT}/data/filestash/state/:/lapp/data/state/:rw"
-      - "${COMPOSE_ROOT}/data/filestash/files/:/files/:rw"
+      - "/mnt/data/filestash/state/:/lapp/data/state/:rw"
+      - "/mnt/data/filestash/files/:/files/:rw"
     restart: unless-stopped
     depends_on:
       - eas

@@ -20,7 +20,7 @@ services:
       TZ: 'America/New_York'
       REDIS_URL: 'redis:36379'
     env_file:
-      - "${COMPOSE_ROOT}/services/paperless/secret.env"
+      - "/mnt/data/services/paperless/secret.env"
     ports:
         - "8000"
     volumes:

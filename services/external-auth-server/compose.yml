@@ -4,7 +4,7 @@ services:
   eas:
     image: travisghansen/external-auth-server:latest
     env_file:
-      - "${COMPOSE_ROOT}/services/external-auth-server/secret.env"
+      - "/mnt/data/services/external-auth-server/secret.env"
     environment:
       EAS_PORT: 8080
       EAS_CONFIG_TOKEN_STORES: '{}'

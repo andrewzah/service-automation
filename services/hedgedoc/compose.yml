@@ -45,16 +45,16 @@ services:
     ports:
       - "3000"
     env_file:
-      - "${COMPOSE_ROOT}/services/hedgedoc/secret.env"
+      - "/mnt/data/services/hedgedoc/secret.env"
     restart: unless-stopped
     depends_on:
       - keycloak
       - mysql
     volumes:
-      - "${COMPOSE_ROOT}/data/hedgedoc/config/config.json:/config/config.json:rw"
-      - "${COMPOSE_ROOT}/data/hedgedoc/config/default.md:/config/default.md:rw"
-      - "${COMPOSE_ROOT}/data/hedgedoc/config/docs/:/config/docs/:rw"
-      - "${COMPOSE_ROOT}/data/hedgedoc/config/uploads/:/config/uploads/:rw"
+      - "/mnt/data/hedgedoc/config/config.json:/config/config.json:rw"
+      - "/mnt/data/hedgedoc/config/default.md:/config/default.md:rw"
+      - "/mnt/data/hedgedoc/config/docs/:/config/docs/:rw"
+      - "/mnt/data/hedgedoc/config/uploads/:/config/uploads/:rw"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.hedgedoc.rule=Host(`hedgedoc.zah.rocks`)"

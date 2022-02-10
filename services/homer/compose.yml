@@ -10,7 +10,7 @@ services:
     ports:
         - "8080"
     volumes:
-      - "${COMPOSE_ROOT}/data/homer/:/www/assets/"
+      - "/mnt/data/homer/:/www/assets/"
     read_only: true
     restart: unless-stopped
     depends_on:

@@ -13,11 +13,11 @@ services:
       PORT: 8000
       # https://sheetable.net/docs/configuration/
     env_file:
-      - "${COMPOSE_ROOT}/services/sheetable/secret.env"
+      - "/mnt/data/services/sheetable/secret.env"
     ports:
       - "8000"
     volumes:
-      - "${COMPOSE_ROOT}/data/sheetable/:/data/"
+      - "/mnt/data/sheetable/:/data/"
     restart: unless-stopped
     depends_on:
       - traefik

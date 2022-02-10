@@ -12,5 +12,5 @@ services:
       - "8081:8080"
       - "8444:8443"
     volumes:
-      - "${COMPOSE_ROOT}/data/unifi-controller/:/config/"
+      - "/mnt/data/unifi-controller/:/config/"
     restart: unless-stopped

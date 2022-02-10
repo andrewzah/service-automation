@@ -7,9 +7,9 @@ services:
       #MYSQL_ROOT_HOST: '192.168.1.%'
       #command: --skip-grant-tables
     env_file:
-      - "${COMPOSE_ROOT}/services/mysql/secret.env"
+      - "/mnt/data/services/mysql/secret.env"
     volumes:
-      - "${COMPOSE_ROOT}/data/mysql:/var/lib/mysql"
+      - "/mnt/data/mysql:/var/lib/mysql"
     ports:
       - "3306"
       - "3307:3306"

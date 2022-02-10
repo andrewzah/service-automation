@@ -29,7 +29,7 @@ services:
     ports:
         - "4533"
     volumes:
-      - "${COMPOSE_ROOT}/data/navidrome:/data"
+      - "/mnt/data/navidrome:/data"
       - "/mnt/media/music:/music"
     restart: unless-stopped
     depends_on:

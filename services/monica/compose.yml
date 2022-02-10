@@ -5,7 +5,7 @@ services:
     # 07-12-08
     image: monica:3-apache
     env_file:
-      - "${COMPOSE_ROOT}/services/monica/secret.env"
+      - "/mnt/data/services/monica/secret.env"
     environment:
       APP_DISABLE_SIGNUP: 'true'
       APP_ENV: 'production'
@@ -15,7 +15,7 @@ services:
       DB_DATABASE: 'monica'
       DB_USERNAME: 'homestead'
     volumes:
-      - "${COMPOSE_ROOT}/data/monica/:/var/www/html/storage/"
+      - "/mnt/data/monica/:/var/www/html/storage/"
     ports:
       - "80"
     depends_on:

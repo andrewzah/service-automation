@@ -5,9 +5,9 @@ services:
     # 2-09-21
     image: caddy:2.2.1-alpine
     volumes:
-      - "${COMPOSE_ROOT}/services/static_server/Caddyfile:/etc/caddy/Caddyfile:ro"
-      - "${COMPOSE_ROOT}/services/static_server/index.html:/var/www/index.html:ro"
-      - "${COMPOSE_ROOT}/services/static_server/openfortress-index.html:/var/www/openfortress/index.html:ro"
+      - "/mnt/data/services/static_server/Caddyfile:/etc/caddy/Caddyfile:ro"
+      - "/mnt/data/services/static_server/index.html:/var/www/index.html:ro"
+      - "/mnt/data/services/static_server/openfortress-index.html:/var/www/openfortress/index.html:ro"
     ports:
       - "8080"
     read_only: true

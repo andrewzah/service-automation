@@ -16,7 +16,7 @@ services:
       - eas
       - traefik
     volumes:
-      - "${COMPOSE_ROOT}/data/homeassistant/config:/config"
+      - "/mnt/data/homeassistant/config:/config"
       - "/etc/localtime:/etc/localtime:ro"
     labels:
       - "traefik.enable=true"

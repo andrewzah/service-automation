@@ -8,7 +8,7 @@ services:
     ports:
       - "2342"
     env_file:
-      - "${COMPOSE_ROOT}/services/photoprism/secret.env"
+      - "/mnt/data/services/photoprism/secret.env"
     environment:
       UID: 1000
       GID: 1000
@@ -19,7 +19,7 @@ services:
       PHOTOPRISM_READONLY: 'false'
       PHOTOPRISM_DATABASE_DRIVER: 'sqlite'
     volumes:
-      - "${COMPOSE_ROOT}/data/photoprism/storage/:/photoprism/storage/"
+      - "/mnt/data/photoprism/storage/:/photoprism/storage/"
     restart: unless-stopped
     depends_on:
       - traefik

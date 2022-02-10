@@ -46,8 +46,8 @@ services:
       - "8080:8080"
       - "11371:11371"
     volumes:
-      - "${COMPOSE_ROOT}/services/traefik/rules.toml:/etc/traefik/rules.toml"
-      - "${COMPOSE_ROOT}/data/traefik/letsencrypt:/letsencrypt"
+      - "/mnt/data/services/traefik/rules.toml:/etc/traefik/rules.toml"
+      - "/mnt/data/traefik/letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     extra_hosts:
       - host.docker.internal:172.18.0.1

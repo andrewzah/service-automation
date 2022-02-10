@@ -9,8 +9,8 @@ services:
       PGID: 1000
       TZ: 'America/New_York'
     volumes:
-      - "${COMPOSE_ROOT}/data/wikijs/config/:/config/:rw"
-      - "${COMPOSE_ROOT}/data/wikijs/data/:/data/:rw"
+      - "/mnt/data/wikijs/config/:/config/:rw"
+      - "/mnt/data/wikijs/data/:/data/:rw"
     ports:
       - "3000"
     restart: unless-stopped

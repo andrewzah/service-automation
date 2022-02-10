@@ -4,7 +4,7 @@ services:
   lam:
     image: ldapaccountmanager/lam:stable
     env_file:
-      - "${COMPOSE_ROOT}/services/openldap/secret.env"
+      - "/mnt/data/services/openldap/secret.env"
     hostname: lam.idp.zah.rocks
     environment:
       LAM_SKIP_PRECONFIGURE: 'false'
@@ -20,9 +20,9 @@ services:
     depends_on:
       - traefik
     volumes:
-      - "${COMPOSE_ROOT}/data/lam/etc/:/etc/ldap-account-manager/"
-      - "${COMPOSE_ROOT}/data/lam/var/config/:/var/lib/ldap-account-manager/config"
-      - "${COMPOSE_ROOT}/data/lam/var/sess/:/var/lib/ldap-account-manager/sess"
+      - "/mnt/data/lam/etc/:/etc/ldap-account-manager/"
+      - "/mnt/data/lam/var/config/:/var/lib/ldap-account-manager/config"
+      - "/mnt/data/lam/var/sess/:/var/lib/ldap-account-manager/sess"
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
@@ -33,13 +33,13 @@ services:
   openldap:
     image: osixia/openldap:1.4.0
     env_file:
-      - "${COMPOSE_ROOT}/services/openldap/secret.env"
+      - "/mnt/data/services/openldap/secret.env"
     environment:
       LDAP_DOMAIN: 'zah.rocks'
       LDAP_ORGANISATION: 'Zah'
       LDAP_BASE_DN: 'dc=zah,dc=rocks'
       LDAP_TLS: 'false'
     volumes:
-      - "${COMPOSE_ROOT}/data/openldap/openldap/:/etc/ldap/slapd.d/"
-      - "${COMPOSE_ROOT}/data/openldap/runtime/:/var/lib/ldap"
+      - "/mnt/data/openldap/openldap/:/etc/ldap/slapd.d/"
+      - "/mnt/data/openldap/runtime/:/var/lib/ldap"
     restart: unless-stopped

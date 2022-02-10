@@ -9,8 +9,8 @@ services:
     ports:
         - "8080"
     volumes:
-      - "${COMPOSE_ROOT}/data/podgrab/assets/:/assets/"
-      - "${COMPOSE_ROOT}/data/podgrab/config/:/config/"
+      - "/mnt/data/podgrab/assets/:/assets/"
+      - "/mnt/data/podgrab/config/:/config/"
     read_only: true
     restart: unless-stopped
     depends_on:

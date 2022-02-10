@@ -10,7 +10,7 @@ services:
     ports:
       - "80"
     volumes:
-      - "${COMPOSE_ROOT}/data/mealie/data/:/app/data/:rw"
+      - "/mnt/data/mealie/data/:/app/data/:rw"
     depends_on:
       - traefik
       - eas

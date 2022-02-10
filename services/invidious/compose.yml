@@ -11,7 +11,7 @@ services:
     ports:
       - "3000"
     volumes:
-      - "${COMPOSE_ROOT}/services/invidious/invidious.yml:/config/invidious.yml:ro"
+      - "/mnt/data/services/invidious/invidious.yml:/config/invidious.yml:ro"
     restart: unless-stopped
     depends_on:
       - eas

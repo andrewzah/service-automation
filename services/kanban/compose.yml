@@ -18,14 +18,14 @@ services:
       LDAP_USER_CREATION: 'true'
       EXTERNAL_AUTH_EXCLUDE_FIELDS: 'email,username,role'
     env_file:
-      - "${COMPOSE_ROOT}/services/kanban/secret.env"
+      - "/mnt/data/services/kanban/secret.env"
     ports:
       - "80"
       - "3280"
     volumes:
-      - "${COMPOSE_ROOT}/data/kanboard/data:/var/www/app/data"
-      - "${COMPOSE_ROOT}/data/kanboard/plugins:/var/www/app/plugins"
-      - "${COMPOSE_ROOT}/data/kanboard/ssl:/etc/nginx/ssl"
+      - "/mnt/data/kanboard/data:/var/www/app/data"
+      - "/mnt/data/kanboard/plugins:/var/www/app/plugins"
+      - "/mnt/data/kanboard/ssl:/etc/nginx/ssl"
     restart: unless-stopped
     depends_on:
       - eas

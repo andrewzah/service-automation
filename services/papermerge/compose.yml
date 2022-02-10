@@ -8,8 +8,8 @@ services:
       - PGID=1000
       - TZ=America/New_York
     volumes:
-      - "${COMPOSE_ROOT}/data/papermerge/config/:/config/:rw"
-      - "${COMPOSE_ROOT}/data/papermerge/data/:/data/:rw"
+      - "/mnt/data/papermerge/config/:/config/:rw"
+      - "/mnt/data/papermerge/data/:/data/:rw"
     ports:
       - "8000"
     restart: unless-stopped

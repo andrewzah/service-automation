@@ -10,7 +10,7 @@ services:
       TZ: 'America/New_York'
       SSH_PORT: 15222
     volumes:
-      - "${COMPOSE_ROOT}/data/gitea/:/data/:rw"
+      - "/mnt/data/gitea/:/data/:rw"
     ports:
       - "3000"
       - "15222"

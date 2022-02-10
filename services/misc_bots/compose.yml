@@ -11,8 +11,8 @@ services:
       BOT_DESIRED_KEYWORDS: 'scve003,scve005'
       BOT_UNDESIRED_KEYWORDS: 'asdlkajsd'
     env_file:
-      - "${COMPOSE_ROOT}/services/misc_bots/secret.env"
+      - "/mnt/data/services/misc_bots/secret.env"
     volumes:
-      - "${COMPOSE_ROOT}/data/hk_watcher/:/data/:rw"
+      - "/mnt/data/hk_watcher/:/data/:rw"
     restart: unless-stopped
     read_only: true

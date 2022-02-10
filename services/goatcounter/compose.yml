@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   goatcounter:
-    build: "${COMPOSE_ROOT}/services/goatcounter"
+    build: "/mnt/data/services/goatcounter"
     environment:
       GC_PORT: "3443"
       GC_LISTEN: "0.0.0.0:3443"
@@ -11,9 +11,9 @@ services:
       GC_ERRORS: "mailto:zah@andrewzah.com"
       GC_EMAIL_FROM: "goatcounter@zah.rocks"
     env_file:
-      - "${COMPOSE_ROOT}/services/goatcounter/secret.env"
+      - "/mnt/data/services/goatcounter/secret.env"
     volumes:
-      - "${COMPOSE_ROOT}/data/goatcounter:/data"
+      - "/mnt/data/goatcounter:/data"
     ports:
       - "3443:3443"
     restart: unless-stopped

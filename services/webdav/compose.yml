@@ -4,9 +4,9 @@ services:
   webdav:
     image: andrewzah/caddy-webdav:2.4.3-alpine3.13
     env_file:
-      - "${COMPOSE_ROOT}/services/webdav/secret.env"
+      - "/mnt/data/services/webdav/secret.env"
     volumes:
-      - "${COMPOSE_ROOT}/data/webdav/:/data/:rw"
+      - "/mnt/data/webdav/:/data/:rw"
     ports:
       - "6969"
     restart: unless-stopped

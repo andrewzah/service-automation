@@ -11,7 +11,7 @@ services:
     ports:
       - "8083"
     volumes:
-      - "${COMPOSE_ROOT}/data/calibre-web/config/:/config/"
+      - "/mnt/data/calibre-web/config/:/config/"
       - "/mnt/data/syncthing/literature/calibre/:/books/"
     restart: unless-stopped
     depends_on:

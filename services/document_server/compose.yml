@@ -8,8 +8,8 @@ services:
     ports:
         - "80"
     volumes:
-      - "${COMPOSE_ROOT}/data/onlyoffice/document_server/logs/:/var/log/onlyoffice/"
-      - "${COMPOSE_ROOT}/data/onlyoffice/document_server/data/:/var/www/onlyoffice/Data/"
+      - "/mnt/data/onlyoffice/document_server/logs/:/var/log/onlyoffice/"
+      - "/mnt/data/onlyoffice/document_server/data/:/var/www/onlyoffice/Data/"
     restart: unless-stopped
     depends_on:
       - traefik

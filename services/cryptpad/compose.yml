@@ -14,12 +14,12 @@ services:
       - eas
       - traefik
     volumes:
-      - "${COMPOSE_ROOT}/data/cryptpad/blob:/cryptpad/blob"
-      - "${COMPOSE_ROOT}/data/cryptpad/block:/cryptpad/block"
-      - "${COMPOSE_ROOT}/data/cryptpad/config:/cryptpad/config"
-      - "${COMPOSE_ROOT}/data/cryptpad/customize/:/cryptpad/customize/"
-      - "${COMPOSE_ROOT}/data/cryptpad/data/:/cryptpad/data/"
-      - "${COMPOSE_ROOT}/data/cryptpad/files/:/cryptpad/datastore/"
+      - "/mnt/data/cryptpad/blob:/cryptpad/blob"
+      - "/mnt/data/cryptpad/block:/cryptpad/block"
+      - "/mnt/data/cryptpad/config:/cryptpad/config"
+      - "/mnt/data/cryptpad/customize/:/cryptpad/customize/"
+      - "/mnt/data/cryptpad/data/:/cryptpad/data/"
+      - "/mnt/data/cryptpad/files/:/cryptpad/datastore/"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.cryptpad.rule=Host(`cryptpad.zah.rocks`)"

@@ -13,9 +13,9 @@ services:
       DB_DATABASE: 'firefly'
       DB_USERNAME: 'firefly'
     env_file:
-      - "${COMPOSE_ROOT}/services/firefly/secret.env"
+      - "/mnt/data/services/firefly/secret.env"
     volumes:
-      - "${COMPOSE_ROOT}/data/firefly:/var/www/html/storage/upload:rw"
+      - "/mnt/data/firefly:/var/www/html/storage/upload:rw"
     ports:
       - "8080"
     restart: unless-stopped

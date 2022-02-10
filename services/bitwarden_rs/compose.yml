@@ -13,7 +13,7 @@ services:
       - "80"
       - "3012"
     volumes:
-      - "${COMPOSE_ROOT}/data/bitwarden-rs:/data/"
+      - "/mnt/data/bitwarden-rs:/data/"
     read_only: true
     restart: unless-stopped
     depends_on:
