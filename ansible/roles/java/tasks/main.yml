@@ -1,13 +1,22 @@
 ---
 - name: Ensure packages are installed
-  become: yes
+  become: 'yes'
   ansible.builtin.apt:
     name: curl
     state: present
     update_cache: yes
   when: ansible_distribution == "Debian"
 
-- name: create download directory
+- name: Ensure man directory exists
+  become: 'yes'
+  file:
+    path: /usr/share/man/man1
+    state: directory
+    mode: 0755
+    recurse: true
+  when: ansible_distribution == "Debian"
+
+- name: ensure download directory exists
   file:
     state: directory
     mode: 'u=rwx,go=rx'
@@ -36,3 +45,44 @@
     timeout: 30
     mode: 'u=rw,go=r'
   when: not remote_JDK_file.stat.exists
+
+- name: check JDK archive layout
+  shell: |
+    set -o pipefail
+    tar --list --file {{ (java_download_dir + '/' + java_redis_filename) | quote }} | grep --quiet '^\.'
+  args:
+    warn: no
+  register: java_jdk_layout
+  failed_when: no
+  changed_when: no
+
+- name: ensure java install directory exists
+  become: yes
+  file:
+    state: directory
+    owner: root
+    group: root
+    mode: 'u=rwx,go=rx'
+    path: '{{ java_install_dir }}'
+
+- name: install JDK
+  become: yes
+  unarchive:
+    src: '{{ java_download_dir }}/{{ java_redis_filename }}'
+    extra_opts:
+      - "--strip-components={{ (java_jdk_layout.rc == 0) | ternary('2', '1') }}"
+    dest: '{{ java_install_dir }}'
+    creates: '{{ java_install_dir }}/bin/java'
+    copy: no
+    owner: root
+    group: root
+    mode: 'go-w'
+
+- name: export JAVA_HOME and add to PATH
+  become: yes
+  template:
+    src: java.sh.j2
+    dest: /etc/profile.d/java.sh
+    owner: root
+    group: root
+    mode: 'u=rw,go=r'

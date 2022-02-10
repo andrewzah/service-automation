@@ -3,4 +3,4 @@
 * https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html
 
 ## taken from
-* [ansible docker] (https://github.com/geerlingguy/ansible-role-docker)
+* [ansible docker](https://github.com/geerlingguy/ansible-role-docker)

@@ -1,15 +1,15 @@
 ---
-- hosts: all
-  become_method: su
-  roles:
-    - base
-
-- hosts: docker_services
-  become_method: su
-  roles:
-    - docker
-    - z_docker_services
-
+#- hosts: all
+#  become_method: su
+#  roles:
+#    - base
+#
+#- hosts: docker_services
+#  become_method: su
+#  roles:
+#    - docker
+#    - z_docker_services
+#
 - hosts: minecraft_test
   become_method: su
   roles:
