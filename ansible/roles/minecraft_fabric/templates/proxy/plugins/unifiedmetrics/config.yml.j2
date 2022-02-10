@@ -1,0 +1,16 @@
+server:
+  name: "proxy"
+
+metrics:
+  enabled: true
+  driver: "influx"
+
+  collectors:
+    systemGc: true
+    systemMemory: true
+    systemProcess: true
+    systemThread: true
+    server: true
+    world: true
+    tick: true
+    events: true

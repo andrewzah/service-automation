@@ -9,10 +9,10 @@
 #  roles:
 #    - docker
 #    - z_docker_services
-#
+
 - hosts: minecraft_test
   become_method: su
   roles:
     - java
-    #- minecraft
-    #- neptunemc
+    - minecraft_fabric
+    #- z_neptunemc

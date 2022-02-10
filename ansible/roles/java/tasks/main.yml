@@ -1,7 +1,7 @@
 ---
 - name: Ensure packages are installed
   become: 'yes'
-  ansible.builtin.apt:
+  apt:
     name: curl
     state: present
     update_cache: yes
@@ -72,7 +72,6 @@
     extra_opts:
       - "--strip-components={{ (java_jdk_layout.rc == 0) | ternary('2', '1') }}"
     dest: '{{ java_install_dir }}'
-    creates: '{{ java_install_dir }}/bin/java'
     copy: no
     owner: root
     group: root

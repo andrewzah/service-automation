@@ -1,0 +1,43 @@
+- name: ensure survival service dir exists
+  file:
+    state: 'directory'
+    mode: 'u=rwx,go=rx'
+    path: '{{ survival_dir }}'
+    recurse: true
+
+- name: check for fabric-installer jar on remote box
+  stat:
+    path: '{{ survival_dir }}/{{ fabric_jar }}'
+    checksum_algorithm: sha256
+  register: remote_velocity_jar
+  ignore_errors: yes
+
+- name: download fabric-installer jar
+  get_url:
+    url: '{{ fabric_url }}'
+    dest: '{{ survival_dir }}/{{ fabric_jar }}'
+    checksum: 'sha256:{{ fabric_sha256sum }}'
+    force: no
+    timeout: 30
+    mode: 'u=rw,go=r'
+  when: not remote_velocity_jar.stat.exists
+
+- name: download fabric & minecraft server jars
+  shell:
+    cmd: '/opt/openjdk/bin/java -jar {{ fabric_jar }} server -downloadMinecraft'
+    chdir: '{{ survival_dir }}'
+
+- name: install survival server systemd service
+  become: yes
+  template:
+    src: survival_server.service.j2
+    dest: /etc/systemd/system/survival_server.service
+    owner: root
+    group: root
+    mode: 'u=rw'
+
+- name: install survival EULA txt
+  template:
+    src: eula.txt.j2
+    dest: '{{ survival_dir }}/eula.txt'
+    mode: 'u=rw'

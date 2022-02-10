@@ -1,0 +1,10 @@
+output:
+  url: "{{ influx_url }}"
+  organization: "{{ influx_organization }}"
+  bucket: "{{ influx_bucket }}"
+  interval: 10
+authentication:
+  scheme: "TOKEN"
+  username: ""
+  password: ""
+  token: "{{ proxy_influx_token }}"

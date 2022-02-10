@@ -1,0 +1,35 @@
+---
+download_dir: "{{ x_ansible_download_dir | default(ansible_env.HOME + '/.ansible/tmp/downloads') }}"
+
+minecraft_dir: '/home/andrew/minecraft'
+proxy_dir: '{{ minecraft_dir }}/services/proxy'
+survival_dir: '{{ minecraft_dir }}/services/survival'
+
+fabric_version: '0.10.2'
+fabric_sha256sum: 'c639cbd6751102be33d8e64a12a882fc4ebead2bc3a71adf1b09bfe41bf1c67a'
+fabric_jar: 'fabric-installer-{{ fabric_version }}.jar'
+fabric_url: 'https://maven.fabricmc.net/net/fabricmc/fabric-installer/{{ fabric_version }}/{{ fabric_jar }}'
+
+velocity_version: '3.1.1'
+velocity_build: '98'
+velocity_sha256sum: 'f191a0c4b5ef72ef37684c6665733bcc391ba521fd28b436c82a0472bc0d2c70'
+velocity_jar: 'velocity-{{ velocity_version }}-{{ velocity_build }}.jar'
+velocity_url: 'https://papermc.io/api/v2/projects/velocity/versions/{{ velocity_version }}/builds/{{ velocity_build }}/downloads/{{ velocity_jar }}'
+
+survival_java_args: '-Xms12288M -Xmx12288M'
+creative_java_args: '-Xms1024M -Xmx1024M'
+velocity_java_args: '-Xms512M -Xmx512M -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:+UnlockExperimentalVMOptions -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch'
+
+survival_mod_urls: []
+velocity_plugins:
+  unifiedmetrics:
+    sha256sum: 'ebc9b512282b20f682c1040144236f9eb7011c8e34bef4b9e8c64790953802fe'
+    file: 'unifiedmetrics-platform-velocity-0.3.5.jar'
+    url: 'https://github.com/Cubxity/UnifiedMetrics/releases/download/v0.3.5/unifiedmetrics-platform-velocity-0.3.5.jar'
+
+
+mcrcon_version: '0.7.2'
+mcrcon_sha256sum: 'c1883c3f6610c751c935f4faefbf2c52f704a0f71013be2928972eef5918cb68'
+mcrcon_tarfile: 'mcrcon-{{ mcrcon_version }}-linux-x86-64.tar.gz'
+mcrcon_url: 'https://github.com/Tiiffi/mcrcon/releases/download/v{{ mcrcon_version }}/{{ mcrcon_tarfile }}'
+mcrcon_download_dir: "{{ x_ansible_download_dir | default(ansible_env.HOME + '/.ansible/tmp/downloads') }}"

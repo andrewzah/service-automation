@@ -1,0 +1,66 @@
+---
+- name: ensure proxy/plugins dir exists
+  file:
+    state: 'directory'
+    mode: 'u=rwx,go=rx'
+    path: '{{ proxy_dir }}/plugins'
+    recurse: true
+
+- name: check for velocity jar on remote box
+  stat:
+    path: '{{ proxy_dir }}/{{ velocity_jar }}'
+    checksum_algorithm: sha256
+  register: remote_velocity_jar
+  ignore_errors: yes
+
+- name: download velocity jar
+  get_url:
+    url: '{{ velocity_url }}'
+    dest: '{{ proxy_dir }}/{{ velocity_jar }}'
+    checksum: 'sha256:{{ velocity_sha256sum }}'
+    force: no
+    timeout: 30
+    mode: 'u=rw,go=r'
+  when: not remote_velocity_jar.stat.exists
+
+- name: download velocity plugins
+  get_url:
+    url: '{{ item.value.url }}'
+    dest: '{{ proxy_dir }}/plugins/{{ item.value.file }}'
+    checksum: 'sha256:{{ item.value.sha256sum }}'
+  loop: "{{ lookup('dict', velocity_plugins, wantlist=True) }}"
+  when: velocity_plugins.keys() | length > 0
+
+- name: ensure unifiedmetrics dirs exist
+  file:
+    state: 'directory'
+    mode: 'u=rwx,go=rx'
+    path: '{{ proxy_dir }}/plugins/unifiedmetrics/driver'
+    recurse: true
+
+- name: add velocity.toml
+  template:
+    src: ./proxy/velocity.toml.j2
+    dest: '{{ proxy_dir }}/velocity.toml'
+    mode: 'u=rw,go=r'
+
+- name: add config.yml for unifiedmetrics
+  template:
+    src: ./proxy/plugins/unifiedmetrics/config.yml.j2
+    dest: '{{ proxy_dir }}/plugins/unifiedmetrics/config.yml'
+    mode: 'u=rw,go=r'
+
+- name: add influx.yml driver for unifiedmetrics
+  template:
+    src: ./proxy/plugins/unifiedmetrics/driver/influx.yml.j2
+    dest: '{{ proxy_dir }}/plugins/unifiedmetrics/driver/influx.yml'
+    mode: 'u=rw'
+
+- name: install velocity systemd service
+  become: yes
+  template:
+    src: velocity.service.j2
+    dest: /etc/systemd/system/velocity.service
+    owner: root
+    group: root
+    mode: 'u=rw,go=r'

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+{{ ansible_managed | comment }}
+
+if [ -n "$EXTRA_PROFILE" ]; then
+  echo "Noticed that EXTRA_PROFILE=$EXTRA_PROFILE is set.."
+
+  if [ -f "$HOME/.extra_configs/$EXTRA_PROFILE" ]; then
+    source "$HOME/.extra_configs/$EXTRA_PROFILE"
+  else
+    echo "It doesn't look like $HOME/.extra_configs/$EXTRA_PROFILE exists."
+  fi
+fi

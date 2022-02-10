@@ -1,0 +1,33 @@
+---
+- name: ensure ~/minecraft doesn't exist
+  file:
+    state: 'absent'
+    path: '{{ minecraft_dir }}/'
+
+- name: create ~/minecraft/services
+  file:
+    state: 'directory'
+    mode: 'u=rwx,go=rx'
+    path: '{{ minecraft_dir }}/services'
+    recurse: true
+
+- include_tasks: setup_proxy_service.yml
+- include_tasks: setup_survival_server.yml
+#- include_tasks: setup_creative_server
+
+- include_tasks: setup_mcrcon.yml
+
+- name: reload systemctl
+  become: yes
+  systemd:
+    daemon_reload: yes
+
+- name: start minecraft services
+  become: yes
+  service:
+    name: '{{ item }}'
+    state: started
+  with_items:
+    - velocity.service
+    - survival_server.service
+    #- creative_server.service

@@ -1,8 +1,11 @@
-run:
-  ansible-playbook playbook.yml
-
 runv:
   ansible-playbook playbook.yml --verbose
+
+runv5:
+  ansible-playbook playbook.yml -vvvvv
+
+run:
+  ansible-playbook playbook.yml
 
 lint:
   ansible-lint --project-dir .

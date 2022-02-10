@@ -1,0 +1,30 @@
+velocity_motd: 'Lab Shenanigans'
+velocity_port: 25565
+velocity_query_port: 25549
+velocity_metrics_id: '{{ vault_velocity_metrics_id }}'
+
+survival_server_port: 25450
+survival_query_port: 25550
+survival_rcon_port: 25750
+survival_rcon_pass: '{{ vault_survival_rcon_pass }}'
+
+creative_server_port: 25451
+creative_query_port: 25551
+creative_rcon_port: 25751
+creative_rcon_pass: '{{ vault_creative_rcon_pass }}'
+
+influx_url: 'https://influxdb.metrics.andrewzah.com' 
+influx_bucket: 'unifiedmetrics-neptunemc'
+influx_organization: 'andrewzah'
+
+proxy_influx_token: '{{ vault_proxy_influx_token }}'
+
+velocity_forwarding_secret: '{{ vault_velocity_forwarding_secret }}'
+
+ssh_keys:
+  - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF2FkyoyulD5KkbfsHJiVYPpOGYFvNoKuiQ6BUh6GvMW zah@andrewzah.com <xps13>'
+  - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIINuimJJGJ5s0souSbF6sZ6YsWelOFkL+cQSAmM/DXtD Andrew Zah <zah@andrewzah.com> (hxs)'
+  - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4QQicORF5poerSC2Arj4In/qWhYqPxzEoLg+BH5W0D zah@andrewzah.com <m3dd>'
+  - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMCmcoiVf+T7DKdkyUQof/Q/ADuFFy/LcCc5vbI0QEYZ zah@andrewzah.com <bots-media>'
+  - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDCQjYqWveL/7d8CYGjYApF7kqryhfXZnKRW0vzWParyUKZNbYQ+sCwsTL0oWtjDFx6OCQgngrGdjrDcfHUP/pMYC/pu0MeWgtMEXFKZGscYrrLg78FgOU1BgVbCheZkvQtDGtVA3CdGrDjf6SUkAu0QEItp3zm1t0i1L3JOADAIXSJ9eR+IYWmbLuvqHsorO3Uvb+mhnfotiTaUc5gCXhMb7yTiGu46rvd7aW/F+Bxxz5nx8bItEwqZx7/CCEc57Wm/alSq5MHm3YXTWqE5piDN+/EHbQ4x075dXSuVaGMdBCSf7WtrB/NHcHR4bofzBttu/t4ZProSEeLNc44FLiJE0qTk2p21WtreEKU8HHkzyXxwP/5PQeQFt1StvpeSRKe6Gl2q/XgxVXF77NK9ZhQU4eOqxnLhFGmRWaa5ljiL2HkzOSiYY7osImfw+kPxh0r38Rb/GifmurWRScUGvNT8qmxhDIuzTjpXlBwuMMIExxA5AT8d/0GCknaEfeO+Lc= james@basalt'
+  - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDVri9+Hd/XEpNzFyf2hyinC9JlkgRRHo21RUlkLuG/QtkECMbzhYE+9eHvhoSjipHgAPL9SSzfmBg9ulTFxZ+NnF/T9IIhY5bdKiWVlDP9l1LnmeXxW13gq322PVgd2JmfLWO3yg1akXIgfb790qg+HuaP4LgFeH3ql22yky9qobkspSM5RC16gl6cTMChaBhNce63kxxSNp3Pm08H3kZqYQ54yGxo3FMqzYy1Py7HRlg9yr/yYsf2DYrnnfc4DufR2HgN6DTvpX0lY7jP+vX+L8/AAPrT7PO+IvIbyVkzKs7P/1/dMq6J8RTNw/pIudxdz+RMx6OaMM773FszjduUC2INBN+RimKcJV7WbceCgdUHfzoZ2UO8Fq63mY49gv6AvxUlQi3Yc7o+588VKFogzjrjD+h7P0VjOZe2NJq7N9ZT0ak3dK0sVjWuRT3JiCpeA+5LF9VsWEKdCKHj3vc2InJ33oq1OHG5Xd5CRj6kfz9j2fBOSpHNpKLPZNDKizjmVAZamenANpO7EGF+b0Gfi2eKTNOvaz/kOPUPz87sz/BBEwP98hmovPXfhlO2ywmybU0Ow1r5Htwat1DgpCmd7KXUbIeUN57GD9k+dEXNf5U/zKxgtIXvBMoN9jzJD8zachzGxqwN9caJw1ota7Y91S/UHTnssbyvm/abR5L8TQ== cdaniels@fastmail.com'
