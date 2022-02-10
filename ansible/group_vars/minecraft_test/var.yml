@@ -7,11 +7,20 @@ survival_server_port: 25450
 survival_query_port: 25550
 survival_rcon_port: 25750
 survival_rcon_pass: '{{ vault_survival_rcon_pass }}'
+survival_bluemap_port: 8100
 
 creative_server_port: 25451
 creative_query_port: 25551
 creative_rcon_port: 25751
 creative_rcon_pass: '{{ vault_creative_rcon_pass }}'
+
+worlds:
+  survival:
+    src: '/mnt/data/current/world-survival-old'
+    dest: '{{ survival_dir }}'
+  creative:
+    src: '/mnt/data/current/world-creative'
+    dest: '{{ creative_dir }}'
 
 influx_url: 'https://influxdb.metrics.andrewzah.com' 
 influx_bucket: 'unifiedmetrics-neptunemc'
@@ -21,4 +30,5 @@ proxy_influx_token: '{{ vault_proxy_influx_token }}'
 
 velocity_forwarding_secret: '{{ vault_velocity_forwarding_secret }}'
 
+healthchecks_backup_url: '{{ vault_healthchecks_backup_url }}'
 ssh_keys: '{{ vault_ssh_keys }}'

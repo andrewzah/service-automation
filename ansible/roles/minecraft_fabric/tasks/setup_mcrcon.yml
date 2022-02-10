@@ -9,8 +9,8 @@
 - name: assert existing mcrcon matches checksum
   assert:
     that:
-      - remote_JDK_file.stat.checksum == jdk_checksum
-    msg: 'Checksum failed: {{ remote_JDK_file.stat.checksum }} != {{ jdk_checksum }}'
+      - remote_mcrcon_tarfile.stat.checksum == mcrcon_sha256sum
+    msg: 'Checksum failed: {{ remote_mcrcon_tarfile.stat.checksum }} != {{ mcrcon_sha256sum }}'
   when: remote_mcrcon_tarfile.stat.exists
 
 - name: download mcrcon

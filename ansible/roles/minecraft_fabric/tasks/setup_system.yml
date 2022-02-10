@@ -1,4 +1,13 @@
 ---
+- name: ensure packages are installed
+  become: yes
+  apt:
+    name:
+      - rsync
+    state: present
+    update_cache: yes
+  when: ansible_distribution == "Debian"
+
 - name: add ssh keys to minecraft user
   authorized_key:
     user: minecraft
@@ -30,3 +39,15 @@
     src: james.sh.j2
     dest: '~/.extra_configs/james'
     mode: 'u=rw'
+
+- name: add backup.sh
+  template:
+    src: backup.sh.j2
+    dest: '{{ minecraft_dir }}/backup.sh'
+    mode: 'u=rw'
+
+- name: add backup crontab
+  cron:
+    name: "back up survival/world"
+    minute: "*/30"
+    job: "bash {{ minecraft_dir }}/backup.sh >> {{ minecraft_dir }}/backup/logs/backup.log 2>&1"

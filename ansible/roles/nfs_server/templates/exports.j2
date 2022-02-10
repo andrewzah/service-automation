@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+
+/mnt/nfs 192.168.1.10(rw,sync,fsid=0,no_all_squash,crossmnt,root_squash)
+/mnt/nfs/apps 192.168.1.10(rw,sync,no_all_squash,crossmnt,root_squash)
+/mnt/nfs/data 192.168.1.10(rw,sync,no_all_squash,crossmnt,root_squash)
+/mnt/nfs/media 192.168.1.10(rw,sync,no_all_squash,crossmnt,root_squash)
+
+/mnt/nfs/media/music 192.168.1.54(rw,sync,fsid=0,no_all_squash,crossmnt,root_squash)
+/mnt/nfs 192.168.1.5(rw,sync,fsid=0,no_all_squash,crossmnt,root_squash)
+
+/mnt/nfs/data/backups/neptunemc 192.168.1.16(rw,sync,no_all_squash,crossmnt,root_squash)
+
+# testing
+/mnt/nfs/data/backups/neptunemc 192.168.1.6(rw,sync,no_all_squash,crossmnt,root_squash)

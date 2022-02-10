@@ -4,6 +4,7 @@ download_dir: "{{ x_ansible_download_dir | default(ansible_env.HOME + '/.ansible
 minecraft_dir: '/home/minecraft/minecraft'
 proxy_dir: '{{ minecraft_dir }}/services/proxy'
 survival_dir: '{{ minecraft_dir }}/services/survival'
+creative_dir: '{{ minecraft_dir }}/services/creative'
 
 fabric_version: '0.10.2'
 fabric_sha256sum: 'c639cbd6751102be33d8e64a12a882fc4ebead2bc3a71adf1b09bfe41bf1c67a'

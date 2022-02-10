@@ -2,13 +2,13 @@
 - include_tasks: setup-debian.yml
   when: ansible_os_family == 'Debian'
 
-- name: Install Docker
+- name: install Docker
   package:
     name: "{{ docker_package }}"
     state: present
   notify: restart docker
 
-- name: Ensure Docker is started and enabled at boot
+- name: ensure Docker is started and enabled at boot
   service:
     name: docker
     state: started
@@ -30,7 +30,7 @@
     and docker_compose_version not in docker_compose_current_version.stdout
 
 - name: install docker-compose
-  become: yes
+  become: 'yes'
   get_url:
     url: "{{ docker_compose_url }}"
     dest: "{{ docker_compose_path }}"
@@ -40,6 +40,7 @@
     or docker_compose_version not in docker_compose_current_version.stdout
 
 - name: Ensure docker users are added to the docker group
+  become: 'yes'
   user:
     name: "{{ item }}"
     groups: docker

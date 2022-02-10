@@ -1,17 +1,24 @@
 ---
 - include_tasks: setup_system.yml
+- include_tasks: setup_nfs.yml
 
-- name: ensure ~/minecraft doesn't exist
-  file:
-    state: 'absent'
-    path: '{{ minecraft_dir }}/'
-
-- name: create ~/minecraft/services
+- name: ensures minecraft service dirs exist
   file:
     state: 'directory'
     mode: 'u=rwx,go=rx'
-    path: '{{ minecraft_dir }}/services'
+    path: '{{ item.value.dest }}'
     recurse: true
+  loop: "{{ lookup('dict', worlds) }}"
+
+- name: rsync worlds
+  synchronize:
+    archive: 'yes'
+    compress: 'yes'
+    recursive: 'yes'
+    src: '{{ item.value.src }}'
+    dest: '{{ item.value.dest }}'
+  loop: "{{ lookup('dict', worlds) }}"
+  delegate_to: "{{ inventory_hostname }}"
 
 - include_tasks: setup_proxy_service.yml
 - include_tasks: setup_survival_server.yml

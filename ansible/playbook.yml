@@ -13,5 +13,5 @@
 - hosts: minecraft_test
   become_method: su
   roles:
-    - java
+    #- java
     - minecraft_fabric

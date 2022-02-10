@@ -1,0 +1,30 @@
+{
+  "ops": {
+    "level": 100,
+    "overrides": {
+      "permission_level": 4,
+      "command_feedback": true,
+      "commands": {
+        ".*": "allow"
+      }
+    }
+  },
+  "everyone": {
+    "overrides": {
+      "commands": {
+        "counter": "allow",
+        "distance": "allow",
+        "dl (inspect)": "allow",
+        "gamemode (spectator|survival)": "allow",
+        "help": "allow",
+        "list": "allow",
+        "log": "allow",
+        "ping": "allow",
+        "player": "allow",
+        "seed": "allow",
+        "server": "allow",
+        ".*": "deny"
+      }
+    }
+  }
+}

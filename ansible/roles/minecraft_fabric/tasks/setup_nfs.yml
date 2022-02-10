@@ -1,0 +1,40 @@
+---
+- name: ensure media group exists
+  become: yes
+  group:
+    name: media
+    state: present
+
+- name: ensure minecraft is part of media group
+  become: yes
+  user:
+    append: yes
+    name: minecraft
+    groups:
+      - minecraft
+
+- name: ensure /mnt/data exists
+  become: yes
+  file:
+    state: 'directory'
+    owner: 'root'
+    group: 'media'
+    mode: 'ug=rwx'
+    path: '~/.extra_configs'
+
+- name: mount NFS share
+  tags: nfs
+  become: true
+  mount:
+    fstype: 'nfs4'
+    src: '192.168.1.12:/'
+    path: '/mnt/data'
+    opts: 'defaults'
+    state: 'mounted'
+    boot: 'yes'
+
+- name: symlink backup dir
+  file:
+    src: '/mnt/data'
+    dest: '~/minecraft/backup'
+    state: 'link'
