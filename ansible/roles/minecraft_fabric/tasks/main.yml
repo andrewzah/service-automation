@@ -1,4 +1,6 @@
 ---
+- include_tasks: setup_system.yml
+
 - name: ensure ~/minecraft doesn't exist
   file:
     state: 'absent'
@@ -14,7 +16,6 @@
 - include_tasks: setup_proxy_service.yml
 - include_tasks: setup_survival_server.yml
 #- include_tasks: setup_creative_server
-
 - include_tasks: setup_mcrcon.yml
 
 - name: reload systemctl

@@ -1,2 +1,3 @@
 ---
+data_path: '~/docker/data'
 github_repo_url: 'https://github.com/andrewzah/service-automation'

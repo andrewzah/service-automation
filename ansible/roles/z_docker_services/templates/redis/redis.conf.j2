@@ -1,0 +1,9 @@
+appendonly no
+databases 3
+loglevel verbose
+logfile ""
+maxmemory-policy allkeys-lru
+tcp-backlog 256
+save ""
+
+user sauertracker on +@all ~* >{{ redis_sauertracker_pass }}

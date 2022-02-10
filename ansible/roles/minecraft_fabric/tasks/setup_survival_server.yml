@@ -30,10 +30,16 @@
 - name: install survival server systemd service
   become: yes
   template:
-    src: survival_server.service.j2
+    src: ./systemd/survival_server.service.j2
     dest: /etc/systemd/system/survival_server.service
     owner: root
     group: root
+    mode: 'u=rw'
+
+- name: install server.properties
+  template:
+    src: ./survival/server.properties.j2
+    dest: '{{ survival_dir }}/server.properties'
     mode: 'u=rw'
 
 - name: install survival EULA txt

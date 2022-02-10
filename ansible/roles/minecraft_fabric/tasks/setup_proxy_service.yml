@@ -59,7 +59,7 @@
 - name: install velocity systemd service
   become: yes
   template:
-    src: velocity.service.j2
+    src: ./systemd/velocity.service.j2
     dest: /etc/systemd/system/velocity.service
     owner: root
     group: root

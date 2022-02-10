@@ -1,5 +1,5 @@
 ---
-- name: Ensure packages are installed
+- name: ensure packages are installed
   become: 'yes'
   ansible.builtin.apt:
     name:
@@ -7,9 +7,16 @@
     state: 'present'
     update_cache: 'yes'
 
-- name: Clone the service-automation repo
+- name: clone the service-automation repo
   git:
     dest: '~/docker'
     clone: 'yes'
     update: 'yes'
     repo: "{{ github_repo_url }}"
+
+- name: generate docker-compose.yml
+  shell:
+    chdir: '~/docker'
+    cmd: 'find ./services/ -name "*.compose.yml" | xargs cat >> docker-compose.yml'
+
+# todo: mount data dir from nfs

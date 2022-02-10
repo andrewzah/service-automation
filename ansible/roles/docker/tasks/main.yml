@@ -14,14 +14,14 @@
     state: started
     enabled: true
 
-- name: Check current docker-compose version.
+- name: check current docker-compose version
   command: "{{ docker_compose_path }} --version"
   register: docker_compose_current_version
   check_mode: false
   changed_when: false
   failed_when: false
 
-- name: Delete existing docker-compose version if it's different.
+- name: delete existing docker-compose version if it's different
   file:
     path: "{{ docker_compose_path }}"
     state: absent
@@ -29,7 +29,8 @@
     docker_compose_current_version.stdout is defined
     and docker_compose_version not in docker_compose_current_version.stdout
 
-- name: Install docker-compose
+- name: install docker-compose
+  become: yes
   get_url:
     url: "{{ docker_compose_url }}"
     dest: "{{ docker_compose_path }}"

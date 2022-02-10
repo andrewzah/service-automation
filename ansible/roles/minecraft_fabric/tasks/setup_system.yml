@@ -1,0 +1,32 @@
+---
+- name: add ssh keys to minecraft user
+  authorized_key:
+    user: minecraft
+    state: present
+    key: '{{ item }}'
+  with_items: '{{ ssh_keys }}'
+
+- name: add extra.sh for james
+  become: yes
+  template:
+    src: extra.sh.j2
+    dest: '/etc/profile.d/extra.sh'
+    mode: 'u=rwx,go=r'
+
+- name: ensure ~/.extra_configs exists
+  file:
+    state: 'directory'
+    mode: 'u=rwx'
+    path: '~/.extra_configs'
+
+- name: add andrew config
+  template:
+    src: andrew.sh.j2
+    dest: '~/.extra_configs/andrew'
+    mode: 'u=rw'
+
+- name: add james config
+  template:
+    src: james.sh.j2
+    dest: '~/.extra_configs/james'
+    mode: 'u=rw'

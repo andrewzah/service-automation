@@ -1,7 +1,7 @@
 ---
 download_dir: "{{ x_ansible_download_dir | default(ansible_env.HOME + '/.ansible/tmp/downloads') }}"
 
-minecraft_dir: '/home/andrew/minecraft'
+minecraft_dir: '/home/minecraft/minecraft'
 proxy_dir: '{{ minecraft_dir }}/services/proxy'
 survival_dir: '{{ minecraft_dir }}/services/survival'
 

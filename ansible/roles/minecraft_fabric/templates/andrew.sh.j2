@@ -1,0 +1,12 @@
+{{ ansible_managed | comment }}
+
+export EDITOR='vim'
+alias v='vim'
+
+if command -v exa &>/dev/null; then
+  alias ls="exa"
+  alias ll='exa -la'
+else
+  alias ls='ls --color=auto'
+  alias ll='ls -la'
+fi
