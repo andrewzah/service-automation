@@ -4,10 +4,10 @@
 #  roles:
 #    - base
 
-- hosts: telegraf
-  become_method: su
-  roles:
-    - telegraf
+#- hosts: telegraf
+#  become_method: su
+#  roles:
+#    - telegraf
 
 #- hosts: docker_services
 #  become_method: su
@@ -15,8 +15,8 @@
 #    - docker
 #    - z_docker_services
 
-#- hosts: minecraft_test
-#  become_method: su
-#  roles:
-#    #- java
-#    - minecraft_fabric
+- hosts: minecraft_test
+  become_method: su
+  roles:
+    #- java
+    - minecraft_fabric

@@ -1,3 +1,13 @@
+## setup
+```
+cd ./ansible
+python3 -m venv .venv
+source ./.venv/bin/activate
+
+pip install ansible docker
+ansible-galaxy collection install amazon.aws
+```
+
 ## further reading
 * https://docs.ansible.com/ansible/latest/collections/ansible/builtin/file_module.html
 * https://docs.ansible.com/ansible/latest/collections/community/docker/docker_compose_module.html

@@ -17,7 +17,8 @@ velocity_sha256sum: 'f191a0c4b5ef72ef37684c6665733bcc391ba521fd28b436c82a0472bc0
 velocity_jar: 'velocity-{{ velocity_version }}-{{ velocity_build }}.jar'
 velocity_url: 'https://papermc.io/api/v2/projects/velocity/versions/{{ velocity_version }}/builds/{{ velocity_build }}/downloads/{{ velocity_jar }}'
 
-survival_java_args: '-Xms12288M -Xmx12288M'
+#survival_java_args: '-Xms12288M -Xmx12288M'
+survival_java_args: '-Xms409M -Xmx4096M'
 creative_java_args: '-Xms1024M -Xmx1024M'
 velocity_java_args: '-Xms512M -Xmx512M -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:+UnlockExperimentalVMOptions -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch'
 

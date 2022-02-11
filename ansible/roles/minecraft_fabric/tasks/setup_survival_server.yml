@@ -27,23 +27,70 @@
     cmd: '/opt/openjdk/bin/java -jar {{ fabric_jar }} server -downloadMinecraft'
     chdir: '{{ survival_dir }}'
 
+- name: ensure pip3 is installed
+  become: 'yes'
+  apt:
+    name:
+      - python3-pip
+    state: present
+    update_cache: yes
+
+- name: ensure boto and boto3 modules are installed
+  pip:
+    name: '{{ item }}'
+    state: 'present'
+  with_items:
+    - boto3
+    - botocore
+
+- name: check state of survival_mods
+  stat:
+    path: '{{ survival_dir }}/mods/{{ item }}'
+    checksum_algorithm: 'sha256'
+  register: 'remote_survival_mods'
+  with_items: '{{ survival_mods }}'
+  ignore_errors: 'yes'
+
+- name: download survival mods from s3
+  aws_s3:
+    bucket: 'andrewzah.com'
+    object: '/files/minecraft/mods/{{ survival_version }}/{{ item }}'
+    dest: '{{ survival_dir }}/mods/{{ item }}'
+    mode: 'get'
+    aws_access_key: '{{ aws_access_key }}'
+    aws_secret_key: '{{ aws_secret_access_key }}'
+    region: '{{ aws_region }}'
+  with_items: '{{ remote_survival_mods.results | rejectattr("stat.exists") | map(attribute="item") | list }}'
+
 - name: install survival server systemd service
   become: yes
   template:
-    src: ./systemd/survival_server.service.j2
-    dest: /etc/systemd/system/survival_server.service
-    owner: root
-    group: root
+    src: './systemd/survival_server.service.j2'
+    dest: '/etc/systemd/system/survival_server.service'
+    owner: 'root'
+    group: 'root'
     mode: 'u=rw'
 
 - name: install server.properties
   template:
-    src: ./survival/server.properties.j2
+    src: './survival/server.properties.j2'
     dest: '{{ survival_dir }}/server.properties'
     mode: 'u=rw'
 
 - name: install survival EULA txt
   template:
-    src: eula.txt.j2
+    src: 'eula.txt.j2'
     dest: '{{ survival_dir }}/eula.txt'
+    mode: 'u=rw'
+
+- name: install ops.json
+  template:
+    src: 'survival/ops.json'
+    dest: '{{ survival_dir }}/ops.json'
+    mode: 'u=rw'
+
+- name: install whitelist.json
+  template:
+    src: 'survival/whitelist.json'
+    dest: '{{ survival_dir }}/whitelist.json'
     mode: 'u=rw'
