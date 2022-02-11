@@ -1,0 +1,1 @@
+influxdb_url: '{{ vault_influxdb_url }}'

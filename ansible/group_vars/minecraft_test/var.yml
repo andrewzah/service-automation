@@ -14,6 +14,11 @@ creative_query_port: 25551
 creative_rcon_port: 25751
 creative_rcon_pass: '{{ vault_creative_rcon_pass }}'
 
+proxy_influx_url: '{{ vault_proxy_influx_url }}'
+proxy_influx_bucket: '{{ vault_proxy_influx_bucket }}'
+proxy_influx_organization: '{{ vault_proxy_influx_organization }}'
+proxy_influx_token: '{{ vault_proxy_influx_token }}'
+
 worlds:
   survival:
     src: '/mnt/data/current/world-survival-old'
@@ -21,12 +26,6 @@ worlds:
   creative:
     src: '/mnt/data/current/world-creative'
     dest: '{{ creative_dir }}'
-
-influx_url: 'https://influxdb.metrics.andrewzah.com' 
-influx_bucket: 'unifiedmetrics-neptunemc'
-influx_organization: 'andrewzah'
-
-proxy_influx_token: '{{ vault_proxy_influx_token }}'
 
 velocity_forwarding_secret: '{{ vault_velocity_forwarding_secret }}'
 

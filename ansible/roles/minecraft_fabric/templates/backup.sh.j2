@@ -21,7 +21,7 @@ BACKUP_TARGET="/home/minecraft/minecraft/services/survival/world"
 MAX_BACKUPS=100
 MAX_PLAYERS=3
 PLAYERS_ONLINE="$(mcrcon -H 127.0.0.1 -P {{ survival_rcon_port }} -p {{ survival_rcon_pass }} list | cut -d' ' -f 3)"
-MCRCON_ARGS="-H 127.0.0.1 -P {{ survival_rcon_port }} -p {{ survival_rcon_pass }}"
+MCRCON_ARGS="-H 127.0.0.1 -P {{ survival_rcon_port }} -p {{ survival_rcon_pass }} -password"
 
 # start in script dir
 cd "$(dirname "$0")"
@@ -32,12 +32,12 @@ mkdir -p "$BACKUP_DIR"
 
 # exit if there are too many players
 if [ "$PLAYERS_ONLINE" -ge "$MAX_PLAYERS" ] ; then
-  mcrcon "$MCRCON_ARGS" "server backup skipped: ${PLAYERS_ONLINE}/${MAX_PLAYERS} players on"
+  mcrcon $MCRCON_ARGS "server backup skipped: ${PLAYERS_ONLINE}/${MAX_PLAYERS} players on"
   printf 'timestamp=%s msg="%s"\n' "$(timestamp)" "too many players online, skipping backup!"
   exit 0
 fi
 
-mcrcon "$MCRCON_ARGS" "say server is backing up in 10 seconds... "
+mcrcon $MCRCON_ARGS "say server is backing up in 10 seconds... "
 sleep 10
 
 # backup world folders directly to current

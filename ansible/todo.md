@@ -1,6 +1,7 @@
-- [ ] monitoring: telegraf / influx setup
+- [x] monitoring: telegraf / influx setup
+  - [ ] customize-per machine
+  - [ ] nfs
 - [ ] minecraft
-  - [ ] `guest` user with ssh access
   - [ ] server pictures
   - [ ] cache mod/plugin downloads and check shasums
   - [ ] cache fabric.jar/server.jar downloads

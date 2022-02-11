@@ -1,0 +1,4 @@
+influxdb_token: '{{ vault_influxdb_token }}'
+influxdb_organization: '{{ vault_influxdb_organization }}'
+influxdb_bucket: '{{ vault_influxdb_bucket }}'
+influxdb_url: '{{ vault_influxdb_url }}'
