@@ -1,10 +1,9 @@
 version: '3.7'
 
 services:
-  bitwarden:
-    # 02-08-2021
-    #image: bitwardenrs/server:1.19.0-alpine
-    image: vaultwarden/server:1.23.0-alpine
+  vaultwarden:
+    # 2022-09-25
+    image: vaultwarden/server:1.25.2-alpine@sha256:7011d4216a00fcd79785b8b31d61b897e05d959aa37681323dd9c0155655bbbc
     environment:
       WEBSOCKET_ENABLED: 'true'
       SIGNUPS_ALLOWED: 'false'
@@ -13,8 +12,7 @@ services:
       - "80"
       - "3012"
     volumes:
-      - "/mnt/data/bitwarden-rs:/data/"
-    read_only: true
+      - "./data/bitwarden-rs/:/data/:rw"
     restart: unless-stopped
     depends_on:
       - traefik

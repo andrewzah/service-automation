@@ -4,19 +4,64 @@
   ansible.builtin.apt:
     name:
       - 'git'
+      - 'python3'
+      - 'python3-pip'
     state: 'present'
     update_cache: 'yes'
 
-- name: clone the service-automation repo
-  git:
-    dest: '~/docker'
-    clone: 'yes'
-    update: 'yes'
-    repo: "{{ github_repo_url }}"
+- name: install python packages for managing docker
+  ansible.builtin.pip:
+    name:
+      - 'pyyaml'
+      - 'docker'
+      - 'docker-compose'
+
+#- name: clone the service-automation repo
+#  git:
+#    dest: '~/docker'
+#    clone: 'yes'
+#    update: 'yes'
+#    repo: "{{ github_repo_url }}"
+
+- name: ensure services/ is absent
+  ansible.builtin.file:
+    path: '~/docker/services'
+    state: 'absent'
+
+- name: copy local services/
+  ansible.builtin.copy:
+    src: ../services/
+    dest: '~/docker/services/'
+    owner: ansible
+    group: ansible
+    mode: '0644'
+
+- name: ensure docker-compose.yml is absent
+  ansible.builtin.file:
+    path: '~/docker/docker-compose.yml'
+    state: 'absent'
 
 - name: generate docker-compose.yml
   shell:
     chdir: '~/docker'
-    cmd: 'find ./services/ -name "*.compose.yml" | xargs cat >> docker-compose.yml'
+    cmd: 'find ./services/ -name "*compose.yml" | xargs cat >> docker-compose.yml'
+
+- name: secret.env template
+  ansible.builtin.template:
+    src: secret.env.j2
+    dest: '~/docker/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
+- name: Run `docker-compose up`
+  community.docker.docker_compose:
+    project_src: '~/docker'
+    remove_orphans: 'yes'
+    state: 'present'
+    services:
+      - 'postgres'
+      - 'traefik'
+      - 'vaultwarden'
 
 # todo: mount data dir from nfs

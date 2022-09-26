@@ -13,13 +13,6 @@
     [http.routers.bluemap.tls]
       certResolver = "myresolver"
 
-  [http.routers.deltalogger]
-    entrypoints = [ "websecure" ]
-    rule = "Host(`deltalogger.fabric.genessee.zah.rocks`)"
-    service = "deltalogger"
-    [http.routers.deltalogger.tls]
-      certResolver = "myresolver"
-
   [http.routers.jellyfin]
     entrypoints = [ "websecure" ]
     rule = "Host(`flix.zah.rocks`)"
@@ -34,34 +27,6 @@
     [http.routers.syncthing.tls]
       certResolver = "myresolver"
 
-  [http.routers.zulip]
-    entrypoints = [ "websecure" ]
-    rule = "Host(`zulip.zah.rocks`)"
-    service = "zulip"
-    [http.routers.zulip.tls]
-      certResolver = "myresolver"
-
-  [http.routers.auth-zulip]
-    entrypoints = [ "websecure" ]
-    rule = "Host(`auth.zulip.zah.rocks`)"
-    service = "auth-zulip"
-    [http.routers.auth-zulip.tls]
-      certResolver = "myresolver"
-
-  [http.routers.lab-zulip]
-    entrypoints = [ "websecure" ]
-    rule = "Host(`lab.zulip.zah.rocks`)"
-    service = "lab-zulip"
-    [http.routers.lab-zulip.tls]
-      certResolver = "myresolver"
-
-  [http.routers.ossys-zulip]
-    entrypoints = [ "websecure" ]
-    rule = "Host(`ossys.zulip.zah.rocks`)"
-    service = "ossys-zulip"
-    [http.routers.ossys-zulip.tls]
-      certResolver = "myresolver"
-
 [http.services]
   [http.services.ben-website.loadBalancer]
     [[http.services.ben-website.loadBalancer.servers]]
@@ -71,10 +36,6 @@
     [[http.services.bluemap.loadBalancer.servers]]
       url = "http://192.168.1.16:8100"
 
-  [http.services.deltalogger.loadBalancer]
-    [[http.services.deltalogger.loadBalancer.servers]]
-      url = "http://192.168.1.16:8081"
-
   [http.services.jellyfin.loadBalancer]
     [[http.services.jellyfin.loadBalancer.servers]]
       url = "http://192.168.1.20:8096"
@@ -82,19 +43,3 @@
   [http.services.syncthing.loadBalancer]
     [[http.services.syncthing.loadBalancer.servers]]
       url = "http://192.168.1.9:8384"
-
-  [http.services.zulip.loadBalancer]
-    [[http.services.zulip.loadBalancer.servers]]
-      url = "http://192.168.1.18:80"
-
-  [http.services.auth-zulip.loadBalancer]
-    [[http.services.auth-zulip.loadBalancer.servers]]
-      url = "http://192.168.1.18:80"
-
-  [http.services.lab-zulip.loadBalancer]
-    [[http.services.lab-zulip.loadBalancer.servers]]
-      url = "http://192.168.1.18:80"
-
-  [http.services.ossys-zulip.loadBalancer]
-    [[http.services.ossys-zulip.loadBalancer.servers]]
-      url = "http://192.168.1.18:80"

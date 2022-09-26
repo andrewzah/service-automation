@@ -1,2 +1,3 @@
-redis_sauertracker_pass: '{{ vault_redis_sauertracker_pass }}'
+postgres_db: '{{ vault_postgres_db }}'
+postgres_user: '{{ vault_postgres_user }}'
 postgres_pass: '{{ vault_postgres_pass }}'

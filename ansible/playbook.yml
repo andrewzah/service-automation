@@ -9,14 +9,17 @@
 #  roles:
 #    - telegraf
 
-#- hosts: docker_services
+- hosts: docker_services
+  become: 'yes'
+  roles:
+    - docker
+
+- hosts: docker_services
+  roles:
+    - z_docker_services
+
+#- hosts: minecraft_test
 #  become_method: su
 #  roles:
-#    - docker
-#    - z_docker_services
-
-- hosts: minecraft_test
-  become_method: su
-  roles:
-    #- java
-    - minecraft_fabric
+#    #- java
+#    - minecraft_fabric

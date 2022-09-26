@@ -1,11 +1,11 @@
-version: "3.7"
+version: '3.7'
 
 services:
   traefik:
-    # 09-20-21
-    image: traefik:v2.5.2@sha256:68f43dcc76a589f56839c997a50428a50b296b52299c42637d3cc98101252a43
-    container_name: "traefik"
-    restart: unless-stopped
+    # 2022-09-25
+    image: traefik:v2.8.7@sha256:ad7914fcb229ba6569223535ca6574eda78f1eff237a20df2ba744f893cfeaef
+    container_name: 'traefik'
+    restart: 'unless-stopped'
     command:
       - "--api.insecure=true"
       - "--api.dashboard=true"
@@ -17,7 +17,7 @@ services:
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.ssh.address=:22"
-      - "--entrypoints.hkps.address=:11371"
+      #- "--entrypoints.hkps.address=:11371"
       - "--entryPoints.web.forwardedHeaders.insecure"
       - "--entryPoints.websecure.forwardedHeaders.insecure"
       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
@@ -46,9 +46,9 @@ services:
       - "8080:8080"
       - "11371:11371"
     volumes:
-      - "/mnt/data/services/traefik/rules.toml:/etc/traefik/rules.toml"
-      - "/mnt/data/traefik/letsencrypt:/letsencrypt"
+      - "./services/traefik/rules.toml:/etc/traefik/rules.toml"
+      - "./data/traefik/letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    extra_hosts:
-      - host.docker.internal:172.18.0.1
-      - host.docker.internal2:192.168.1.1
+    #extra_hosts:
+    #  - host.docker.internal:172.18.0.1
+    #  - host.docker.internal2:192.168.1.1

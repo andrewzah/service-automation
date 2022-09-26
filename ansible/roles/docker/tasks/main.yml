@@ -1,10 +1,43 @@
 ---
-- include_tasks: setup-debian.yml
-  when: ansible_os_family == 'Debian'
+- name: Ensure old versions of Docker are not installed
+  apt:
+    name:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+    state: absent
+
+- name: Ensure packages are installed
+  apt:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+    state: present
+    update_cache: yes
+
+- name: Add Example GPG key
+  ansible.builtin.get_url:
+    url: "{{ docker_apt_gpg_key }}"
+    dest: /etc/apt/trusted.gpg.d/docker.asc
+    mode: '0644'
+    force: true
+
+- name: Add Docker repository
+  apt_repository:
+    repo: "{{ docker_apt_repository }}"
+    state: present
+    update_cache: true
 
 - name: install Docker
   package:
-    name: "{{ docker_package }}"
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose-plugin
     state: present
   notify: restart docker
 
@@ -14,33 +47,7 @@
     state: started
     enabled: true
 
-- name: check current docker-compose version
-  command: "{{ docker_compose_path }} --version"
-  register: docker_compose_current_version
-  check_mode: false
-  changed_when: false
-  failed_when: false
-
-- name: delete existing docker-compose version if it's different
-  file:
-    path: "{{ docker_compose_path }}"
-    state: absent
-  when: >
-    docker_compose_current_version.stdout is defined
-    and docker_compose_version not in docker_compose_current_version.stdout
-
-- name: install docker-compose
-  become: 'yes'
-  get_url:
-    url: "{{ docker_compose_url }}"
-    dest: "{{ docker_compose_path }}"
-    mode: 0755
-  when: >
-    docker_compose_current_version.stdout is not defined
-    or docker_compose_version not in docker_compose_current_version.stdout
-
 - name: Ensure docker users are added to the docker group
-  become: 'yes'
   user:
     name: "{{ item }}"
     groups: docker

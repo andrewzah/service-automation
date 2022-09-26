@@ -2,19 +2,13 @@ version: '3.7'
 
 services:
   postgres:
-    image: postgres:12.4-alpine
-    restart: always
+    image: postgres:12.12-alpine
     ports:
       - "5432"
     environment:
-      - PGDATA=/var/lib/postgresql/data
+      PGDATA: '/var/lib/postgresql/data'
     env_file:
-      - "/mnt/data/services/postgres/secret.env"
+      - "./secret.env"
     volumes:
-      - "/mnt/data/services/postgres/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/"
-      - "/mnt/data/services/postgres/.pgpass:/.pgpass"
-      - "/mnt/data/services/postgres/.pgpass:/root/.pgpass"
-      - "/mnt/data/postgres/:/var/lib/postgresql/data/"
-      - "/mnt/data/postgres_backups/:/postgres_backups"
-      - "/mnt/data/services/invidious/sql/:/config/sql/:ro"
+      - "./data/postgres/:/var/lib/postgresql/data/:rw"
     restart: unless-stopped
