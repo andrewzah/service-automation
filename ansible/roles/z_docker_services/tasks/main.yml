@@ -6,6 +6,7 @@
       - 'git'
       - 'python3'
       - 'python3-pip'
+      - 'libpq-dev'
     state: 'present'
     update_cache: 'yes'
 
@@ -15,6 +16,7 @@
       - 'pyyaml'
       - 'docker'
       - 'docker-compose'
+      - 'psycopg2'
 
 #- name: clone the service-automation repo
 #  git:
@@ -24,6 +26,7 @@
 #    repo: "{{ github_repo_url }}"
 
 - name: ensure services/ is absent
+  become: yes
   ansible.builtin.file:
     path: '~/docker/services'
     state: 'absent'
@@ -36,32 +39,35 @@
     group: ansible
     mode: '0644'
 
-- name: ensure docker-compose.yml is absent
-  ansible.builtin.file:
-    path: '~/docker/docker-compose.yml'
-    state: 'absent'
+- name: get compose.yml files
+  ansible.builtin.shell: ls -1 /home/ansible/docker/services/*/compose.yml | paste -sd ":" -
+  register: compose_files
 
-- name: generate docker-compose.yml
-  shell:
-    chdir: '~/docker'
-    cmd: 'find ./services/ -name "*compose.yml" | xargs cat >> docker-compose.yml'
-
-- name: secret.env template
-  ansible.builtin.template:
-    src: secret.env.j2
-    dest: '~/docker/secret.env'
-    owner: 'ansible'
-    group: 'ansible'
-    mode: '0400'
+- name: copy templates/secrets files
+  ansible.builtin.include_tasks: files.yml
 
 - name: Run `docker-compose up`
+  environment:
+    COMPOSE_FILE: "{{ compose_files.stdout }}"
   community.docker.docker_compose:
     project_src: '~/docker'
     remove_orphans: 'yes'
     state: 'present'
+    recreate: 'smart'
     services:
+      - 'hedgedoc'
+      - 'ntfy'
       - 'postgres'
       - 'traefik'
       - 'vaultwarden'
+
+- name: run postgres stuff
+  ansible.builtin.include_tasks: postgres.yml
+
+- name: Prune containers older than 24h
+  community.docker.docker_prune:
+    containers: true
+    containers_filters:
+      until: 24h
 
 # todo: mount data dir from nfs

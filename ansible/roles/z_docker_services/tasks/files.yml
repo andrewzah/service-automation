@@ -1,0 +1,41 @@
+---
+
+- name: secret.env template
+  ansible.builtin.template:
+    src: secret.env.j2
+    dest: '~/docker/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
+- name: rules.toml template
+  ansible.builtin.template:
+    src: traefik/rules.toml.j2
+    dest: '~/docker/services/traefik/rules.toml'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
+- name: hedgedoc secret.env template
+  ansible.builtin.template:
+    src: hedgedoc.env.j2
+    dest: '~/docker/services/hedgedoc/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
+- name: ntfy server.yml template
+  ansible.builtin.template:
+    src: ntfy.server.j2
+    dest: '~/docker/services/ntfy/server.yml'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
+- name: vaultwarden secret.env template
+  ansible.builtin.template:
+    src: vaultwarden.env.j2
+    dest: '~/docker/services/vaultwarden/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
