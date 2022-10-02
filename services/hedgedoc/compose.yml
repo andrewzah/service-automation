@@ -5,57 +5,37 @@ services:
     # 2022-09-30
     image: andrewzah/hedgedoc:1.9.4-alpine3.15@sha256:83e1ec40450c702ff9465a301eca0f7b182861d06589693de2e969b1e7e6215f
     environment:
-      DB_HOST: 'postgres'
-      DB_USER: 'hedgedoc'
-      DB_NAME: 'hedgedoc'
-      DB_PORT: 5432
       PGID: 1000
       PUID: 1000
       TZ: 'America/New_York'
-
+      CMD_DOMAIN: 'hedgedoc.zah.rocks'
       CMD_ALLOW_ANONYMOUS: 'false'
       CMD_ALLOW_FREEURL: 'true'
       CMD_REQUIRE_FREEURL_AUTHENTICATION: 'true'
-      ### actually uses libravatar
+      # uses libravatar, not gravatar
       CMD_ALLOW_GRAVATAR: 'true'
       CMD_EMAIL: 'false'
       CMD_ALLOW_EMAIL_REGISTER: 'false'
       CMD_USECDN: 'false'
 
       ### keycloak oauth
-      CMD_DOMAIN: 'hedgedoc.zah.rocks'
-      #CMD_OAUTH2_CLIENT_ID: 'hedgedoc'
-      #CMD_OAUTH2_PROVIDERNAME: 'keycloak'
-      #CMD_OAUTH2_USER_PROFILE_USERNAME_ATTR: 'preferred_username'
-      #CMD_OAUTH2_USER_PROFILE_DISPLAY_NAME_ATTR: 'name'
-      #CMD_OAUTH2_USER_PROFILE_EMAIL_ATTR: 'email'
-      #CMD_OAUTH2_AUTHORIZATION_URL: 'https://idp.zah.rocks/auth/realms/lilac/protocol/openid-connect/auth'
-      #CMD_OAUTH2_TOKEN_URL: 'https://idp.zah.rocks/auth/realms/lilac/protocol/openid-connect/token'
-      #CMD_OAUTH2_USER_PROFILE_URL: 'https://idp.zah.rocks/auth/realms/lilac/protocol/openid-connect/userinfo'
-      #CMD_PROTOCOL_USESSL: 'true'
-      #CMD_URL_ADDPORT: 'false'
-      #CMD_OAUTH2_CLIENT_SECRET=a
-      ### amazon s3
-      # CMD_IMAGE_UPLOAD_TYPE: 's3'
-      # CMD_S3_ACCESS_KEY: ''
-      # CMD_S3_SECRET_ACCESS_KEY: ''
-      # CMD_S3_REGION: ''
-      # CMD_S3_BUCKET: ''
-      # CMD_S3_ENDPOINT_ENV: ''
+      CMD_OAUTH2_CLIENT_ID: 'hedgedoc'
+      CMD_OAUTH2_PROVIDERNAME: 'keycloak'
+      CMD_OAUTH2_USER_PROFILE_USERNAME_ATTR: 'preferred_username'
+      CMD_OAUTH2_USER_PROFILE_DISPLAY_NAME_ATTR: 'name'
+      CMD_OAUTH2_USER_PROFILE_EMAIL_ATTR: 'email'
+      CMD_OAUTH2_AUTHORIZATION_URL: 'https://idp.zah.rocks/realms/eagle/protocol/openid-connect/auth'
+      CMD_OAUTH2_TOKEN_URL: 'https://idp.zah.rocks/realms/eagle/protocol/openid-connect/token'
+      CMD_OAUTH2_USER_PROFILE_URL: 'https://idp.zah.rocks/realms/eagle/protocol/openid-connect/userinfo'
     ports:
       - "3000"
     env_file:
       - "~/docker/services/hedgedoc/secret.env"
     restart: unless-stopped
     depends_on:
-      #- keycloak
+      - keycloak
       - postgres
       - traefik
-    #volumes:
-      #- "~/docker/data/hedgedoc/config/config.json:/config/config.json:rw"
-      #- "~/docker/data/hedgedoc/config/default.md:/config/default.md:rw"
-      #- "~/docker/data/hedgedoc/config/docs/:/config/docs/:rw"
-      #- "~/docker/data/hedgedoc/config/uploads/:/config/uploads/:rw"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.hedgedoc.rule=Host(`hedgedoc.zah.rocks`)"

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ "${PAM_TYPE}" = "open_session" ]; then
+  curl \
+    -L \
+    -u "{{ ntfy_pamd_user }}:{{ ntfy_pamd_pass }}" \
+    -H prio:high \
+    -H tags:warning \
+    -d "SSH Login [$(cat /etc/hostname)]: ${PAM_USER} from ${PAM_RHOST}" \
+    "https://ntfy.zah.rocks/{{ ntfy_pamd_topic }}"
+fi

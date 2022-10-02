@@ -9,13 +9,15 @@
 #  roles:
 #    - telegraf
 
-- hosts: docker_services
-  become: 'yes'
-  roles:
-    - docker
+#- hosts: docker_services
+#  become: 'yes'
+#  roles:
+#    - docker
 
-- hosts: docker_services
+- hosts:
+    - docker.eagle.zah.arpa
   roles:
+    - base
     - z_docker_services
 
 #- hosts: minecraft_test

@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  keycloak:
+    # 2022-10-02
+    image: 'quay.io/keycloak/keycloak:19.0@sha256:e5f375089926aae34abab1b95937fb0721121d5b2016e89c89a4817f59c07e91'
+    command:
+      - "start"
+      - "--optimized"
+      - "--http-enabled=true"
+      - "--hostname idp.zah.rocks"
+      - "--proxy passthrough"
+    env_file:
+      "~/docker/services/keycloak/secret.env"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+    depends_on:
+      - traefik
+      - postgres
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak.rule=Host(`idp.zah.rocks`)"
+      - "traefik.http.routers.keycloak.entrypoints=websecure"
+      - "traefik.http.routers.keycloak.tls.certresolver=myresolver"
+    restart: unless-stopped

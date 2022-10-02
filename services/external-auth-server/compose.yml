@@ -2,9 +2,10 @@ version: '3.7'
 
 services:
   eas:
-    image: travisghansen/external-auth-server:latest
+    # 2022-10-02
+    image: 'travisghansen/external-auth-server:v0.12.4@sha256:a2651eba831dbeaf2c720e5df52f215f3d7b03c2e3e114c9d1ae02c8a8ab887f'
     env_file:
-      - "/mnt/data/services/external-auth-server/secret.env"
+      - "~/docker/services/external-auth-server/secret.env"
     environment:
       EAS_PORT: 8080
       EAS_CONFIG_TOKEN_STORES: '{}'

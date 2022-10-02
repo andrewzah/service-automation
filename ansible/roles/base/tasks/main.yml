@@ -1,5 +1,5 @@
 - name: ensure packages are installed
-  become: yes
+  become: 'yes'
   apt:
     name:
       - ntp
@@ -11,7 +11,27 @@
   when: ansible_distribution == "Debian"
 
 - name: ensure services are started
-  become: yes
+  become: 'yes'
   service:
     name: ntp
     state: started
+
+- name: test for ntfy line in /etc/pam.d/sshd
+  shell: grep -c "ntfy-ssh-login" /etc/pam.d/sshd || true
+  register: grep_pamd_sshd
+
+- name: add ntfy-ssh line to /etc/pam.d/sshd
+  become: 'yes'
+  lineinfile:
+    dest: '/etc/pam.d/sshd'
+    line: 'session optional pam_exec.so /usr/bin/ntfy-ssh-login.sh'
+  when: grep_pamd_sshd.stdout == "0"
+
+- name: copy ntfy-ssh-login.sh script
+  become: 'yes'
+  ansible.builtin.template:
+    src: 'ntfy-ssh-login.sh.j2'
+    dest: '/usr/bin/ntfy-ssh-login.sh'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: 'u=wxr,g=xr,o=x'

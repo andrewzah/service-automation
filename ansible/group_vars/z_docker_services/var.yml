@@ -4,6 +4,21 @@ postgres_password: '{{ vault_postgres_password }}'
 
 pg_bitwarden_password: '{{ v_pg_bitwarden_password }}'
 pg_hedgedoc_password: '{{ v_pg_hedgedoc_password }}'
+pg_keycloak_password: '{{ v_pg_keycloak_password }}'
 
 ntfy_smtp_user: '{{ v_ntfy_smtp_user }}'
 ntfy_smtp_password: '{{ v_ntfy_smtp_password }}'
+
+keycloak_admin_password: '{{ v_keycloak_admin_password }}'
+kc_hedgedoc_client_password: '{{ v_kc_hedgedoc_client_password }}'
+
+lam_password: '{{ v_lam_password }}'
+ldap_admin_username: '{{ v_ldap_admin_username }}'
+ldap_admin_password: '{{ v_ldap_admin_password }}'
+
+ldap_auth:
+  server_uri: 'ldap://localhost:1389'
+  bind_dn: 'cn={{ ldap_admin_username }},dc=zah,dc=rocks'
+  bind_pw: '{{ ldap_admin_password }}'
+
+ldap_users: '{{ v_ldap_users }}'

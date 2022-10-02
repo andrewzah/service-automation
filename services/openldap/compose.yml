@@ -1,0 +1,50 @@
+version: '3.7'
+
+services:
+  lam:
+    # 2022-10-02
+    image: 'ldapaccountmanager/lam:8.1@sha256:82aed3282577e05d604c547ca2b2a5fc8777e8113cadaf9cf52b7c5f1b6dcf49'
+    #hostname: lam.idp.zah.rocks
+    env_file:
+      - "~/docker/services/openldap/secret.env"
+    environment:
+      LAM_LANG: 'en_US'
+      LAM_SKIP_PRECONFIGURE: 'false'
+      LDAP_SERVER: 'ldap://openldap:1389'
+      LDAP_DOMAIN: 'zah.rocks'
+      LDAP_BASE_DN: 'dc=zah,dc=rocks'
+      LDAP_USERS_DN: 'ou=people,dc=zah,dc=rocks'
+      LDAP_GROUPS_DN: 'ou=groups,dc=zah,dc=rocks'
+      DEBUG: 'true'
+      #LAM_CONFIGURATION_DATABASE=mysql
+    ports:
+      - "80"
+    depends_on:
+      - traefik
+    #volumes:
+      #- "~/docker/data/lam/var/config/:/var/lib/ldap-account-manager/config"
+      #- "~/docker/data/lam/etc/:/etc/ldap-account-manager/"
+      #- "~/docker/data/lam/var/sess/:/var/lib/ldap-account-manager/sess"
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.lam.rule=Host(`lam.idp.zah.rocks`)"
+      - "traefik.http.routers.lam.entrypoints=websecure"
+      - "traefik.http.routers.lam.tls.certresolver=myresolver"
+
+  openldap:
+    image: 'bitnami/openldap:2.6.3@sha256:4844a9505ca33c63cfdc0b4623679e29eeb9a3b8d36d6da2cba0fba82fe93463'
+    env_file:
+      - "~/docker/services/openldap/secret.env"
+    environment:
+      LDAP_ROOT: 'dc=zah,dc=rocks'
+      LDAP_DOMAIN: 'zah.rocks'
+      LDAP_TLS: 'false'
+      LDAP_CONFIG_ADMIN_ENABLED: 'true'
+    ports:
+      - "1389"
+      - "1389:1389"
+    volumes:
+      - "~/docker/data/openldap/openldap/:/etc/ldap/slapd.d/"
+      - "~/docker/data/openldap/runtime/:/var/lib/ldap"
+    restart: unless-stopped

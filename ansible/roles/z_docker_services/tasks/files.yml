@@ -1,5 +1,9 @@
 ---
 
+#################
+### env files ###
+#################
+
 - name: secret.env template
   ansible.builtin.template:
     src: secret.env.j2
@@ -24,10 +28,18 @@
     group: 'ansible'
     mode: '0400'
 
-- name: ntfy server.yml template
+- name: keycloak secret.env template
   ansible.builtin.template:
-    src: ntfy.server.j2
-    dest: '~/docker/services/ntfy/server.yml'
+    src: keycloak.env.j2
+    dest: '~/docker/services/keycloak/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
+- name: postgres secret.env template
+  ansible.builtin.template:
+    src: postgres.env.j2
+    dest: '~/docker/services/postgres/secret.env'
     owner: 'ansible'
     group: 'ansible'
     mode: '0400'
@@ -39,3 +51,32 @@
     owner: 'ansible'
     group: 'ansible'
     mode: '0400'
+
+- name: openldap secret.env template
+  ansible.builtin.template:
+    src: openldap.env.j2
+    dest: '~/docker/services/openldap/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
+- name: external-auth-server secret.env template
+  ansible.builtin.template:
+    src: eas.env.j2
+    dest: '~/docker/services/external-auth-server/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
+###################
+### other files ###
+###################
+
+- name: ntfy server.yml template
+  ansible.builtin.template:
+    src: ntfy.server.j2
+    dest: '~/docker/services/ntfy/server.yml'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+

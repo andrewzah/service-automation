@@ -7,6 +7,8 @@
       - 'python3'
       - 'python3-pip'
       - 'libpq-dev'
+      - 'libldap2-dev'
+      - 'libsasl2-dev'
     state: 'present'
     update_cache: 'yes'
 
@@ -17,13 +19,7 @@
       - 'docker'
       - 'docker-compose'
       - 'psycopg2'
-
-#- name: clone the service-automation repo
-#  git:
-#    dest: '~/docker'
-#    clone: 'yes'
-#    update: 'yes'
-#    repo: "{{ github_repo_url }}"
+      - 'python-ldap'
 
 - name: ensure services/ is absent
   become: yes
@@ -46,6 +42,34 @@
 - name: copy templates/secrets files
   ansible.builtin.include_tasks: files.yml
 
+- name: Run `docker-compose up` for postgres
+  environment:
+    COMPOSE_FILE: "{{ compose_files.stdout }}"
+  community.docker.docker_compose:
+    project_src: '~/docker'
+    remove_orphans: 'yes'
+    state: 'present'
+    recreate: 'smart'
+    services:
+      - 'postgres'
+
+- name: run postgres stuff
+  ansible.builtin.include_tasks: postgres.yml
+
+- name: Run `docker-compose up` for openldap
+  environment:
+    COMPOSE_FILE: "{{ compose_files.stdout }}"
+  community.docker.docker_compose:
+    project_src: '~/docker'
+    remove_orphans: 'yes'
+    state: 'present'
+    recreate: 'smart'
+    services:
+      - 'openldap'
+
+- name: run openldap stuff
+  ansible.builtin.include_tasks: openldap.yml
+
 - name: Run `docker-compose up`
   environment:
     COMPOSE_FILE: "{{ compose_files.stdout }}"
@@ -55,15 +79,17 @@
     state: 'present'
     recreate: 'smart'
     services:
+      #- 'photostructure'
+      - 'eas'
       - 'hedgedoc'
+      - 'keycloak'
+      - 'lam'
       - 'ntfy'
-      - 'photostructure'
+      - 'openldap'
       - 'postgres'
       - 'traefik'
       - 'vaultwarden'
-
-- name: run postgres stuff
-  ansible.builtin.include_tasks: postgres.yml
+      - 'redis'
 
 - name: Prune containers older than 24h
   community.docker.docker_prune:

@@ -10,7 +10,7 @@ services:
     environment:
       PGDATA: '/var/lib/postgresql/data'
     env_file:
-      - "~/docker/secret.env"
+      - "~/docker/services/postgres/secret.env"
     volumes:
       - "~/docker/data/postgres/:/var/lib/postgresql/data/:rw"
     restart: unless-stopped

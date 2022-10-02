@@ -1,0 +1,80 @@
+---
+
+- name: get rid of bitnami shit1
+  args: "{{ ldap_auth }}"
+  community.general.ldap_entry:
+    dn: 'cn=user01,ou=users,dc=zah,dc=rocks'
+    state: absent
+
+- name: get rid of bitnami shit2
+  args: "{{ ldap_auth }}"
+  community.general.ldap_entry:
+    dn: 'cn=user02,ou=users,dc=zah,dc=rocks'
+    state: absent
+
+- name: Make sure we have a parent entry for users
+  args: "{{ ldap_auth }}"
+  community.general.ldap_entry:
+    dn: dc=zah,dc=rocks
+    objectClass:
+      - dcObject
+      - organizationalUnit
+
+- name: ou=people,dc=zah,dc=rocks
+  args: "{{ ldap_auth }}"
+  community.general.ldap_entry:
+    dn: ou=people,dc=zah,dc=rocks
+    objectClass: organizationalUnit
+
+- name: ou=groups,dc=zah,dc=rocks
+  args: "{{ ldap_auth }}"
+  community.general.ldap_entry:
+    dn: ou=groups,dc=zah,dc=rocks
+    objectClass: organizationalUnit
+
+### groups
+- name: add users group
+  args: "{{ ldap_auth }}"
+  community.general.ldap_entry:
+    dn: cn=users,ou=groups,dc=zah,dc=rocks
+    objectClass: posixGroup
+    attributes:
+      gidnumber: 10000
+
+- name: add family group
+  args: "{{ ldap_auth }}"
+  community.general.ldap_entry:
+    dn: cn=family,ou=groups,dc=zah,dc=rocks
+    objectClass: posixGroup
+    attributes:
+      gidnumber: 10001
+
+- name: add admin group
+  args: "{{ ldap_auth }}"
+  community.general.ldap_entry:
+    dn: cn=admin,ou=groups,dc=zah,dc=rocks
+    objectClass: posixGroup
+    attributes:
+      gidnumber: 10002
+      memberuid: 'azah'
+      memberuid: 'jcoman'
+      memberuid: 'cdaniels'
+
+- name: add users to ldap
+  args: "{{ ldap_auth }}"
+  community.general.ldap_entry:
+    dn: 'cn={{ item.givenname }} {{ item.sn }},ou=people,dc=zah,dc=rocks'
+    objectClass:
+      - posixAccount
+      - inetOrgPerson
+      - organizationalPerson
+      - person
+    attributes:
+      givenname: '{{ item.givenname }}'
+      mail: '{{ item.mail }}'
+      sn: '{{ item.sn }}'
+      uid: '{{ item.uid }}'
+      uidNumber: '{{ item.uidNumber }}'
+      gidNumber: '{{ item.gidNumber }}'
+  with_items:
+    - "{{ ldap_users }}"
