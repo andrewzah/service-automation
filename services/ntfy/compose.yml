@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  ntfy:
+    # 2022-09-30
+    image: binwiederhier/ntfy:v1.28.0@sha256:45cacbfa46554b8feba86bb2fec42e638dd911e70061128a5690896839ec0156
+    environment:
+      TZ: 'America/New_York'
+    #user: 1000:1000
+    command:
+      - "serve"
+    ports:
+      - "80"
+    volumes:
+      - "~/docker/services/ntfy/server.yml:/etc/ntfy/server.yml:ro"
+      - "~/docker/data/ntfy/cache.db:/var/cache/ntfy/cache.db:rw"
+      - "~/docker/data/ntfy/user.db:/var/lib/ntfy/user.db:rw"
+    restart: unless-stopped
+    depends_on:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ntfy.rule=Host(`ntfy.zah.rocks`)"
+      - "traefik.http.routers.ntfy.entrypoints=websecure"
+      - "traefik.http.routers.ntfy.tls.certresolver=myresolver"

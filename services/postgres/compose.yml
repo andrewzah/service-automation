@@ -2,13 +2,15 @@ version: '3.7'
 
 services:
   postgres:
-    image: postgres:12.12-alpine
+    hostname: postgres
+    image: postgres:14.5-alpine
     ports:
       - "5432"
+      - "5433:5432"
     environment:
       PGDATA: '/var/lib/postgresql/data'
     env_file:
-      - "./secret.env"
+      - "~/docker/secret.env"
     volumes:
-      - "./data/postgres/:/var/lib/postgresql/data/:rw"
+      - "~/docker/data/postgres/:/var/lib/postgresql/data/:rw"
     restart: unless-stopped

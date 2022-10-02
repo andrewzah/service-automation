@@ -57,6 +57,7 @@
     services:
       - 'hedgedoc'
       - 'ntfy'
+      - 'photostructure'
       - 'postgres'
       - 'traefik'
       - 'vaultwarden'

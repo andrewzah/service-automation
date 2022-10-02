@@ -4,7 +4,7 @@ services:
   traefik:
     # 2022-09-25
     image: traefik:v2.8.7@sha256:ad7914fcb229ba6569223535ca6574eda78f1eff237a20df2ba744f893cfeaef
-    container_name: 'traefik'
+    hostname: 'traefik'
     restart: 'unless-stopped'
     command:
       - "--api.insecure=true"
@@ -46,8 +46,8 @@ services:
       - "8080:8080"
       - "11371:11371"
     volumes:
-      - "./services/traefik/rules.toml:/etc/traefik/rules.toml"
-      - "./data/traefik/letsencrypt:/letsencrypt"
+      - "~/docker/services/traefik/rules.toml:/etc/traefik/rules.toml"
+      - "~/docker/data/traefik/letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     #extra_hosts:
     #  - host.docker.internal:172.18.0.1

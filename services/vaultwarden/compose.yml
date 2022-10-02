@@ -5,27 +5,36 @@ services:
     # 2022-09-25
     image: vaultwarden/server:1.25.2-alpine@sha256:7011d4216a00fcd79785b8b31d61b897e05d959aa37681323dd9c0155655bbbc
     environment:
+      DOMAIN: 'https://bit.zah.rocks'
       WEBSOCKET_ENABLED: 'true'
       SIGNUPS_ALLOWED: 'false'
       LOG_FILE: '/data/bitwarden.log'
+    env_file:
+      - "~/docker/services/vaultwarden/secret.env"
     ports:
       - "80"
       - "3012"
     volumes:
-      - "./data/bitwarden-rs/:/data/:rw"
+      - "~/docker/data/bitwarden-rs/:/data/:rw"
     restart: unless-stopped
     depends_on:
       - traefik
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.bitwarden-ui.rule=Host(`bit.zah.rocks`)"
-      - "traefik.http.routers.bitwarden-ui.entrypoints=websecure"
-      - "traefik.http.routers.bitwarden-ui.tls.certresolver=myresolver"
-      - "traefik.http.routers.bitwarden-ui.service=bitwarden-ui"
-      - "traefik.http.services.bitwarden-ui.loadbalancer.server.port=80"
+      - "traefik.http.routers.vaultwarden-ui.rule=Host(`bit.zah.rocks`)"
+      - "traefik.http.routers.vaultwarden-ui.entrypoints=websecure"
+      - "traefik.http.routers.vaultwarden-ui.tls.certresolver=myresolver"
+      - "traefik.http.routers.vaultwarden-ui.service=vaultwarden-ui"
+      - "traefik.http.services.vaultwarden-ui.loadbalancer.server.port=80"
 
-      - "traefik.http.routers.bitwarden-wss.rule=Host(`bit.zah.rocks`) && Path(`/notifications/hub`)"
-      - "traefik.http.routers.bitwarden-wss.tls.certresolver=myresolver"
-      - "traefik.http.routers.bitwarden-wss.entrypoints=websecure"
-      - "traefik.http.routers.bitwarden-wss.service=bitwarden-wss"
-      - "traefik.http.services.bitwarden-wss.loadbalancer.server.port=3012"
+      - "traefik.http.routers.vaultwarden-wss.rule=Host(`bit.zah.rocks`) && Path(`/notifications/hub`)"
+      - "traefik.http.routers.vaultwarden-wss.tls.certresolver=myresolver"
+      - "traefik.http.routers.vaultwarden-wss.entrypoints=websecure"
+      - "traefik.http.routers.vaultwarden-wss.service=vaultwarden-wss"
+      - "traefik.http.services.vaultwarden-wss.loadbalancer.server.port=3012"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
