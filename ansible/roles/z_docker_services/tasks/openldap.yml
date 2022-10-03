@@ -56,9 +56,8 @@
     objectClass: posixGroup
     attributes:
       gidnumber: 10002
-      memberuid: 'azah'
-      memberuid: 'jcoman'
-      memberuid: 'cdaniels'
+  loop:
+    - "{{ ldap_users | selectattr('admin', 'defined') | flatten }}"
 
 - name: add users to ldap
   args: "{{ ldap_auth }}"
@@ -76,5 +75,7 @@
       uid: '{{ item.uid }}'
       uidNumber: '{{ item.uidNumber }}'
       gidNumber: '{{ item.gidNumber }}'
+      homeDirectory: '{{ item.homeDirectory }}'
+      loginShell: '/bin/bash'
   with_items:
     - "{{ ldap_users }}"

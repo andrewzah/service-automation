@@ -78,5 +78,12 @@
     dest: '~/docker/services/ntfy/server.yml'
     owner: 'ansible'
     group: 'ansible'
-    mode: '0400'
+    mode: '0644'
 
+#- name: radicale users template
+#  ansible.builtin.template:
+#    src: radicale.users.j2
+#    dest: '~/docker/services/radicale/users'
+#    owner: 'ansible'
+#    group: 'ansible'
+#    mode: '0644'

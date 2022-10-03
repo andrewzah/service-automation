@@ -79,17 +79,18 @@
     state: 'present'
     recreate: 'smart'
     services:
-      #- 'photostructure'
       - 'eas'
       - 'hedgedoc'
       - 'keycloak'
       - 'lam'
       - 'ntfy'
       - 'openldap'
+      - 'photostructure'
       - 'postgres'
+      #- 'radicale'
+      - 'redis'
       - 'traefik'
       - 'vaultwarden'
-      - 'redis'
 
 - name: Prune containers older than 24h
   community.docker.docker_prune:

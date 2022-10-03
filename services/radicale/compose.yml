@@ -15,9 +15,9 @@ services:
       - CHOWN
       - KILL
     volumes:
-      - "/mnt/data/radicale:/data"
-      - "/mnt/data/services/radicale/config:/etc/radicale/config:ro"
-      - "/mnt/data/services/radicale/users:/etc/radicale/users:ro"
+      - "~/docker/data/radicale/:/data/:rw"
+      - "~/docker/services/radicale/config:/etc/radicale/config:ro"
+      - "~/docker/services/radicale/users:/etc/radicale/users:ro"
     ports:
       - "5232"
     read_only: true

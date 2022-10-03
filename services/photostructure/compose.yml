@@ -32,3 +32,4 @@ services:
       - "traefik.http.routers.photostructure.rule=Host(`photos.zah.rocks`)"
       - "traefik.http.routers.photostructure.entrypoints=websecure"
       - "traefik.http.routers.photostructure.tls.certresolver=myresolver"
+      - 'traefik.http.routers.photostructure.middlewares=eas-default'

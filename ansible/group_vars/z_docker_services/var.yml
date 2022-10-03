@@ -10,7 +10,7 @@ ntfy_smtp_user: '{{ v_ntfy_smtp_user }}'
 ntfy_smtp_password: '{{ v_ntfy_smtp_password }}'
 
 keycloak_admin_password: '{{ v_keycloak_admin_password }}'
-kc_hedgedoc_client_password: '{{ v_kc_hedgedoc_client_password }}'
+kc_hedgedoc_client_secret: '{{ v_kc_hedgedoc_client_secret }}'
 
 lam_password: '{{ v_lam_password }}'
 ldap_admin_username: '{{ v_ldap_admin_username }}'
@@ -22,3 +22,5 @@ ldap_auth:
   bind_pw: '{{ ldap_admin_password }}'
 
 ldap_users: '{{ v_ldap_users }}'
+
+radicale_hashed_password: '{{ v_radicale_hashed_password }}'

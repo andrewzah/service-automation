@@ -3,10 +3,12 @@ version: '3.7'
 services:
   keycloak:
     # 2022-10-02
-    image: 'quay.io/keycloak/keycloak:19.0@sha256:e5f375089926aae34abab1b95937fb0721121d5b2016e89c89a4817f59c07e91'
+    #image: 'quay.io/keycloak/keycloak:19.0@sha256:e5f375089926aae34abab1b95937fb0721121d5b2016e89c89a4817f59c07e91'
+    #image: 'quay.io/keycloak/keycloak:nightly@sha256:ea85fc51ac82674dcbcfcbfe0c3c4d06f3e46722508266a43b5d9e97f79a177e'
+    image: quay.io/keycloak/keycloak:18.0@sha256:b4841a7b8401fd209bfcddf10773cdfa7c7cfde4bf7e87780663226be5587ee2
     command:
       - "start"
-      - "--optimized"
+      - "--auto-build"
       - "--http-enabled=true"
       - "--hostname idp.zah.rocks"
       - "--proxy passthrough"

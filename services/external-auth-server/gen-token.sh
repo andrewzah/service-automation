@@ -9,7 +9,7 @@ if ! docker ps | grep -q "external-auth-server"; then
   echo "External Auth Server is not running?"
 fi
 
-CONTAINER=$(docker ps | grep external-auth-server | awk '{print $1}')
+CONTAINER=$(docker ps | grep eas | awk '{print $1}')
 
 docker cp "$SCRIPT_PATH" "${CONTAINER}:$BIN_PATH/token-gen.js"
 
