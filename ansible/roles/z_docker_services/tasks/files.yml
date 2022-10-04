@@ -12,10 +12,10 @@
     group: 'ansible'
     mode: '0400'
 
-- name: rules.toml template
+- name: healthchecks secret.env template
   ansible.builtin.template:
-    src: traefik/rules.toml.j2
-    dest: '~/docker/services/traefik/rules.toml'
+    src: healthchecks.env.j2
+    dest: '~/docker/services/healthchecks/secret.env'
     owner: 'ansible'
     group: 'ansible'
     mode: '0400'
@@ -80,3 +80,10 @@
     group: 'ansible'
     mode: '0400'
 
+- name: rules.toml template
+  ansible.builtin.template:
+    src: traefik/rules.toml.j2
+    dest: '~/docker/services/traefik/rules.toml'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'

@@ -5,9 +5,14 @@ postgres_password: '{{ vault_postgres_password }}'
 pg_bitwarden_password: '{{ v_pg_bitwarden_password }}'
 pg_hedgedoc_password: '{{ v_pg_hedgedoc_password }}'
 pg_keycloak_password: '{{ v_pg_keycloak_password }}'
+pg_healthchecks_password: '{{ v_pg_healthchecks_password }}'
 
 ntfy_smtp_user: '{{ v_ntfy_smtp_user }}'
 ntfy_smtp_password: '{{ v_ntfy_smtp_password }}'
+
+healthchecks_smtp_password: '{{ v_healthchecks_smtp_password }}'
+healthchecks_superuser_password: '{{ v_healthchecks_superuser_password }}'
+healthchecks_secret_key: '{{ v_healthchecks_secret_key }}'
 
 keycloak_admin_password: '{{ v_keycloak_admin_password }}'
 kc_hedgedoc_client_password: '{{ v_kc_hedgedoc_client_password }}'

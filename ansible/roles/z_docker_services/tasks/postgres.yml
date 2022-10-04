@@ -110,3 +110,40 @@
     obj: keycloak
     role: keycloak
     state: present
+
+####################
+### HEALTHCHECKS ###
+####################
+
+- name: PG - healthchecks database
+  community.postgresql.postgresql_db:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    name: healthchecks
+    state: present
+
+- name: PG - healthchecks user
+  community.postgresql.postgresql_user:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    db: healthchecks
+    name: healthchecks
+    password: '{{ pg_healthchecks_password }}'
+    state: present
+
+- name: PG - healthchecks privs
+  community.postgresql.postgresql_privs:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    db: postgres
+    privs: ALL
+    type: database
+    obj: healthchecks
+    role: healthchecks
+    state: present
