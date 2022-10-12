@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  healthchecks:
+    image: 'ghcr.io/linuxserver/healthchecks:2.3.20221011@sha256:319849e7afb958a2ea7c7110bee3ad59dbb59cdbc2d66775178c70e915855ad5'
+    environment:
+      PUID: 1000
+      PGID: 1000
+      SITE_ROOT: "https://healthchecks.zah.rocks"
+      SITE_NAME: "Zah Healthchecks <zah@andrewzah.com>"
+      ALLOWED_HOSTS: "['healthchecks.zah.rocks']"
+      REGENERATE_SETTINGS: "True"
+      UWSGI_BUFFER_SIZE: 65535
+      COMPRESS_ENABLED: 'True'
+      DEBUG: 'False'
+    env_file:
+      - "~/docker/services/healthchecks/secret.env"
+    ports:
+      - "8000"
+    volumes:
+      - "~/docker/data/healthchecks/config/:/config/"
+    restart: unless-stopped
+    depends_on:
+      - traefik
+      - eas
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.healthchecks.rule=Host(`healthchecks.zah.rocks`)"
+      - "traefik.http.routers.healthchecks.entrypoints=websecure"
+      - 'traefik.http.routers.healthchecks.middlewares=eas-healthchecks'
+      - "traefik.http.routers.healthchecks.tls.certresolver=myresolver"
+      #- "traefik.http.middlewares.eas-healthchecks.forwardauth.trustForwardHeader=true"
+      #- "traefik.http.middlewares.eas-healthchecks.forwardauth.authResponseHeaders=X-Userinfo, X-Id-Token, X-Access-Token, Authorization"

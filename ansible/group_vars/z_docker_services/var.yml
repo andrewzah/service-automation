@@ -2,9 +2,19 @@ postgres_db: '{{ vault_postgres_db }}'
 postgres_user: '{{ vault_postgres_user }}'
 postgres_password: '{{ vault_postgres_password }}'
 
+smtp_user: '{{ v_smtp_user }}'
+smtp_port: '{{ v_smtp_port }}'
+smtp_host: '{{ v_smtp_host }}'
+
+smtp_rallly_email: '{{ v_smtp_rallly_email }}'
+smtp_rallly_password: '{{ v_smtp_rallly_password }}'
+smtp_healthchecks_password: '{{ v_smtp_healthchecks_password }}'
+
 pg_bitwarden_password: '{{ v_pg_bitwarden_password }}'
+pg_healthchecks_password: '{{ v_pg_healthchecks_password }}'
 pg_hedgedoc_password: '{{ v_pg_hedgedoc_password }}'
 pg_keycloak_password: '{{ v_pg_keycloak_password }}'
+pg_rallly_password: '{{ v_pg_rallly_password }}'
 
 ntfy_smtp_user: '{{ v_ntfy_smtp_user }}'
 ntfy_smtp_password: '{{ v_ntfy_smtp_password }}'
@@ -24,3 +34,8 @@ ldap_auth:
 ldap_users: '{{ v_ldap_users }}'
 
 radicale_hashed_password: '{{ v_radicale_hashed_password }}'
+
+rallly_secret_password: '{{ v_rallly_secret_password }}'
+
+healthchecks_superuser_email: '{{ v_healthchecks_superuser_email }}'
+healthchecks_secret_key: '{{ v_healthchecks_secret_key }}'

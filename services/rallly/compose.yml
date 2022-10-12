@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  rallly:
+    # 2022-10-12
+    image: andrewzah/rallly:10e4aae-alpine3.15@sha256:8473cd3e8beb7c85b3ad08d3cf38a1003da3c28b02ebb20494abc81aa31d10a1
+    environment:
+      TZ: 'America/New_York'
+    ports:
+      - "3000"
+    env_file:
+      - "~/docker/services/rallly/secret.env"
+    depends_on:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rallly.rule=Host(`rallly.zah.rocks`)"
+      - "traefik.http.routers.rallly.entrypoints=websecure"
+      - "traefik.http.routers.rallly.tls.certresolver=myresolver"
+    restart: unless-stopped
