@@ -96,6 +96,14 @@
     group: 'ansible'
     mode: '0644'
 
+- name: dashy conf.yml template
+  ansible.builtin.template:
+    src: dashy.conf.yml.j2
+    dest: '~/docker/services/dashy/conf.yml'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0644'
+
 #- name: radicale users template
 #  ansible.builtin.template:
 #    src: radicale.users.j2

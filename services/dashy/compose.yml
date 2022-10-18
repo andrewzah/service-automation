@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  dashy:
+    # 2022-10-17
+    image: lissy93/dashy:2.1.1@sha256:53520800279ce2cf38d93146a79fe68b78f371f1f5490b4f6a20cf2456b2f98b
+    environment:
+      TZ: 'America/New_York'
+      UID: 1000
+      GID: 1000
+      NODE_ENV: 'production'
+    ports:
+      - "80"
+    #env_file:
+    #  - "~/docker/services/dashy/secret.env"
+    volumes:
+      - "~/docker/services/dashy/conf.yml:/app/public/conf.yml:rw"
+    depends_on:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashy.rule=Host(`zah.rocks`)"
+      - "traefik.http.routers.dashy.entrypoints=websecure"
+      - "traefik.http.routers.dashy.tls.certresolver=myresolver"
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'node', '/app/services/healthcheck']
+      interval: '1m30s'
+      timeout: '10s'
+      retries: 3
+      start_period: '40s'

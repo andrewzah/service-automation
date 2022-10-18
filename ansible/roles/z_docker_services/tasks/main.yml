@@ -52,6 +52,7 @@
 - name: Run `docker-compose up` for postgres
   environment:
     COMPOSE_FILE: "{{ compose_files.stdout }}"
+    COMPOSE_PROJECT_NAME: 'zah'
   community.docker.docker_compose:
     project_src: '~/docker'
     remove_orphans: 'yes'
@@ -66,6 +67,7 @@
 - name: Run `docker-compose up` for openldap
   environment:
     COMPOSE_FILE: "{{ compose_files.stdout }}"
+    COMPOSE_PROJECT_NAME: 'zah'
   community.docker.docker_compose:
     project_src: '~/docker'
     remove_orphans: 'yes'
@@ -80,6 +82,7 @@
 - name: Run `docker-compose up`
   environment:
     COMPOSE_FILE: "{{ compose_files.stdout }}"
+    COMPOSE_PROJECT_NAME: 'zah'
   community.docker.docker_compose:
     project_src: '~/docker'
     remove_orphans: 'yes'
@@ -87,6 +90,7 @@
     recreate: 'smart'
     services:
       #- 'radicale'
+      - 'dashy'
       - 'eas'
       - 'healthchecks'
       - 'hedgedoc'
