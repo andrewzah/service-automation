@@ -1,0 +1,9 @@
+version: '3.7'
+
+services:
+  tika:
+    hostname: tika
+    image: apache/tika:2.5.0-full@sha256:3a6efabb65a3ee20d16f8ba27e6bb8aac48bf6bcce9c3ffb93336e0555bca74e
+    ports:
+      - "9998"
+    restart: unless-stopped

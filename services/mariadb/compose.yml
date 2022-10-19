@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  mariadb:
+    hostname: mariadb
+    image: mariadb:10.9.3-jammy@sha256:d0e123b5f1a7ff84400e414f314fd4a2612fb41964e4198645bc0bab13cca257
+    ports:
+      - '3306'
+      - '3307:3306'
+    environment:
+      PGDATA: '/var/lib/postgresql/data'
+    env_file:
+      - "~/docker/services/mariadb/secret.env"
+    volumes:
+      - "~/docker/data/mariadb/:/var/lib/mysql/:rw"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -P $$(echo $$MARIADB_PORT) -p$$MARIADB_ROOT_PASSWORD | grep 'mysqld is alive' || exit 1"]

@@ -39,3 +39,7 @@ rallly_secret_password: '{{ v_rallly_secret_password }}'
 
 healthchecks_superuser_email: '{{ v_healthchecks_superuser_email }}'
 healthchecks_secret_key: '{{ v_healthchecks_secret_key }}'
+
+mariadb_user: '{{ v_mariadb_user }}'
+mariadb_password: '{{ v_mariadb_password }}'
+mariadb_root_password: '{{ v_mariadb_root_password }}'

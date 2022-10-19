@@ -36,6 +36,14 @@
     group: 'ansible'
     mode: '0400'
 
+- name: mariadb secret.env template
+  ansible.builtin.template:
+    src: mariadb.env.j2
+    dest: '~/docker/services/mariadb/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
 - name: postgres secret.env template
   ansible.builtin.template:
     src: postgres.env.j2
