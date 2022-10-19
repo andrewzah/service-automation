@@ -1,0 +1,97 @@
+---
+
+- name: ensure enterprise apt list is not present
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/pve-enterprise.list
+    state: absent
+
+- name: Only run "update_cache=yes" if the last one is more than 3600 seconds ago
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: do an apt update
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/pve-enterprise.list
+    state: absent
+
+- name: Remove dependencies that are no longer required
+  ansible.builtin.apt:
+    autoremove: yes
+
+- name: ensure packages are installed
+  ansible.builtin.apt:
+    name:
+      - 'neovim'
+      - 'ntp'
+      - 'python3'
+      - 'python3-pip'
+      - 'vim'
+    state: 'latest'
+    update_cache: 'yes'
+  when: ansible_distribution == "Debian"
+
+- name: install python packages for managing docker
+  ansible.builtin.pip:
+    name:
+      - 'proxmoxer'
+    state: 'latest'
+
+- name: STOP games LXC
+  become: 'yes'
+  community.general.proxmox:
+    vmid: 103
+    node: eagle
+    api_user: root@pam
+    api_password: '{{ proxmox_root_password }}'
+    api_host: 127.0.0.1
+    state: 'stopped'
+    force: true
+
+- name: REMOVE games LXC
+  become: 'yes'
+  community.general.proxmox:
+    vmid: 103
+    node: eagle
+    api_user: root@pam
+    api_password: '{{ proxmox_root_password }}'
+    api_host: 127.0.0.1
+    state: 'absent'
+    force: true
+
+- name: create games LXC
+  community.general.proxmox:
+    #force: true
+    api_user: 'root@pam'
+    api_password: '{{ proxmox_root_password }}'
+    api_host: 127.0.0.1
+    cores: 4
+    disk: 'eagle-zfs:50'
+    hostname: 'nominal.zah.arpa'
+    memory: '12288'
+    netif: '{"net0":"name=eth0,gw=192.168.1.1,ip=192.168.2.29/24,bridge=vmbr0"}'
+    node: 'eagle'
+    ostemplate: 'iso-storage:vztmpl/debian-11-standard_11.3-1_amd64.tar.zst'
+    password: '{{ nominal_root_password }}'
+    pubkey: '{{ ssh_key_ansible }}'
+    state: present
+    storage: 'eagle-zfs'
+    unprivileged: true
+    vmid: 103
+    features:
+      - 'nesting=1'
+    mounts:
+      mp0: '/eagle/backups/games,mp=/mnt/eagle/games'
+
+###################
+### START NODES ###
+###################
+
+- name: ensure games LXC is started
+  community.general.proxmox:
+    node: 'eagle'
+    api_user: 'root@pam'
+    api_password: '{{ proxmox_root_password }}'
+    api_host: 127.0.0.1
+    vmid: 103
+    state: started

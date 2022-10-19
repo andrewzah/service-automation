@@ -1,0 +1,16 @@
+#!/bin/bash
+
+{{ ansible_managed | comment }}
+
+if [ -n "$EXTRA_PROFILE" ]; then
+  echo "=== It looks like EXTRA_PROFILE is set to $EXTRA_PROFILE."
+  echo "    Seeing if a script exists at /home/guest/.extra_profiles/${EXTRA_PROFILE}..."
+
+  if [ -f "/home/guest/.extra_profiles/${EXTRA_PROFILE}" ]; then
+    source "/home/guest/.extra_profiles/${EXTRA_PROFILE}"
+  else
+    echo "It appears that /home/guest/.extra_profiles/${EXTRA_PROFILE} doesn't exist."
+  fi
+else
+  echo "It appears that EXTRA_PROFILE is not set. Not executing..."
+fi

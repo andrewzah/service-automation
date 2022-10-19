@@ -5,7 +5,7 @@ python3 -m venv .venv
 source ./.venv/bin/activate
 
 pip install ansible docker
-ansible-galaxy collection install amazon.aws ansible.posix community.postgresql community.mysql
+ansible-galaxy collection install amazon.aws ansible.posix community.general community.postgresql community.mysql
 ```
 
 ## further reading

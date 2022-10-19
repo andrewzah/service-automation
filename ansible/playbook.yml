@@ -14,11 +14,22 @@
 #  roles:
 #    - docker
 
+#- hosts:
+#    - docker.eagle.zah.arpa
+#  roles:
+#    - base
+#    - z_docker_services
+
 - hosts:
-    - docker.eagle.zah.arpa
+    - proxmox_eagle
   roles:
-    - base
-    - z_docker_services
+    - z_proxmox
+  become: 'yes'
+
+# - hosts:
+#    - nominal.zah.arpa
+#  roles:
+#    - z_games
 
 #- hosts: minecraft_test
 #  become_method: su
