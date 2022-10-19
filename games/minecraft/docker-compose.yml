@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  fabric-survival:
+    image: itzg/minecraft-server:java17-jdk
+    environment:
+      VERSION: '1.19.2'
+      TYPE: 'FABRIC'
+      EULA: 'TRUE'
+      ENABLE_AUTOPAUSE: 'TRUE'
+      DIFFICULTY: 'hard'
+      MOTD: 'Testing'
+      WHITELIST: '65d05271-5ef9-4a49-af14-88079400b83e'
+      ENFORCE_WHITELIST: 'TRUE'
+      #OPS: 'user1,user2'
+      OVERRIDE_OPS: 'TRUE'
+      ENABLE_RCON: 'TRUE'
+      RCON_PASSWORD: '2b65f1d6802eb8b5a513d020959477d92d3ec514b006810ca953fe45978c524d'
+      MODE: 'survival'
+      PVP: 'FALSE'
+      LEVEL: 'labchicanery'
+      SERVER_NAME: 'LabChicanery-Survival'
+      USE_AIKAR_FLAGS: 'FALSE'
+      TZ: 'America/New_York'
+      MAX_TICK_TIME: '-1'
+      MODS: '/mods'
+      # phosphor instead of starlight
+      MODRINTH_PROJECTS: 'beenfo,bluemap,cloth-config,deltalogger,fabric-api,fallingtree,lithium,starlight,sodium,textile_backup'
+      MODRINTH_ALLOWED_VERSION_TYPE: 'release'
+      # PROXY: 'myproxy:3111'
+    #tty: true
+    #stdin_open: true
+    restart: unless-stopped
+    ports:
+      - 25565:25565
+    volumes:
+      - "./data/minecraft/data/:/data/:rw"
+      - "./data/minecraft/mods/:/mods/:rw"
