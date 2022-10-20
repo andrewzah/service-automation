@@ -26,10 +26,14 @@
     - z_proxmox
   become: 'yes'
 
-# - hosts:
-#    - nominal.zah.arpa
+#- hosts:
+#    - games
 #  roles:
-#    - z_games
+#  - role: base
+#    become_user: 'root'
+#
+#  - role: z_games
+#    become_user: ansible
 
 #- hosts: minecraft_test
 #  become_method: su

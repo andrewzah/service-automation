@@ -16,6 +16,26 @@
     name: ntp
     state: started
 
+- name: Ensure group 'ansible' exists with gid 2000
+  ansible.builtin.group:
+    name: ansible
+    state: present
+    gid: 2000
+
+- name: Add the user 'ansible' with gid 2000
+  ansible.builtin.user:
+    name: 'ansible'
+    comment: 'Ansible Daemon'
+    uid: 2000
+    group: 'ansible'
+
+- name: add ssh key to 'ansible' user
+  authorized_key:
+    user: 'ansible'
+    state: 'present'
+    key: '{{ item }}'
+  with_items: '{{ ansible_ssh_keys }}'
+
 - name: test for ntfy line in /etc/pam.d/sshd
   shell: grep -c "ntfy-ssh-login" /etc/pam.d/sshd || true
   register: grep_pamd_sshd

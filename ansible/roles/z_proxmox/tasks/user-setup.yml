@@ -1,0 +1,45 @@
+---
+
+- name: add ansible group with gid 2000
+  command:
+    pct exec {{ item }} -- groupadd -g 2000 ansible
+  ignore_errors: 'yes'
+  with_items:
+    - "{{ nodes }}"
+
+- name: add 'ansible' user with uid 2000
+  command:
+    pct exec {{ item }} -- useradd -s /usr/bin/bash -d /home/ansible -g 2000 --create-home -u 2000 ansible 
+  ignore_errors: 'yes'
+  with_items:
+    - "{{ nodes }}"
+
+- name: ensure 'ansible' .ssh dir exists
+  command:
+    pct exec {{ item }} -- mkdir -p /home/ansible/.ssh
+  with_items:
+    - "{{ nodes }}"
+
+- name: chmod .ssh dir to 0700
+  command:
+    pct exec {{ item }} -- chmod 0700 /home/ansible/.ssh
+  with_items:
+    - "{{ nodes }}"
+
+- name: create 'ansible' authorized_keys file
+  ansible.builtin.shell:
+    pct exec {{ item }} -- bash -c 'echo {{ ssh_pubkey_ansible }} | tee /home/ansible/.ssh/authorized_keys'
+  with_items:
+    - "{{ nodes }}"
+
+- name: chmod authorized_keys file to 0600
+  ansible.builtin.command:
+    pct exec {{ item }} -- chmod 0600 /home/ansible/.ssh/authorized_keys
+  with_items:
+    - "{{ nodes }}"
+
+- name: chown 'ansible's .ssh dir
+  command:
+    pct exec {{ item }} -- chown -R ansible:ansible /home/ansible/.ssh
+  with_items:
+    - "{{ nodes }}"

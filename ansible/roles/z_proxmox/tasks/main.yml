@@ -73,7 +73,7 @@
     node: 'eagle'
     ostemplate: 'iso-storage:vztmpl/debian-11-standard_11.3-1_amd64.tar.zst'
     password: '{{ nominal_root_password }}'
-    pubkey: '{{ ssh_key_ansible }}'
+    pubkey: '{{ ssh_pubkey_ansible }}'
     state: present
     storage: 'eagle-zfs'
     unprivileged: true
@@ -95,3 +95,14 @@
     api_host: 127.0.0.1
     vmid: 103
     state: started
+
+- name: sleep for 5 seconds
+  ansible.builtin.wait_for:
+    timeout: 5
+
+
+- name: setup 'ansible' user in nodes
+  ansible.builtin.include_tasks: user-setup.yml
+  vars:
+    nodes:
+      - 103

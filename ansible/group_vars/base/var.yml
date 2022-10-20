@@ -3,3 +3,5 @@ influxdb_url: '{{ vault_influxdb_url }}'
 ntfy_pamd_topic: '{{ v_ntfy_pamd_topic }}'
 ntfy_pamd_user: '{{ v_ntfy_pamd_user }}'
 ntfy_pamd_pass: '{{ v_ntfy_pamd_pass }}'
+
+ansible_ssh_keys: '{{ v_ansible_ssh_keys }}'

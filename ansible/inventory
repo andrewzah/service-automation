@@ -10,8 +10,8 @@ docker.eagle.zah.arpa ansible_ssh_private_key_file=~/.ssh/ansible-docker-ed25519
 [proxmox_eagle]
 eagle.zah.arpa
 
-[minecraft_test]
-z003-stitt.zah.arpa
+[games]
+nominal.zah.arpa
 
 [telegraf]
 z002-bird.zah.arpa
