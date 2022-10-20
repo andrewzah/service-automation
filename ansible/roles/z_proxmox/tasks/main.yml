@@ -73,7 +73,7 @@
     node: 'eagle'
     ostemplate: 'iso-storage:vztmpl/debian-11-standard_11.3-1_amd64.tar.zst'
     password: '{{ nominal_root_password }}'
-    pubkey: '{{ ssh_pubkey_ansible }}'
+    pubkey: '{{ ssh_pubkey_fedora }}'
     state: present
     storage: 'eagle-zfs'
     unprivileged: true
