@@ -18,13 +18,33 @@
 #    - docker.eagle.zah.arpa
 #  roles:
 #    - base
+#  become: 'yes'
+
+#- hosts:
+#    - docker.eagle.zah.arpa
+#  roles:
 #    - z_docker_services
 
+#- hosts:
+#    - proxmox_eagle
+#  roles:
+#    - z_proxmox
+#  become: 'yes'
+
 - hosts:
-    - proxmox_eagle
-  roles:
-    - z_proxmox
+    - 'games_prepare'
   become: 'yes'
+  roles:
+  - role: 'docker'
+    vars:
+      docker_users:
+        - 'guest'
+  - role: 'z_prepare_games'
+
+- hosts:
+    - 'games'
+  roles:
+  - 'z_games'
 
 #- hosts:
 #    - games

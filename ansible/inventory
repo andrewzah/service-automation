@@ -10,8 +10,11 @@ docker.eagle.zah.arpa ansible_ssh_private_key_file=~/.ssh/ansible-docker-ed25519
 [proxmox_eagle]
 eagle.zah.arpa
 
+[games_prepare]
+nominal-setup ansible_ssh_host=nominal.zah.arpa   remote_user=ansible ansible_ssh_private_key_file=~/.ssh/ansible-docker-ed25519
+
 [games]
-nominal.zah.arpa
+nominal-games ansible_ssh_host=nominal.zah.arpa   remote_user=guest ansible_ssh_private_key_file=~/.ssh/id_ed25519 ansible_user=guest
 
 [telegraf]
 z002-bird.zah.arpa

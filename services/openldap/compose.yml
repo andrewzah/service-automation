@@ -45,6 +45,7 @@ services:
       - "1389"
       - "1389:1389"
     volumes:
-      - "~/docker/data/openldap/openldap/:/etc/ldap/slapd.d/"
-      - "~/docker/data/openldap/runtime/:/var/lib/ldap"
+      - "~/docker/data/openldap/openldap/:/etc/ldap/slapd.d/:rw"
+      - "~/docker/data/openldap/runtime/:/var/lib/ldap/:rw"
+      - "~/docker/data/openldap/data/:/bitnami/openldap/:rw"
     restart: unless-stopped

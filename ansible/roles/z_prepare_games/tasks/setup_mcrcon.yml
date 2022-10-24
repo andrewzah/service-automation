@@ -13,6 +13,13 @@
     msg: 'Checksum failed: {{ remote_mcrcon_tarfile.stat.checksum }} != {{ mcrcon_sha256sum }}'
   when: remote_mcrcon_tarfile.stat.exists
 
+- name: ensure ansible tmp downloads dir exists
+  ansible.builtin.file:
+    path: "{{ mcrcon_download_dir }}"
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+
 - name: download mcrcon
   get_url:
     url: 'https://github.com/Tiiffi/mcrcon/releases/download/v0.7.2/mcrcon-0.7.2-linux-x86-64.tar.gz'

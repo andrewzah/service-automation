@@ -1,12 +1,8 @@
 {{ ansible_managed | comment }}
 
-export EDITOR='vim'
-alias v='vim'
+export EDITOR='nvim'
+alias v='nvim'
 
-if command -v exa &>/dev/null; then
-  alias ls="exa"
-  alias ll='exa -la'
-else
-  alias ls='ls --color=auto'
-  alias ll='ls -la'
-fi
+alias ls='ls --color=auto'
+alias ll='ls -1'
+alias la='ls -1a'

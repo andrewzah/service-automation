@@ -1,0 +1,111 @@
+---
+#- include_tasks: setup_system.yml
+
+- name: ensure packages are installed
+  ansible.builtin.apt:
+    name:
+      - 'acl'
+      - 'curl'
+      - 'git'
+      - 'neovim'
+      - 'openssh-client'
+      - 'python3'
+      - 'python3-pip'
+      - 'rsync'
+      - 'tmux'
+    state: 'present'
+    update_cache: 'yes'
+
+# TODO: optimize
+- name: ensure packages are NOT installed
+  ansible.builtin.apt:
+    name:
+      - 'nano'
+      - 'sendmail'
+    state: 'absent'
+    update_cache: 'yes'
+
+- name: secure ssh config
+  ansible.builtin.lineinfile:
+    dest: '/etc/ssh/sshd_config'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    state: 'present'
+    validate: 'sshd -t -f %s'
+  with_items:
+    - regexp: '^PasswordAuthentication'
+      line: 'PasswordAuthentication no'
+    - regexp: '^PermitRootLogin'
+      line: 'PermitRootLogin without-password'
+    - regexp: '^Port'
+      line: 'Port 22'
+    - regexp: '^AcceptEnv'
+      line: 'AcceptEnv LANG LC_* EXTRA_PROFILE'
+
+- name: restart ssh
+  ansible.builtin.systemd:
+    name: 'sshd'
+    state: 'restarted'
+
+- name: Ensure group 'guest' exists with gid 1010
+  ansible.builtin.group:
+    name: 'guest'
+    state: 'present'
+    gid: 1010
+
+- name: Add the user 'guest' with gid 1010
+  ansible.builtin.user:
+    name: 'guest'
+    comment: 'LabChicanery guest'
+    uid: 1010
+    group: 'guest'
+    shell: '/usr/bin/bash'
+
+- name: add ssh keys to 'guest' user
+  ansible.posix.authorized_key:
+    user: 'guest'
+    state: 'present'
+    key: '{{ item }}'
+  with_items: '{{ ssh_keys }}'
+
+- name: add /etc/profiles.d/extra_profiles.sh
+  become: 'yes'
+  ansible.builtin.template:
+    src: 'extra_profiles.sh.j2'
+    dest: '/etc/profile.d/extra_profiles.sh'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+
+- name: install mcrcon
+  ansible.builtin.include_tasks: setup_mcrcon.yml
+
+#- name: rsync worlds
+#  synchronize:
+#    archive: 'yes'
+#    compress: 'yes'
+#    recursive: 'yes'
+#    src: '{{ item.value.src }}'
+#    dest: '{{ item.value.dest }}'
+#  loop: "{{ lookup('dict', worlds) }}"
+#  delegate_to: "{{ inventory_hostname }}"
+
+#- include_tasks: setup_proxy_service.yml
+#- include_tasks: setup_survival_server.yml
+##- include_tasks: setup_creative_server
+#- include_tasks: setup_mcrcon.yml
+
+#- name: reload systemctl
+#  become: yes
+#  systemd:
+#    daemon_reload: yes
+#
+#- name: start minecraft services
+#  become: yes
+#  service:
+#    name: '{{ item }}'
+#    state: started
+#  with_items:
+#    - velocity.service
+#    - survival_server.service
+#    #- creative_server.service

@@ -1,17 +1,15 @@
-- create guest user
-- ssh
-  - add AcceptEnv line to end
-  - set port
-- copy authorized_keys
-- install tmux
-- install docker
-- minecraft
-  - copy /etc/profile.d/extra_profiles.sh
-  - mkdir .extra_profiles
-  - copy extra_profiles/andrew
-  - copy minecraft docker-compose.yml
-  - copy other plugin jars
-  - copy plugin config files
-  - install mcrcon - https://github.com/Tiiffi/mcrcon
-- terraria
-  - install steamcmd
+- [ ] nominal root pass defined twice
+- [x] create guest user
+- [x] ssh
+  - [x] add AcceptEnv line to end
+  - [x] set port
+- [x] copy authorized_keys
+- [x] install tmux
+- [x] install docker
+- [ ] minecraft
+  - [ ] copy minecraft docker-compose.yml
+  - [ ] copy other plugin jars
+  - [ ] copy plugin config files
+  - [ ] install mcrcon - https://github.com/Tiiffi/mcrcon
+- [ ] terraria
+  - [ ] install steamcmd
