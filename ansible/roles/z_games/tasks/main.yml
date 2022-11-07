@@ -108,4 +108,5 @@
     recreate: 'smart'
     services:
       - 'mcrouter'
+      - 'labchicanery-creative'
       - 'labchicanery-survival'

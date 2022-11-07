@@ -1,0 +1,43 @@
+#!/bin/bash
+
+set -euo pipefail
+
+REMOTE_NAME="backblaze"
+BUCKET_NAME="az-games"
+
+MC_DATA_DIR="/mnt/eagle/games/minecraft"
+
+################
+### survival ###
+################
+
+rclone sync \
+  --progress \
+  "${MC_DATA_DIR}/labchicanery-survival/data/backup" \
+  "${REMOTE_NAME}:${BUCKET_NAME}/labchicanery-survival/backups"
+
+rclone sync \
+  --progress \
+  --exclude-if-present .rclone-ignore \
+  "${MC_DATA_DIR}/labchicanery-survival/data/" \
+  "${REMOTE_NAME}:${BUCKET_NAME}/labchicanery-survival/server"
+
+################
+### creative ###
+################
+
+rclone sync \
+  --progress \
+  "${MC_DATA_DIR}/labchicanery-creative/data/backup" \
+  "${REMOTE_NAME}:${BUCKET_NAME}/labchicanery-creative/backups"
+
+rclone sync \
+  --progress \
+  --exclude-if-present .rclone-ignore \
+  "${MC_DATA_DIR}/labchicanery-creative/data/" \
+  "${REMOTE_NAME}:${BUCKET_NAME}/labchicanery-creative/server"
+
+# survival
+#rclone sync \
+#  "${MC_DATA_DIR}/labchicanery-creative/data" \
+#  "${REMOTE_NAME}:${BUCKET_NAME}/labchicanery-creative/"

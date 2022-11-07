@@ -5,7 +5,7 @@ services:
     image: itzg/mc-router:1.16.1@sha256:9fbe6e1877108c69999de7c0ee54837f4d11fbc9b25a4ea9a80741af4fd3202f
     ports:
       - '25565:25565'
-    command: --mapping=survival.mc.zah.rocks=labchicanery-survival:25565
+    command: --mapping=survival.mc.zah.rocks=labchicanery-survival:25565,creative.mc.zah.rocks=labchicanery-creative:25565
 
   labchicanery-survival:
     image: itzg/minecraft-server:java17-jdk
@@ -17,7 +17,7 @@ services:
       EULA: 'TRUE'
       ENABLE_AUTOPAUSE: 'TRUE'
       DIFFICULTY: 'hard'
-      MOTD: 'Testing'
+      MOTD: 'LC - Survival'
       WHITELIST: '65d05271-5ef9-4a49-af14-88079400b83e'
       ENFORCE_WHITELIST: 'TRUE'
       #OPS: 'user1,user2'
@@ -50,4 +50,43 @@ services:
       - '25565'
     volumes:
       - './data/labchicanery-survival/data:/data/:rw'
+      - '/home/guest/minecraft/mods/:/mods/:rw'
+
+  labchicanery-creative:
+    image: itzg/minecraft-server:java17-jdk
+    environment:
+      UID: 1010
+      GID: 1010
+      VERSION: '1.19.2'
+      TYPE: 'FABRIC'
+      EULA: 'TRUE'
+      ENABLE_AUTOPAUSE: 'TRUE'
+      DIFFICULTY: 'peaceful'
+      MOTD: 'LC - Creative'
+      WHITELIST: '65d05271-5ef9-4a49-af14-88079400b83e'
+      ENFORCE_WHITELIST: 'TRUE'
+      #OPS: 'user1,user2'
+      OVERRIDE_OPS: 'TRUE'
+      ENABLE_RCON: 'TRUE'
+      RCON_PASSWORD: '2b65f1d6802eb8b5a513d020959477d92d3ec514b006810ca953fe45978c524d'
+      MODE: 'creative'
+      PVP: 'FALSE'
+      LEVEL: 'labchicanery-survival'
+      SERVER_NAME: 'LabChicanery-Survival'
+      USE_AIKAR_FLAGS: 'FALSE'
+      MEMORY: '2G'
+      TZ: 'America/New_York'
+      MAX_TICK_TIME: '-1'
+      MODS: '/mods'
+      SEED: '1278040446' # 425,-600
+      MODRINTH_PROJECTS: 'bluemap,cloth-config,deltalogger,fabric-api,fabric-language-kotlin,lithium,starlight,sodium,unifiedmetrics'
+      MODRINTH_ALLOWED_VERSION_TYPE: 'release'
+    restart: unless-stopped
+    depends_on:
+      - mcrouter
+    ports:
+      - '8100' #bluemap
+      - '25565'
+    volumes:
+      - './data/labchicanery-creative/data:/data/:rw'
       - '/home/guest/minecraft/mods/:/mods/:rw'
