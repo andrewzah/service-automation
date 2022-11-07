@@ -72,6 +72,7 @@
     memory: '12288'
     netif: '{"net0":"name=eth0,gw=192.168.1.1,ip=192.168.2.29/24,bridge=vmbr0"}'
     node: 'eagle'
+    onboot: 'yes'
     ostemplate: 'iso-storage:vztmpl/debian-11-standard_11.3-1_amd64.tar.zst'
     password: '{{ pass_root_nominal }}'
     pubkey: '{{ ssh_pubkey_fedora }}'

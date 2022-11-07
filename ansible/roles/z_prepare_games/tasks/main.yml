@@ -11,6 +11,7 @@
       - 'openssh-client'
       - 'python3'
       - 'python3-pip'
+      - 'rclone'
       - 'rsync'
       - 'tmux'
     state: 'present'
@@ -79,6 +80,22 @@
 
 - name: install mcrcon
   ansible.builtin.include_tasks: setup_mcrcon.yml
+
+- name: ensure rclone config dir is present
+  become: yes
+  ansible.builtin.file:
+    path: '~/.config/rclone/'
+    state: 'directory'
+    recurse: 'yes'
+
+- name: add rclone conf to .config/rclone
+  become: 'yes'
+  ansible.builtin.template:
+    src: 'rclone.conf.j2'
+    dest: '/home/guest/.config/rclone/rclone.conf'
+    owner: 'guest'
+    group: 'guest'
+    mode: '0600'
 
 #- name: rsync worlds
 #  synchronize:
