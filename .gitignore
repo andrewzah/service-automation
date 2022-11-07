@@ -16,3 +16,6 @@ DONTCOMMIT/
 **/invidious.yml
 
 **/nitter/nitter.conf
+
+# trivy
+report.html
