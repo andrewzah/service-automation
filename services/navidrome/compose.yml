@@ -2,12 +2,13 @@ version: '3.7'
 
 services:
   navidrome:
-    # 01-22-2022
-    image: deluan/navidrome:0.47.5@sha256:4114446451d1122717c33e46339bb9e36ff6568c7c2f92a1a4e008648b49a2bf
+    # 2022-11-07
+    user: '1005'
+    image: deluan/navidrome@sha256:a1732c8b50760713fea48ca9b949fb7bd1a75c2891363f468c38903a26606f4c
     environment:
       ND_PORT: 4533
-      ND_MUSICFOLDER: /music
-      ND_DATAFOLDER: /data
+      ND_MUSICFOLDER: '/music'
+      ND_DATAFOLDER: '/data'
       ND_SCANSCHEDULE: '@every 1m'
       ND_COVERJPEGQUALITY: 85
       ND_TRANSCODINGCACHESIZE: "500MB"
@@ -26,11 +27,12 @@ services:
       ND_LASTFM_ENABLED: 'false'
       # disable for security
       ND_ENABLETRANSCODINGCONFIG: 'false'
+      ND_PROMETHEUS_ENABLED: 'true'
     ports:
         - "4533"
     volumes:
-      - "/mnt/data/navidrome:/data"
-      - "/mnt/media/music:/music"
+      - "~/docker/data/navidrome:/data"
+      - "/mnt/eagle/media/music:/music"
     restart: unless-stopped
     depends_on:
       - traefik
@@ -39,3 +41,4 @@ services:
       - "traefik.http.routers.navidrome.rule=Host(`music.zah.rocks`)"
       - "traefik.http.routers.navidrome.entrypoints=websecure"
       - "traefik.http.routers.navidrome.tls.certresolver=myresolver"
+

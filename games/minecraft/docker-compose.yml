@@ -71,14 +71,13 @@ services:
       RCON_PASSWORD: '2b65f1d6802eb8b5a513d020959477d92d3ec514b006810ca953fe45978c524d'
       MODE: 'creative'
       PVP: 'FALSE'
-      LEVEL: 'labchicanery-survival'
-      SERVER_NAME: 'LabChicanery-Survival'
+      LEVEL: 'labchicanery-creative'
+      SERVER_NAME: 'LabChicanery-Creative'
       USE_AIKAR_FLAGS: 'FALSE'
       MEMORY: '2G'
       TZ: 'America/New_York'
       MAX_TICK_TIME: '-1'
       MODS: '/mods'
-      SEED: '1278040446' # 425,-600
       MODRINTH_PROJECTS: 'bluemap,cloth-config,deltalogger,fabric-api,fabric-language-kotlin,lithium,starlight,sodium,unifiedmetrics'
       MODRINTH_ALLOWED_VERSION_TYPE: 'release'
     restart: unless-stopped
@@ -89,4 +88,4 @@ services:
       - '25565'
     volumes:
       - './data/labchicanery-creative/data:/data/:rw'
-      - '/home/guest/minecraft/mods/:/mods/:rw'
+      - '/home/guest/minecraft/mods-creative/:/mods/:rw'
