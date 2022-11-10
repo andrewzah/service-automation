@@ -1,0 +1,10 @@
+output:
+  url: "{{ influx_url }}"
+  organization: "minecraft"
+  bucket: "labchicanery"
+  interval: 10
+authentication:
+  scheme: "TOKEN"
+  username: ""
+  password: ""
+  token: "{{ unifiedmetrics_influx_token }}"

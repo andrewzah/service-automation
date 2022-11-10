@@ -79,6 +79,7 @@
     state: 'directory'
   with_items:
     - '~/minecraft/data'
+    - '~/minecraft/data/labchicanery-proxy'
     - '~/minecraft/data/labchicanery-survival'
     - '~/minecraft/data/labchicanery-creative'
     - '~/minecraft/data/labchicanery-skyblock'
@@ -107,6 +108,7 @@
     state: 'present'
     recreate: 'smart'
     services:
-      - 'mcrouter'
-      - 'labchicanery-creative'
-      - 'labchicanery-survival'
+      - 'router'
+      - 'proxy'
+      - 'creative'
+      - 'survival'

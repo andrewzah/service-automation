@@ -1,15 +1,27 @@
 version: "3"
 
 services:
-  mcrouter:
+  router:
     image: itzg/mc-router:1.16.1@sha256:9fbe6e1877108c69999de7c0ee54837f4d11fbc9b25a4ea9a80741af4fd3202f
     ports:
-      - '25565:25565'
-    command: --mapping=survival.mc.zah.rocks=labchicanery-survival:25565,creative.mc.zah.rocks=labchicanery-creative:25565
+      - "25565:25565"
+    command: --mapping=mc.zah.rocks=proxy:25565,survival.mc.zah.rocks=labchicanery-survival:25565,creative.mc.zah.rocks=labchicanery-creative:25565
 
-  labchicanery-survival:
+  proxy:
+    image: itzg/bungeecord:java17@sha256:0182d4938d900f2e6c2778c34fe589f4e976ee22965276d512639f7bb71d94e0
+    environment:
+      PLUGINS: 'https://download.luckperms.net/1460/velocity/LuckPerms-Velocity-5.4.52.jar,https://github.com/WiIIiam278/HuskChat/releases/download/2.3/HuskChat-2.3.jar'
+      JVM_OPTS: '-XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:+UnlockExperimentalVMOptions -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:MaxInlineLevel=15'
+      TYPE: 'VELOCITY'
+    ports:
+      - '25565'
+    volumes:
+      - "./data/velocity/:/server/"
+
+  survival:
     image: itzg/minecraft-server:java17-jdk
     environment:
+      ONLINE_MODE: 'false'
       UID: 1010
       GID: 1010
       VERSION: '1.19.2'
@@ -18,7 +30,7 @@ services:
       ENABLE_AUTOPAUSE: 'TRUE'
       DIFFICULTY: 'hard'
       MOTD: 'LC - Survival'
-      WHITELIST: '65d05271-5ef9-4a49-af14-88079400b83e'
+      WHITELIST: '65d05271-5ef9-4a49-af14-88079400b83e,fb32208d-815d-45b6-9e82-53830c55bb14,f663c462-3007-4301-9129-882f0ec450a9,319f599f-bd59-42d2-852f-9ac1e67234ca'
       ENFORCE_WHITELIST: 'TRUE'
       #OPS: 'user1,user2'
       OVERRIDE_OPS: 'TRUE'
@@ -37,7 +49,7 @@ services:
       SEED: '1278040446' # 425,-600
       # phosphor instead of starlight
       # textile_backup has to be modified manually for 1.19.2, TODO: remove from ./mods/ at some point
-      MODRINTH_PROJECTS: 'beenfo,bluemap,cloth-config,deltalogger,fabric-api,fabric-language-kotlin,fallingtree,lithium,starlight,sodium,unifiedmetrics'
+      MODRINTH_PROJECTS: 'beenfo,bluemap,cloth-config,deltalogger,fabric-api,fabric-language-kotlin,fabricproxy-lite,fallingtree,lithium,luckperms,starlight,sodium,unifiedmetrics'
       MODRINTH_ALLOWED_VERSION_TYPE: 'release'
       # PROXY: 'myproxy:3111'
     #tty: true
@@ -52,9 +64,10 @@ services:
       - './data/labchicanery-survival/data:/data/:rw'
       - '/home/guest/minecraft/mods/:/mods/:rw'
 
-  labchicanery-creative:
+  creative:
     image: itzg/minecraft-server:java17-jdk
     environment:
+      ONLINE_MODE: 'false'
       UID: 1010
       GID: 1010
       VERSION: '1.19.2'
@@ -63,7 +76,7 @@ services:
       ENABLE_AUTOPAUSE: 'TRUE'
       DIFFICULTY: 'peaceful'
       MOTD: 'LC - Creative'
-      WHITELIST: '65d05271-5ef9-4a49-af14-88079400b83e'
+      WHITELIST: '65d05271-5ef9-4a49-af14-88079400b83e,fb32208d-815d-45b6-9e82-53830c55bb14,f663c462-3007-4301-9129-882f0ec450a9,319f599f-bd59-42d2-852f-9ac1e67234ca'
       ENFORCE_WHITELIST: 'TRUE'
       #OPS: 'user1,user2'
       OVERRIDE_OPS: 'TRUE'
@@ -78,7 +91,7 @@ services:
       TZ: 'America/New_York'
       MAX_TICK_TIME: '-1'
       MODS: '/mods'
-      MODRINTH_PROJECTS: 'bluemap,cloth-config,deltalogger,fabric-api,fabric-language-kotlin,lithium,starlight,sodium,unifiedmetrics'
+      MODRINTH_PROJECTS: 'luckperms,bluemap,cloth-config,deltalogger,fabric-api,fabric-language-kotlin,fabricproxy-lite,lithium,starlight,sodium,unifiedmetrics'
       MODRINTH_ALLOWED_VERSION_TYPE: 'release'
     restart: unless-stopped
     depends_on:
