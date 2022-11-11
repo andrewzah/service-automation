@@ -25,26 +25,31 @@
 #  roles:
 #    - z_docker_services
 
-#- hosts:
-#    - proxmox_eagle
-#  roles:
-#    - z_proxmox
-#  become: 'yes'
-
 - hosts:
-    - 'games_prepare'
+    - proxmox_eagle
+  roles:
+    - z_proxmox
   become: 'yes'
-  roles:
-  - role: 'docker'
-    vars:
-      docker_users:
-        - 'guest'
-  - role: 'z_prepare_games'
 
 - hosts:
-    - 'games'
+    - z_palmettotech
   roles:
-  - 'z_games'
+    - z_palmettotech
+
+#- hosts:
+#    - 'games_prepare'
+#  become: 'yes'
+#  roles:
+#  - role: 'docker'
+#    vars:
+#      docker_users:
+#        - 'guest'
+#  - role: 'z_prepare_games'
+
+#- hosts:
+#    - 'z_games'
+#  roles:
+#  - 'z_games'
 
 #- hosts:
 #    - games

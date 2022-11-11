@@ -56,7 +56,7 @@
   with_items:
     - "{{ nodes }}"
 
-- name: apt install sudo 
+- name: apt install sudo
   command:
     pct exec {{ item.name }} -- apt install sudo -y
   with_items:
@@ -65,5 +65,11 @@
 - name: add 'ansible' to 'sudoers'
   command:
     pct exec {{ item.name }} -- usermod -aG sudo ansible
+  with_items:
+    - "{{ nodes }}"
+
+- name: add 'ansible' to 'sudoers'
+  command:
+    pct exec {{ item.name }} -- systemctl enable --now ssh
   with_items:
     - "{{ nodes }}"

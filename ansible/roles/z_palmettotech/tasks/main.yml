@@ -1,0 +1,12 @@
+---
+
+- name: manage packages
+  ansible.builtin.import_tasks: manage_packages.yml
+  become: 'yes'
+
+- name: setup ssh
+  ansible.builtin.import_tasks: setup_ssh.yml
+  become: 'yes'
+
+- name: setup zulip
+  ansible.builtin.import_tasks: setup_zulip.yml

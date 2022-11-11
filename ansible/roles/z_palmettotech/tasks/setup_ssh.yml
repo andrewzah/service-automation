@@ -1,0 +1,45 @@
+---
+
+# TODO: debian uses /sbin/sshd
+- name: secure ssh config
+  ansible.builtin.lineinfile:
+    dest: '/etc/ssh/sshd_config'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    state: 'present'
+    validate: '/sbin/sshd -t -f %s'
+  with_items:
+    - regexp: '^PasswordAuthentication'
+      line: 'PasswordAuthentication no'
+    - regexp: '^PermitRootLogin'
+      line: 'PermitRootLogin without-password'
+    - regexp: '^Port'
+      line: 'Port 22'
+    - regexp: '^AcceptEnv'
+      line: 'AcceptEnv LANG LC_* EXTRA_PROFILE'
+
+- name: add ssh keys to 'ansible' user
+  ansible.posix.authorized_key:
+    user: 'ansible'
+    state: 'present'
+    key: '{{ item }}'
+  with_items: '{{ ssh_keys }}'
+
+- name: add ssh keys to 'root' user
+  ansible.posix.authorized_key:
+    user: 'root'
+    state: 'present'
+    key: '{{ item }}'
+  with_items: '{{ ssh_keys }}'
+
+- name: enable ssh now
+  ansible.builtin.systemd:
+    name: 'sshd'
+    enabled: 'yes'
+    state: 'started'
+
+- name: restart ssh
+  ansible.builtin.systemd:
+    name: 'sshd'
+    enabled: 'yes'
+    state: 'restarted'

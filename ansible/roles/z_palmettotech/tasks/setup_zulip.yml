@@ -1,0 +1,109 @@
+---
+
+- name: check for zulip tarfile on remote box
+  stat:
+    path: '/tmp/zulip-server-latest.tar.gz'
+    checksum_algorithm: sha256
+  register: remote_zulip_tarfile
+  ignore_errors: yes
+
+- name: assert existing zulip tgz matches checksum
+  assert:
+    that:
+      - remote_zulip_tarfile.stat.checksum == zulip_sha256sum
+    msg: 'Checksum failed: {{ remote_zulip_tarfile.stat.checksum }} != {{ zulip_sha256sum }}'
+  when: remote_zulip_tarfile.stat.exists
+
+- name: download zulip installer
+  get_url:
+    url: 'https://download.zulip.com/server/zulip-server-latest.tar.gz'
+    dest: '/tmp/zulip-server-latest.tar.gz'
+    checksum: 'sha256:{{ zulip_sha256sum }}'
+    force: no
+    timeout: 30
+    mode: 'u=rw,go=r'
+  when: not remote_zulip_tarfile.stat.exists
+
+- name: Extract zulip-server-latest.tar.gz into /tmp/
+  ansible.builtin.unarchive:
+    src: '/tmp/zulip-server-latest.tar.gz'
+    dest: '/tmp'
+    remote_src: 'yes'
+
+# TODO: optimize
+- name: update apt cache
+  become: 'yes'
+  ansible.builtin.apt:
+    name: "*"
+    state: 'latest'
+    update_cache: 'yes'
+
+- name: run zulip installer as root
+  become: 'yes'
+  command: >
+    ./scripts/setup/install
+      --email=zah@andrewzah.com
+      --hostname=zulip.palmettotech.dev
+      --self-signed-cert
+  register: zulip_installer_output
+  args:
+    chdir: '/tmp/zulip-server-5.6'
+
+- name: configure /etc/zulip/settings.py
+  become: 'yes'
+  ansible.builtin.lineinfile:
+    dest: '/etc/zulip/settings.py'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    state: 'present'
+  with_items:
+    - regexp: '^EMAIL_HOST'
+      line: 'EMAIL_HOST = "{{ email_relay.host }}"'
+    - regexp: '^EMAIL_HOST_USER'
+      line: 'EMAIL_HOST_USER = "{{ email_relay.login }}"'
+    - regexp: '^EMAIL_USE_TLS = True$'
+      line: 'EMAIL_USE_TLS = True'
+    - regexp: '^EMAIL_PORT = {{ email_relay.port }}'
+      line: 'EMAIL_PORT = {{ email_relay.port }}'
+    - regexp: '^NOREPLY_EMAIL_ADDRESS'
+      line: 'NOREPLY_EMAIL_ADDRESS = "noreply@palmettotech.dev"'
+    - regexp: '^SOCIAL_AUTH_GITHUB_KEY'
+      line: 'SOCIAL_AUTH_GITHUB_KEY = "{{ github.client_id }}"'
+
+- name: configure /etc/zulip/zulip-secrets.conf
+  become: 'yes'
+  ansible.builtin.lineinfile:
+    dest: '/etc/zulip/zulip-secrets.conf'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    state: 'present'
+  with_items:
+    - regexp: '^email_password'
+      line: 'email_password = {{ email_relay.secret }}'
+    - regexp: '^social_auth_github_secret'
+      line: 'social_auth_github_secret = {{ github.client_secret }}'
+
+- name: configure /etc/zulip/zulip.conf
+  become: 'yes'
+  ansible.builtin.blockinfile:
+    path: '/etc/zulip/zulip.conf'
+    block: |
+      [application_server]
+      http_only = true
+      nginx_listen_port = 8080
+
+      [loadbalancer]
+      ips = 192.168.2.11,172.24.0.5
+
+      [http_proxy]
+      host =
+      port =
+
+- name: apply new zulip configuration
+  become: 'yes'
+  ansible.builtin.command: /home/zulip/deployments/current/scripts/zulip-puppet-apply -f
+
+- name: restart zulip server
+  become: 'yes'
+  ansible.builtin.command: su zulip -c '/home/zulip/deployments/current/scripts/restart-server'
+

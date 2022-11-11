@@ -37,108 +37,19 @@
       - 'proxmoxer'
     state: 'latest'
 
-## fails if 103 doesn't exist
-- name: STOP games LXC
-  become: 'yes'
-  community.general.proxmox:
-    vmid: 103
-    node: eagle
-    api_user: root@pam
-    api_password: '{{ pass_root_proxmox }}'
-    api_host: 127.0.0.1
-    state: 'stopped'
-    force: true
+##########################
+### labchicanery games ###
+##########################
 
-- name: REMOVE games LXC
-  become: 'yes'
-  community.general.proxmox:
-    vmid: 103
-    node: eagle
-    api_user: root@pam
-    api_password: '{{ pass_root_proxmox }}'
-    api_host: 127.0.0.1
-    state: 'absent'
-    force: true
+#- name: configure 103 lxc
+#  ansible.builtin.include_tasks: configure_103_lxc.yml
 
-- name: create games LXC
-  community.general.proxmox:
-    #force: true
-    api_user: 'root@pam'
-    api_password: '{{ pass_root_proxmox }}'
-    api_host: 127.0.0.1
-    cores: 4
-    disk: 'eagle-zfs:50'
-    hostname: 'nominal.zah.arpa'
-    memory: '12288'
-    netif: '{"net0":"name=eth0,gw=192.168.1.1,ip=192.168.2.29/24,bridge=vmbr0"}'
-    node: 'eagle'
-    onboot: 'yes'
-    ostemplate: 'iso-storage:vztmpl/debian-11-standard_11.3-1_amd64.tar.zst'
-    password: '{{ pass_root_nominal }}'
-    pubkey: '{{ ssh_pubkey_fedora }}'
-    state: present
-    storage: 'eagle-zfs'
-    unprivileged: true
-    vmid: 103
-    features:
-      - 'nesting=1'
-    mounts:
-      mp0: '/eagle/backups/games,mp=/mnt/eagle/games'
+##############################
+### palmettotech.dev zulip ###
+##############################
 
-- name: add mount mappings for '103'
-  become: 'yes'
-  ansible.builtin.lineinfile:
-    dest: '/etc/pve/lxc/103.conf'
-    regexp: '{{ item.regexp }}'
-    line: '{{ item.line }}'
-    state: 'present'
-  with_items:
-    - regexp: '^lxc.idmap = u 0 100000 1010$'
-      line: 'lxc.idmap = u 0 100000 1010'
-    - regexp: '^lxc.idmap = g 0 100000 1010$'
-      line: 'lxc.idmap = g 0 100000 1010'
-    - regexp: '^lxc.idmap = u 1010 1010 1$'
-      line: 'lxc.idmap = u 1010 1010 1'
-    - regexp: '^lxc.idmap = g 1010 1010 1$'
-      line: 'lxc.idmap = g 1010 1010 1'
-    - regexp: '^lxc.idmap = u 1011 101011 64525$'
-      line: 'lxc.idmap = u 1011 101011 64525'
-    - regexp: '^lxc.idmap = g 1011 101011 64525$'
-      line: 'lxc.idmap = g 1011 101011 64525'
-
-- name: edit /etc/subuid
-  become: 'yes'
-  ansible.builtin.lineinfile:
-    dest: '/etc/subuid'
-    regexp: '{{ item.regexp }}'
-    line: '{{ item.line }}'
-    state: 'present'
-  with_items:
-    - regexp: '^root:1005:1$'
-      line: 'root:1005:1'
-    - regexp: '^root:1010:1$'
-      line: 'root:1010:1'
-
-- name: edit /etc/subgid
-  become: 'yes'
-  ansible.builtin.lineinfile:
-    dest: '/etc/subgid'
-    regexp: '{{ item.regexp }}'
-    line: '{{ item.line }}'
-    state: 'present'
-  with_items:
-    - regexp: '^root:1005:1$'
-      line: 'root:1005:1'
-    - regexp: '^root:1010:1$'
-      line: 'root:1010:1'
-
-- name: ensure 'eagle/backups/games' is owned by 1010
-  become: 'yes'
-  ansible.builtin.file:
-    path: '/eagle/backups/games'
-    owner: 1010
-    group: 1010
-    recurse: 'yes'
+- name: configure 104 lxc
+  ansible.builtin.include_tasks: configure_104_lxc.yml
 
 ###################
 ### START NODES ###
@@ -149,9 +60,18 @@
     node: 'eagle'
     api_user: 'root@pam'
     api_password: '{{ pass_root_proxmox }}'
-    api_host: 127.0.0.1
+    api_host: '127.0.0.1'
     vmid: 103
-    state: started
+    state: 'started'
+
+- name: ensure palmettotech.dev LXC is started
+  community.general.proxmox:
+    node: 'eagle'
+    api_user: 'root@pam'
+    api_password: '{{ pass_root_proxmox }}'
+    api_host: '127.0.0.1'
+    vmid: 104
+    state: 'started'
 
 - name: sleep for 5 seconds
   ansible.builtin.wait_for:
