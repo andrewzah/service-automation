@@ -1,0 +1,29 @@
+---
+- name: ensure rclone config dir is present
+  ansible.builtin.file:
+    path: '~/.config/rclone/'
+    state: 'directory'
+    recurse: 'yes'
+
+- name: add rclone conf to .config/rclone
+  ansible.builtin.template:
+    src: 'rclone.conf.j2'
+    dest: '/home/guest/.config/rclone/rclone.conf'
+    mode: '0600'
+
+- name: add rclone.sh to home dir
+  ansible.builtin.template:
+    src: 'rclone.sh.j2'
+    dest: '/home/guest/rclone.sh'
+    mode: '0700'
+
+- name: add rclone.sh to guest crontab
+  ansible.builtin.cron:
+    name: 'rclone backup'
+    minute: '5'
+    hour: '*'
+    day: '*'
+    month: '*'
+    user: 'guest'
+    job: '/home/guest/rclone.sh 2>&1'
+

@@ -40,6 +40,9 @@
     dest: '/home/guest/.extra_configs/james'
     mode: '0644'
 
+- name: install and configure rclone
+  ansible.builtin.include_tasks: setup_rclone.yml
+
 - name: Run 'docker-compose down' for mc servers
   environment:
     COMPOSE_PROJECT_NAME: 'labchicanery'
@@ -79,10 +82,10 @@
     state: 'directory'
   with_items:
     - '~/minecraft/data'
-    - '~/minecraft/data/labchicanery-proxy'
-    - '~/minecraft/data/labchicanery-survival'
-    - '~/minecraft/data/labchicanery-creative'
-    - '~/minecraft/data/labchicanery-skyblock'
+    - '~/minecraft/data/velocity/server'
+    - '~/minecraft/data/survival'
+    - '~/minecraft/data/creative'
+    - '~/minecraft/data/skyblock'
 
 - name: create symbolic links for world data dirs
   ansible.builtin.file:
@@ -92,12 +95,15 @@
     group: 'guest'
     state: 'link'
   with_items:
-    - src: '/mnt/eagle/games/minecraft/labchicanery-survival/data'
-      dest: '~/minecraft/data/labchicanery-survival/data'
-    - src: '/mnt/eagle/games/minecraft/labchicanery-creative/data'
-      dest: '~/minecraft/data/labchicanery-creative/data'
-    - src: '/mnt/eagle/games/minecraft/labchicanery-skyblock/data'
-      dest: '~/minecraft/data/labchicanery-skyblock/data'
+    - src: '/mnt/eagle/games/labchicanery-minecraft/survival/data'
+      dest: '~/minecraft/data/survival/data'
+    - src: '/mnt/eagle/games/labchicanery-minecraft/creative/data'
+      dest: '~/minecraft/data/creative/data'
+    - src: '/mnt/eagle/games/labchicanery-minecraft/skyblock/data'
+      dest: '~/minecraft/data/skyblock/data'
+
+- name: configure mc plugins
+  ansible.builtin.include_tasks: configure_mc_plugins.yml
 
 - name: Run 'docker-compose up' for mc servers
   environment:
@@ -108,7 +114,6 @@
     state: 'present'
     recreate: 'smart'
     services:
-      - 'router'
       - 'proxy'
       - 'creative'
       - 'survival'

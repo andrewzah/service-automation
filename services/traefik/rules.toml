@@ -1,45 +1,34 @@
 [http.routers]
-  [http.routers.ben-website]
+  [http.routers.palmettotech-zulip]
     entrypoints = [ "websecure" ]
-    rule = "Host(`new.benzah.com`)"
-    service = "ben-website"
-    [http.routers.ben-website.tls]
+    rule = "Host(`zulip.palmettotech.dev`)"
+    service = "palmettotech-zulip"
+    [http.routers.palmettotech-zulip.tls]
       certResolver = "myresolver"
 
-  [http.routers.bluemap]
+  [http.routers.bluemap-survival]
     entrypoints = [ "websecure" ]
-    rule = "Host(`map.fabric.genessee.zah.rocks`)"
-    service = "bluemap"
+    rule = "Host(`survival-map.mc.zah.rocks`)"
+    service = "bluemap-survival"
     [http.routers.bluemap.tls]
       certResolver = "myresolver"
 
-  [http.routers.jellyfin]
+  [http.routers.bluemap-creative]
     entrypoints = [ "websecure" ]
-    rule = "Host(`flix.zah.rocks`)"
-    service = "jellyfin"
-    [http.routers.jellyfin.tls]
-      certResolver = "myresolver"
-
-  [http.routers.syncthing]
-    entrypoints = [ "websecure" ]
-    rule = "Host(`syncthing.zah.rocks`)"
-    service = "syncthing"
-    [http.routers.syncthing.tls]
+    rule = "Host(`creative-map.mc.zah.rocks`)"
+    service = "bluemap-creative"
+    [http.routers.bluemap.tls]
       certResolver = "myresolver"
 
 [http.services]
-  [http.services.ben-website.loadBalancer]
-    [[http.services.ben-website.loadBalancer.servers]]
-      url = "http://192.168.1.30:80"
+  [http.services.palmettotech-zulip.loadBalancer]
+    [[http.services.palmettotech-zulip.loadBalancer.servers]]
+      url = "http://192.168.1.31:80"
 
-  [http.services.bluemap.loadBalancer]
-    [[http.services.bluemap.loadBalancer.servers]]
-      url = "http://192.168.1.16:8100"
+  [http.services.bluemap-survival.loadBalancer]
+    [[http.services.bluemap-survival.loadBalancer.servers]]
+      url = "http://192.168.1.29:8100"
 
-  [http.services.jellyfin.loadBalancer]
-    [[http.services.jellyfin.loadBalancer.servers]]
-      url = "http://192.168.1.20:8096"
-
-  [http.services.syncthing.loadBalancer]
-    [[http.services.syncthing.loadBalancer.servers]]
-      url = "http://192.168.1.9:8384"
+  [http.services.bluemap-creative.loadBalancer]
+    [[http.services.bluemap-creative.loadBalancer.servers]]
+      url = "http://192.168.1.29:8101"

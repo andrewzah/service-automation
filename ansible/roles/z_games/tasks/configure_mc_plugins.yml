@@ -1,0 +1,74 @@
+---
+
+#- name: bungeecord - config.yml template
+#  become: 'yes'
+#  ansible.builtin.template:
+#    src: 'mc/bungeecord-config.yml.j2'
+#    dest: '/home/guest/minecraft/data/velocity/config.yml'
+#    mode: '0600'
+#    owner: 'guest'
+#    group: 'guest'
+
+- name: velocity - velocity.toml template
+  become: 'yes'
+  ansible.builtin.template:
+    src: 'mc/velocity.toml.j2'
+    dest: '/home/guest/minecraft/data/velocity/velocity.toml'
+    mode: '0600'
+    owner: 'guest'
+    group: 'guest'
+
+- name: velocity - forwarding.secret template
+  ansible.builtin.template:
+    src: 'mc/forwarding.secret.j2'
+    dest: '/home/guest/minecraft/data/velocity/forwarding.secret'
+    mode: '0644'
+
+- name: velocity - fabricproxy-lite.yml template - survival
+  ansible.builtin.template:
+    src: 'mc/FabricProxy-Lite.toml.j2'
+    dest: '/home/guest/minecraft/data/survival/data/config/FabricProxy-Lite.toml'
+    mode: '0600'
+
+- name: velocity - fabricproxy-lite.yml template - creative
+  ansible.builtin.template:
+    src: 'mc/FabricProxy-Lite.toml.j2'
+    dest: '/home/guest/minecraft/data/creative/data/config/FabricProxy-Lite.toml'
+    mode: '0600'
+
+- name: unifiedmetrics - ensure config dir exists
+  ansible.builtin.file:
+    path: '{{ item }}'
+    mode: '0755'
+    state: 'directory'
+  with_items:
+    - '/home/guest/minecraft/data/survival/data/config/unifiedmetrics/driver'
+    - '/home/guest/minecraft/data/creative/data/config/unifiedmetrics/driver'
+
+- name: unifiedmetrics - config.yml - survival
+  ansible.builtin.template:
+    src: 'mc/unifiedmetrics/config.yml.j2'
+    dest: '/home/guest/minecraft/data/survival/data/config/unifiedmetrics/config.yml'
+    mode: '0600'
+  vars:
+    influx_server_name: 'survival'
+
+- name: unifiedmetrics - influx.yml - survival
+  ansible.builtin.template:
+    src: 'mc/unifiedmetrics/influx.yml.j2'
+    dest: '/home/guest/minecraft/data/survival/data/config/unifiedmetrics/driver/influx.yml'
+    mode: '0600'
+
+- name: unifiedmetrics - config.yml - creative
+  ansible.builtin.template:
+    src: 'mc/unifiedmetrics/config.yml.j2'
+    dest: '/home/guest/minecraft/data/creative/data/config/unifiedmetrics/config.yml'
+    mode: '0600'
+  vars:
+    influx_server_name: 'creative'
+
+- name: unifiedmetrics - influx.yml - creative
+  ansible.builtin.template:
+    src: 'mc/unifiedmetrics/influx.yml.j2'
+    dest: '/home/guest/minecraft/data/creative/data/config/unifiedmetrics/driver/influx.yml'
+    mode: '0600'

@@ -43,10 +43,8 @@
     - regexp: '^AcceptEnv'
       line: 'AcceptEnv LANG LC_* EXTRA_PROFILE'
 
-- name: restart ssh
-  ansible.builtin.systemd:
-    name: 'sshd'
-    state: 'restarted'
+- name: install mcrcon
+  ansible.builtin.include_tasks: setup_mcrcon.yml
 
 - name: Ensure group 'guest' exists with gid 1010
   ansible.builtin.group:
@@ -78,40 +76,14 @@
     group: 'root'
     mode: '0644'
 
-- name: install mcrcon
-  ansible.builtin.include_tasks: setup_mcrcon.yml
+- name: enable ssh now
+  ansible.builtin.systemd:
+    name: 'sshd'
+    enabled: 'yes'
+    state: 'started'
 
-- name: ensure rclone config dir is present
-  become: yes
-  ansible.builtin.file:
-    path: '~/.config/rclone/'
-    state: 'directory'
-    recurse: 'yes'
-
-- name: add rclone conf to .config/rclone
-  become: 'yes'
-  ansible.builtin.template:
-    src: 'rclone.conf.j2'
-    dest: '/home/guest/.config/rclone/rclone.conf'
-    owner: 'guest'
-    group: 'guest'
-    mode: '0600'
-
-- name: add rclone.sh to home dir
-  become: 'yes'
-  ansible.builtin.template:
-    src: 'rclone.sh.j2'
-    dest: '/home/guest/rclone.sh'
-    owner: 'guest'
-    group: 'guest'
-    mode: '0700'
-
-- name: add rclone.sh to guest crontab
-  ansible.builtin.cron:
-    name: 'rclone backup'
-    minute: '5'
-    hour: '*'
-    day: '*'
-    month: '*'
-    user: 'guest'
-    job: '/home/guest/rclone.sh 2>&1'
+- name: restart ssh
+  ansible.builtin.systemd:
+    name: 'sshd'
+    enabled: 'yes'
+    state: 'restarted'
