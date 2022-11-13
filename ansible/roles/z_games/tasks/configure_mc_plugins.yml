@@ -34,14 +34,19 @@
     dest: '/home/guest/minecraft/data/velocity/config/plugins/luckperms/config.yml'
     mode: '0600'
 
-##################################
-### SURVIVAL & CREATIVE CONFIG ###
-##################################
-
-- name: velocity - fabricproxy-lite.yml template
+- name: fabricproxy-lite.yml template
   ansible.builtin.template:
     src: 'mc/FabricProxy-Lite.toml.j2'
     dest: '/home/guest/minecraft/data/{{ item }}/data/config/FabricProxy-Lite.toml'
+    mode: '0600'
+  with_items:
+    - 'creative'
+    - 'survival'
+
+- name: fabricproxy-lite.yml template
+  ansible.builtin.template:
+    src: 'mc/EssentialCommands.properties.j2'
+    dest: '/home/guest/minecraft/data/{{ item }}/data/config/EssentialCommands.properties'
     mode: '0600'
   with_items:
     - 'creative'
