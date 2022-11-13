@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  grafana:
+    image: 'grafana/grafana:9.2.1@sha256:33be3c2d3f457192a284777e24ae6bd264598896451c01ec2c7f329da4707af2'
+    restart: 'unless-stopped'
+    user: '1010'
+    env_file:
+      - "~/docker/services/grafana/secret.env"
+    environment:
+      GF_AUTH_BASIC_DISABLED: 'true'
+      #GF_AUTH_DISABLE_LOGIN_FORM: 'true'
+      GF_SERVER_DOMAIN: "grafana.zah.rocks"
+      GF_SERVER_ROOT_URL: "https://grafana.zah.rocks"
+      GF_INSTALL_PLUGINS: 'grafana-piechart-panel'
+      GF_AUTH_GENERIC_OAUTH_ENABLED: 'true'
+      GF_AUTH_GENERIC_OAUTH_NAME: 'Keycloak Login'
+      GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP: 'true'
+      GF_AUTH_GENERIC_OAUTH_SCOPES: 'openid email profile roles'
+      GF_AUTH_GENERIC_OAUTH_AUTH_URL: 'https://idp.zah.rocks/realms/eagle/protocol/openid-connect/auth'
+      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: 'https://idp.zah.rocks/realms/eagle/protocol/openid-connect/token'
+      GF_AUTH_GENERIC_OAUTH_API_URL: 'https://idp.zah.rocks/realms/eagle/protocol/openid-connect/userinfo'
+      GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: "contains(realm_access.roles[*], 'Admin') && 'Admin' || contains(realm_access.roles[*], 'Editor') && 'Editor' || 'Viewer'"
+    ports:
+      - '3000'
+    volumes:
+      - '~/docker/data/grafana/data/:/var/lib/grafana/:rw'
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.grafana.rule=Host(`grafana.zah.rocks`)'
+      - 'traefik.http.routers.grafana.entrypoints=websecure'
+      - 'traefik.http.routers.grafana.tls.certresolver=myresolver'
+      #- 'traefik.http.routers.grafana.middlewares=eas-default'

@@ -3,7 +3,6 @@ version: '3.7'
 services:
   photostructure:
     image: 'photostructure/server:v2.1.0-alpha.7@sha256:ccd309179a5aa61d7601752bc79bf6304cc4257c907a614812ddaef8f422cb54'
-    ports:
     restart: 'unless-stopped'
     stop_grace_period: '2m'
     environment:
