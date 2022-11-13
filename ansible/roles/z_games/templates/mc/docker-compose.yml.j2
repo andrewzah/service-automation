@@ -1,26 +1,32 @@
+# {{ ansible_managed }}
 version: "3"
 
 services:
   proxy:
-    user: '1010'
     image: itzg/bungeecord:java17@sha256:0182d4938d900f2e6c2778c34fe589f4e976ee22965276d512639f7bb71d94e0
     environment:
       PLUGINS: 'https://download.luckperms.net/1460/velocity/LuckPerms-Velocity-5.4.52.jar,https://github.com/WiIIiam278/HuskChat/releases/download/2.3/HuskChat-2.3.jar'
-      #PLUGINS: 'https://github.com/WiIIiam278/HuskChat/releases/download/2.3/HuskChat-2.3.jar,https://download.luckperms.net/1460/bungee/loader/LuckPerms-Bungee-5.4.52.jar'
       JVM_OPTS: '-XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:+UnlockExperimentalVMOptions -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:MaxInlineLevel=15'
-      #TYPE: 'BUNGEECORD'
       TYPE: 'VELOCITY'
+      ENABLE_RCON: 'yes'
+      RCON_PORT: 25566
+      RCON_PASSWORD: '{{ mc.rcon.proxy }}'
     ports:
       - '25565:25565'
     volumes:
-      - "./data/velocity/server/:/server/"
-      #- "./data/velocity/config.yml:/config/config.yml"
-      - "./data/velocity/velocity.toml:/config/velocity.toml"
-      - "./data/velocity/forwarding.secret:/config/forwarding.secret"
+      - "./data/velocity/config/:/config/"
 
   survival:
     image: itzg/minecraft-server:java17-jdk
     environment:
+      SPAWN_PROTECTION: 0
+      MODRINTH_PROJECTS: 'essential-commands,dcintegration,your-items-are-safe,collective,ferrite-core,beenfo,textile_backup,bluemap,cloth-config,deltalogger,fabric-api,fabric-language-kotlin,fabricproxy-lite,fallingtree,lithium,luckperms,starlight,sodium,unifiedmetrics'
+      # TODO: use whitelist.json template
+      ENFORCE_WHITELIST: 'TRUE'
+      WHITELIST: '5878b931-1bd8-47f5-8f0a-c06d87750dc5,65d05271-5ef9-4a49-af14-88079400b83e,fb32208d-815d-45b6-9e82-53830c55bb14,f663c462-3007-4301-9129-882f0ec450a9,319f599f-bd59-42d2-852f-9ac1e67234ca'
+      # TODO: use ops.json template
+      #OPS: 'user1,user2'
+      OVERRIDE_OPS: 'TRUE'
       ONLINE_MODE: 'false'
       UID: 1010
       GID: 1010
@@ -29,18 +35,14 @@ services:
       EULA: 'TRUE'
       MEMORY: '8G'
       MODS: '/mods'
-      SEED: '1278040446'
-      MODRINTH_PROJECTS: 'textile_backup,beenfo,bluemap,cloth-config,deltalogger,fabric-api,fabric-language-kotlin,fabricproxy-lite,fallingtree,lithium,luckperms,starlight,sodium,unifiedmetrics'
+      SEED: '2788861436510'
       MODRINTH_ALLOWED_VERSION_TYPE: 'release'
       ENABLE_AUTOPAUSE: 'TRUE'
       DIFFICULTY: 'hard'
       MOTD: 'LC - Survival'
-      WHITELIST: '5878b931-1bd8-47f5-8f0a-c06d87750dc5,65d05271-5ef9-4a49-af14-88079400b83e,fb32208d-815d-45b6-9e82-53830c55bb14,f663c462-3007-4301-9129-882f0ec450a9,319f599f-bd59-42d2-852f-9ac1e67234ca'
-      ENFORCE_WHITELIST: 'TRUE'
-      #OPS: 'user1,user2'
-      OVERRIDE_OPS: 'TRUE'
       ENABLE_RCON: 'TRUE'
-      RCON_PASSWORD: '2b65f1d6802eb8b5a513d020959477d92d3ec514b006810ca953fe45978c524d'
+      # TODO: use ansible template for rcon
+      RCON_PASSWORD: '{{ mc.rcon.survival }}'
       MODE: 'survival'
       PVP: 'FALSE'
       LEVEL: 'labchicanery-survival'
@@ -48,6 +50,7 @@ services:
       USE_AIKAR_FLAGS: 'FALSE'
       TZ: 'America/New_York'
       MAX_TICK_TIME: '-1'
+      ENFORCE_SECURE_PROFILE: 'false' # chat signing off
     restart: unless-stopped
     depends_on:
       - proxy
@@ -57,10 +60,12 @@ services:
     volumes:
       - './data/survival/data:/data/:rw'
       - './mods/survival/:/mods/:rw'
+      - './datapacks/survival/:/datapacks/:rw'
 
   creative:
     image: itzg/minecraft-server:java17-jdk
     environment:
+      SPAWN_PROTECTION: 0
       ONLINE_MODE: 'false'
       UID: 1010
       GID: 1010
@@ -75,7 +80,7 @@ services:
       #OPS: 'user1,user2'
       OVERRIDE_OPS: 'TRUE'
       ENABLE_RCON: 'TRUE'
-      RCON_PASSWORD: '2b65f1d6802eb8b5a513d020959477d92d3ec514b006810ca953fe45978c524d'
+      RCON_PASSWORD: '{{ mc.rcon.creative }}'
       MODE: 'creative'
       PVP: 'FALSE'
       LEVEL: 'labchicanery-creative'
@@ -85,8 +90,9 @@ services:
       TZ: 'America/New_York'
       MAX_TICK_TIME: '-1'
       MODS: '/mods'
-      MODRINTH_PROJECTS: 'textile_backup,luckperms,bluemap,cloth-config,deltalogger,fabric-api,fabric-language-kotlin,fabricproxy-lite,lithium,starlight,sodium,unifiedmetrics'
+      MODRINTH_PROJECTS: 'essential-commands,textile_backup,luckperms,bluemap,cloth-config,deltalogger,fabric-api,fabric-language-kotlin,fabricproxy-lite,lithium,starlight,sodium,unifiedmetrics'
       MODRINTH_ALLOWED_VERSION_TYPE: 'release'
+      ENFORCE_SECURE_PROFILE: 'false' # chat signing off
     restart: unless-stopped
     depends_on:
       - proxy
@@ -96,3 +102,19 @@ services:
     volumes:
       - './data/creative/data:/data/:rw'
       - './mods/creative/:/mods/:rw'
+
+  postgres:
+    hostname: postgres
+    image: postgres:14.5-alpine
+    ports:
+      - "5432"
+      - "5433:5432"
+    environment:
+      PGDATA: '/var/lib/postgresql/data'
+    env_file:
+      - "./postgres-secret.env"
+    volumes:
+      - "./data/postgres/data/:/var/lib/postgresql/data/:rw"
+    restart: unless-stopped
+
+# vim: set syntax=yaml:

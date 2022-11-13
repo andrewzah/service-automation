@@ -1,0 +1,7 @@
+---
+
+- hosts:
+    - 'z_games'
+  roles:
+  - 'z_games'
+

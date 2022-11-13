@@ -1,0 +1,38 @@
+---
+#################
+### LUCKPERMS ###
+#################
+
+- name: PG - luckperms database
+  community.postgresql.postgresql_db:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres.user }}'
+    login_password: '{{ postgres.password }}'
+    name: '{{ postgres.luckperms.database }}'
+    state: 'present'
+
+- name: PG - luckperms user
+  community.postgresql.postgresql_user:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres.user }}'
+    login_password: '{{ postgres.password }}'
+    db: '{{ postgres.luckperms.database }}'
+    name: '{{ postgres.luckperms.username }}'
+    password: '{{ postgres.luckperms.password }}'
+    state: present
+
+- name: PG - luckperms privs
+  community.postgresql.postgresql_privs:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres.user }}'
+    login_password: '{{ postgres.password }}'
+    db: 'postgres'
+    privs: 'ALL'
+    type: 'database'
+    obj: '{{ postgres.luckperms.database }}'
+    role: '{{ postgres.luckperms.username }}'
+    state: present
+

@@ -1,40 +1,55 @@
 ---
 
-#- name: bungeecord - config.yml template
-#  become: 'yes'
-#  ansible.builtin.template:
-#    src: 'mc/bungeecord-config.yml.j2'
-#    dest: '/home/guest/minecraft/data/velocity/config.yml'
-#    mode: '0600'
-#    owner: 'guest'
-#    group: 'guest'
+####################
+### PROXY CONFIG ###
+####################
 
 - name: velocity - velocity.toml template
-  become: 'yes'
   ansible.builtin.template:
     src: 'mc/velocity.toml.j2'
-    dest: '/home/guest/minecraft/data/velocity/velocity.toml'
+    dest: '/home/guest/minecraft/data/velocity/config/velocity.toml'
     mode: '0600'
-    owner: 'guest'
-    group: 'guest'
 
 - name: velocity - forwarding.secret template
   ansible.builtin.template:
     src: 'mc/forwarding.secret.j2'
-    dest: '/home/guest/minecraft/data/velocity/forwarding.secret'
-    mode: '0644'
-
-- name: velocity - fabricproxy-lite.yml template - survival
-  ansible.builtin.template:
-    src: 'mc/FabricProxy-Lite.toml.j2'
-    dest: '/home/guest/minecraft/data/survival/data/config/FabricProxy-Lite.toml'
+    dest: '/home/guest/minecraft/data/velocity/config/forwarding.secret'
     mode: '0600'
 
-- name: velocity - fabricproxy-lite.yml template - creative
+- name: velocity.huskchat - config.yml template
+  ansible.builtin.template:
+    src: 'proxy/huskchat/config.yml.j2'
+    dest: '/home/guest/minecraft/data/velocity/config/plugins/huskchat/config.yml'
+    mode: '0600'
+
+- name: velocity.huskchat - config.yml template
+  ansible.builtin.template:
+    src: 'proxy/huskchat/config.yml.j2'
+    dest: '/home/guest/minecraft/data/velocity/config/plugins/huskchat/config.yml'
+    mode: '0600'
+
+- name: velocity.luckperms - config.yml template
+  ansible.builtin.template:
+    src: 'proxy/luckperms/config.yml.j2'
+    dest: '/home/guest/minecraft/data/velocity/config/plugins/luckperms/config.yml'
+    mode: '0600'
+
+##################################
+### SURVIVAL & CREATIVE CONFIG ###
+##################################
+
+- name: velocity - fabricproxy-lite.yml template
   ansible.builtin.template:
     src: 'mc/FabricProxy-Lite.toml.j2'
-    dest: '/home/guest/minecraft/data/creative/data/config/FabricProxy-Lite.toml'
+    dest: '/home/guest/minecraft/data/{{ item }}/data/config/FabricProxy-Lite.toml'
     mode: '0600'
+  with_items:
+    - 'creative'
+    - 'survival'
+
+######################
+### unifiedmetrics ###
+######################
 
 - name: unifiedmetrics - ensure config dir exists
   ansible.builtin.file:
@@ -53,12 +68,6 @@
   vars:
     influx_server_name: 'survival'
 
-- name: unifiedmetrics - influx.yml - survival
-  ansible.builtin.template:
-    src: 'mc/unifiedmetrics/influx.yml.j2'
-    dest: '/home/guest/minecraft/data/survival/data/config/unifiedmetrics/driver/influx.yml'
-    mode: '0600'
-
 - name: unifiedmetrics - config.yml - creative
   ansible.builtin.template:
     src: 'mc/unifiedmetrics/config.yml.j2'
@@ -67,8 +76,71 @@
   vars:
     influx_server_name: 'creative'
 
-- name: unifiedmetrics - influx.yml - creative
+- name: unifiedmetrics - influx.yml
   ansible.builtin.template:
     src: 'mc/unifiedmetrics/influx.yml.j2'
-    dest: '/home/guest/minecraft/data/creative/data/config/unifiedmetrics/driver/influx.yml'
+    dest: '/home/guest/minecraft/data/{{ item }}/data/config/unifiedmetrics/driver/influx.yml'
+    mode: '0600'
+  with_items:
+    - 'creative'
+    - 'survival'
+
+#################
+### luckperms ###
+#################
+
+- name: luckperms - luckperms.conf - creative
+  ansible.builtin.template:
+    src: 'mc/luckperms.conf.j2'
+    dest: '/home/guest/minecraft/data/creative/data/config/luckperms/luckperms.conf'
+    mode: '0600'
+  vars:
+    luckperms_server_name: 'creative'
+
+- name: luckperms - luckperms.conf - survival
+  ansible.builtin.template:
+    src: 'mc/luckperms.conf.j2'
+    dest: '/home/guest/minecraft/data/survival/data/config/luckperms/luckperms.conf'
+    mode: '0600'
+  vars:
+    luckperms_server_name: 'survival'
+
+#####################
+### nochatreports ###
+#####################
+
+- name: nochatreports - ensure config dir exists
+  ansible.builtin.file:
+    path: '{{ item }}'
+    mode: '0755'
+    state: 'directory'
+  with_items:
+    - '/home/guest/minecraft/data/survival/data/config/NoChatReports'
+    - '/home/guest/minecraft/data/creative/data/config/NoChatReports'
+
+- name: nochatreports - NCR-Common.json
+  ansible.builtin.template:
+    src: 'mc/NoChatReports/NCR-Common.json.j2'
+    dest: '/home/guest/minecraft/data/{{ item }}/data/config/NoChatReports/NCR-Common.json'
+    mode: '0600'
+  with_items:
+    - "creative"
+    - "survival"
+
+#- name: discord4fabric - discord4fabric.json
+#  ansible.builtin.template:
+#    src: 'mc/discord4fabric.json.j2'
+#    dest: '/home/guest/minecraft/data/survival/data/config/discord4fabric.json'
+#    mode: '0600'
+
+- name: DiscordIntegration - Discord-Integration.toml
+  ansible.builtin.template:
+    src: 'mc/Discord-Integration.toml.j2'
+    dest: '/home/guest/minecraft/data/survival/data/config/Discord-Integration.toml'
+    mode: '0600'
+
+- name: YourItemsAreSafe - youritemsaresafe-fabric.json5
+  ansible.builtin.template:
+    src: 'mc/youritemsaresafe-fabric.json5.j2'
+    dest: '/home/guest/minecraft/data/survival/data/config/youritemsaresafe-fabric.json5'
     mode: '0600'

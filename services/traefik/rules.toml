@@ -23,12 +23,12 @@
 [http.services]
   [http.services.palmettotech-zulip.loadBalancer]
     [[http.services.palmettotech-zulip.loadBalancer.servers]]
-      url = "http://192.168.1.31:80"
+      url = "http://192.168.2.31:80"
 
   [http.services.bluemap-survival.loadBalancer]
     [[http.services.bluemap-survival.loadBalancer.servers]]
-      url = "http://192.168.1.29:8100"
+      url = "http://192.168.2.29:8100"
 
   [http.services.bluemap-creative.loadBalancer]
     [[http.services.bluemap-creative.loadBalancer.servers]]
-      url = "http://192.168.1.29:8101"
+      url = "http://192.168.2.29:8101"

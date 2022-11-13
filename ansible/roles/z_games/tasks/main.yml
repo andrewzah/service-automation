@@ -10,11 +10,22 @@
     - regexp: '^export COMPOSE_PROJECT_NAME="labchicanery"$'
       line: 'export COMPOSE_PROJECT_NAME="labchicanery"'
 
+- name: ensure packages are installed
+  become: 'yes'
+  ansible.builtin.apt:
+    name:
+      - 'python3'
+      - 'python3-pip'
+      - 'libpq-dev'
+    state: 'present'
+    update_cache: 'yes'
+
 - name: install python packages for managing docker
   ansible.builtin.pip:
     name:
       - 'docker'
       - 'docker-compose'
+      - 'psycopg2'
 
 - name: ensure .extra_profiles dir exists
   ansible.builtin.file:
@@ -81,13 +92,24 @@
     mode: '0755'
     state: 'directory'
   with_items:
-    - '~/minecraft/data'
-    - '~/minecraft/data/velocity/server'
     - '~/minecraft/data/survival'
     - '~/minecraft/data/creative'
     - '~/minecraft/data/skyblock'
+    - '~/minecraft/data/postgres'
+
+- name: ensure minecraft conf dirs exist
+  ansible.builtin.file:
+    path: '{{ item }}'
+    owner: 'guest'
+    group: 'guest'
+    mode: '0755'
+    state: 'directory'
+  with_items:
+    - '~/minecraft/data/velocity/config/plugins/huskchat'
+    - '~/minecraft/data/velocity/config/plugins/luckperms'
 
 - name: create symbolic links for world data dirs
+  become: 'yes'
   ansible.builtin.file:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
@@ -96,14 +118,42 @@
     state: 'link'
   with_items:
     - src: '/mnt/eagle/games/labchicanery-minecraft/survival/data'
-      dest: '~/minecraft/data/survival/data'
+      dest: '/home/guest/minecraft/data/survival/data'
     - src: '/mnt/eagle/games/labchicanery-minecraft/creative/data'
-      dest: '~/minecraft/data/creative/data'
+      dest: '/home/guest/minecraft/data/creative/data'
     - src: '/mnt/eagle/games/labchicanery-minecraft/skyblock/data'
-      dest: '~/minecraft/data/skyblock/data'
+      dest: '/home/guest/minecraft/data/skyblock/data'
+    - src: '/mnt/eagle/games/labchicanery-minecraft/postgres/data'
+      dest: '/home/guest/minecraft/data/postgres/data'
+
+- name: docker-compose.yml template
+  ansible.builtin.template:
+    src: 'mc/docker-compose.yml.j2'
+    dest: '/home/guest/minecraft/docker-compose.yml'
+    mode: '0600'
+
+- name: postgres secret.env template
+  ansible.builtin.template:
+    src: 'postgres.env.j2'
+    dest: '/home/guest/minecraft/postgres-secret.env'
+    mode: '0600'
 
 - name: configure mc plugins
   ansible.builtin.include_tasks: configure_mc_plugins.yml
+
+- name: Run 'docker-compose up' for postgres first
+  environment:
+    COMPOSE_PROJECT_NAME: 'labchicanery'
+  community.docker.docker_compose:
+    project_src: '~/minecraft'
+    remove_orphans: 'yes'
+    state: 'present'
+    recreate: 'smart'
+    services:
+      - 'postgres'
+
+- name: configure postgres database
+  ansible.builtin.include_tasks: configure_postgres.yml
 
 - name: Run 'docker-compose up' for mc servers
   environment:
@@ -117,3 +167,4 @@
       - 'proxy'
       - 'creative'
       - 'survival'
+      - 'postgres'

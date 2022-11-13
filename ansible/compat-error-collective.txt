@@ -1,0 +1,24 @@
+survival_1  | [15:14:39] [main/ERROR]: Failed to start the minecraft server
+survival_1  | java.lang.RuntimeException: Could not execute entrypoint stage 'main' due to errors, provided by 'd4f'!
+survival_1  |   at net.fabricmc.loader.impl.entrypoint.EntrypointUtils.lambda$invoke0$0(EntrypointUtils.java:51) ~[fabric-loader-0.14.10.jar:?]
+survival_1  |   at net.fabricmc.loader.impl.util.ExceptionUtil.gatherExceptions(ExceptionUtil.java:33) ~[fabric-loader-0.14.10.jar:?]
+survival_1  |   at net.fabricmc.loader.impl.entrypoint.EntrypointUtils.invoke0(EntrypointUtils.java:49) ~[fabric-loader-0.14.10.jar:?]
+survival_1  |   at net.fabricmc.loader.impl.entrypoint.EntrypointUtils.invoke(EntrypointUtils.java:35) ~[fabric-loader-0.14.10.jar:?]
+survival_1  |   at net.fabricmc.loader.impl.game.minecraft.Hooks.startServer(Hooks.java:62) ~[fabric-loader-0.14.10.jar:?]
+survival_1  |   at net.minecraft.server.Main.main(Main.java:101) [server-intermediary.jar:?]
+survival_1  |   at net.fabricmc.loader.impl.game.minecraft.MinecraftGameProvider.launch(MinecraftGameProvider.java:461) [fabric-loader-0.14.10.jar:?]
+survival_1  |   at net.fabricmc.loader.impl.launch.knot.Knot.launch(Knot.java:74) [fabric-loader-0.14.10.jar:?]
+survival_1  |   at net.fabricmc.loader.impl.launch.knot.KnotServer.main(KnotServer.java:23) [fabric-loader-0.14.10.jar:?]
+survival_1  |   at net.fabricmc.loader.impl.launch.server.FabricServerLauncher.main(FabricServerLauncher.java:69) [fabric-loader-0.14.10.jar:?]
+survival_1  |   at net.fabricmc.installer.ServerLauncher.main(ServerLauncher.java:69) [fabric-server-mc.1.19.2-loader.0.14.10-launcher.0.11.1.jar:0.11.1]
+survival_1  | Caused by: java.lang.NoSuchFieldError: Companion
+survival_1  |   at okhttp3.internal.Util.<clinit>(Util.kt:70) ~[com_squareup_okhttp3_okhttp-4.10.0-a826dda702e4672.jar:?]
+survival_1  |   at okhttp3.Dispatcher.promoteAndExecute(Dispatcher.kt:243) ~[com_squareup_okhttp3_okhttp-4.10.0-a826dda702e4672.jar:?]
+survival_1  |   at okhttp3.Dispatcher.setMaxRequestsPerHost(Dispatcher.kt:71) ~[com_squareup_okhttp3_okhttp-4.10.0-a826dda702e4672.jar:?]
+survival_1  |   at net.dv8tion.jda.internal.utils.IOUtil.newHttpClientBuilder(IOUtil.java:72) ~[net_dv8tion_jda-5.0.0-alpha.12-3e2e0c2a04cca963.jar:?]
+survival_1  |   at net.dv8tion.jda.api.JDABuilder.build(JDABuilder.java:1741) ~[net_dv8tion_jda-5.0.0-alpha.12-3e2e0c2a04cca963.jar:?]
+survival_1  |   at me.reimnop.d4f.Discord.<init>(Discord.java:50) ~[discord4fabric-1.19.2-1.10.1.jar:?]
+survival_1  |   at me.reimnop.d4f.Discord4Fabric.initDiscord(Discord4Fabric.java:97) ~[discord4fabric-1.19.2-1.10.1.jar:?]
+survival_1  |   at me.reimnop.d4f.Discord4Fabric.onInitialize(Discord4Fabric.java:58) ~[discord4fabric-1.19.2-1.10.1.jar:?]
+survival_1  |   at net.fabricmc.loader.impl.entrypoint.EntrypointUtils.invoke0(EntrypointUtils.java:47) ~[fabric-loader-0.14.10.jar:?]
+survival_1  |   ... 8 more
