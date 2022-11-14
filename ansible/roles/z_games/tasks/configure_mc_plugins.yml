@@ -43,7 +43,7 @@
     - 'creative'
     - 'survival'
 
-- name: fabricproxy-lite.yml template
+- name: essentials.properties template
   ansible.builtin.template:
     src: 'mc/EssentialCommands.properties.j2'
     dest: '/home/guest/minecraft/data/{{ item }}/data/config/EssentialCommands.properties'
