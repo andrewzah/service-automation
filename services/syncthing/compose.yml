@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  syncthing:
+    # 2022-12-9
+    image: lscr.io/linuxserver/syncthing:1.22.2@sha256:2288c8a4e5d68298d133006da41c12e84133d1c25f2a0d0cd70f0e8f10dc0e95
+    environment:
+      PUID: 1005
+      PGID: 1005
+      TZ: 'America/New_York'
+    volumes:
+      - "~/docker/data/syncthing/config/:/config/:rw"
+      - "/mnt/eagle/data/syncthing/:/data/syncthing/:rw"
+    restart: unless-stopped
+    depends_on:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.syncthing.rule=Host(`syncthing.zah.rocks`)"
+      - "traefik.http.routers.syncthing.entrypoints=websecure"
+      - "traefik.http.routers.syncthing.tls.certresolver=myresolver"
