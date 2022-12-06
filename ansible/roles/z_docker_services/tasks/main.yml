@@ -104,6 +104,7 @@
     state: 'present'
     recreate: 'smart'
     services:
+      - 'baikal'
       - 'dashy'
       - 'eas'
       - 'healthchecks'
@@ -116,10 +117,9 @@
       - 'openldap'
       - 'photostructure'
       - 'postgres'
-      - 'radicale'
       - 'rallly'
       - 'redis'
-      - 'tika'
+      - 'syncthing'
       - 'traefik'
       - 'vaultwarden'
 
