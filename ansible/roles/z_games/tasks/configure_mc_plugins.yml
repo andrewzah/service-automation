@@ -149,3 +149,10 @@
     src: 'mc/youritemsaresafe-fabric.json5.j2'
     dest: '/home/guest/minecraft/data/survival/data/config/youritemsaresafe-fabric.json5'
     mode: '0600'
+
+
+- name: FallingTree - fallingtree.json template
+  ansible.builtin.template:
+    src: 'mc/survival/fallingtree.json.j2'
+    dest: '/home/guest/minecraft/data/survival/data/config/fallingtree.json'
+    mode: '0600'
