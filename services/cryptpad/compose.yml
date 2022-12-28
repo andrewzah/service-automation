@@ -2,10 +2,11 @@ version: '3.7'
 
 services:
   cryptpad:
-    image: promasu/cryptpad:alpine
+    # 2022-12-28
+    image: promasu/cryptpad:alpine@sha256:da8c8eb08f7536042a2c613d1e7447d9fe73151a009ffaa52f98b4b9848382af
     environment:
       CPAD_MAIN_DOMAIN: 'cryptpad.zah.rocks'
-      CPAD_SANDBOX_DOMAIN: 'sandbox.cryptpad.zah.rocks'
+      #CPAD_SANDBOX_DOMAIN: 'sandbox.cryptpad.zah.rocks'
       CPAD_TRUSTED_PROXY: '172.18.0.1'
     ports:
       - "3000"
@@ -14,12 +15,12 @@ services:
       - eas
       - traefik
     volumes:
-      - "/mnt/data/cryptpad/blob:/cryptpad/blob"
-      - "/mnt/data/cryptpad/block:/cryptpad/block"
-      - "/mnt/data/cryptpad/config:/cryptpad/config"
-      - "/mnt/data/cryptpad/customize/:/cryptpad/customize/"
-      - "/mnt/data/cryptpad/data/:/cryptpad/data/"
-      - "/mnt/data/cryptpad/files/:/cryptpad/datastore/"
+      - "~/docker/data/cryptpad/blob:/cryptpad/blob"
+      - "~/docker/data/cryptpad/block:/cryptpad/block"
+      - "~/docker/data/cryptpad/config:/cryptpad/config"
+      - "~/docker/data/cryptpad/customize/:/cryptpad/customize/"
+      - "~/docker/data/cryptpad/data/:/cryptpad/data/"
+      - "~/docker/data/cryptpad/files/:/cryptpad/datastore/"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.cryptpad.rule=Host(`cryptpad.zah.rocks`)"
@@ -35,9 +36,3 @@ services:
       - "traefik.http.routers.cryptpad-wss.service=cryptpad-wss"
       - "traefik.http.services.cryptpad-wss.loadbalancer.server.port=3000"
 
-      - "traefik.http.routers.cryptpad-sandbox.rule=Host(`sandbox.cryptpad.zah.rocks`)"
-      - "traefik.http.routers.cryptpad-sandbox.entrypoints=websecure"
-      - 'traefik.http.routers.cryptpad-sandbox.middlewares=eas-default'
-      - "traefik.http.routers.cryptpad-sandbox.service=cryptpad-sandbox"
-      - "traefik.http.routers.cryptpad-sandbox.tls.certresolver=myresolver"
-      - "traefik.http.services.cryptpad-sandbox.loadbalancer.server.port=3001"

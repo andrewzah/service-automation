@@ -105,6 +105,7 @@
     recreate: 'smart'
     services:
       - 'baikal'
+      - 'cryptpad'
       - 'dashy'
       - 'eas'
       - 'healthchecks'
