@@ -92,6 +92,14 @@
     group: 'ansible'
     mode: '0400'
 
+- name: sheetable secret.env template
+  ansible.builtin.template:
+    src: sheetable.env.j2
+    dest: '~/docker/services/sheetable/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
 ###################
 ### other files ###
 ###################

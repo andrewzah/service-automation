@@ -64,6 +64,9 @@
     services:
       - 'postgres'
 
+- name: run postgres stuff
+  ansible.builtin.include_tasks: postgres.yml
+
 - name: Run `docker-compose up` for mariadb
   environment:
     COMPOSE_FILE: "{{ compose_files.stdout }}"
@@ -120,7 +123,9 @@
       - 'postgres'
       - 'rallly'
       - 'redis'
+      - 'sheetable'
       - 'syncthing'
+      - 'thelounge'
       - 'traefik'
       - 'vaultwarden'
 

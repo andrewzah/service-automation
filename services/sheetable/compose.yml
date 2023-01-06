@@ -2,22 +2,21 @@ version: '3.7'
 
 services:
   sheetable:
-    image: vallezw/sheetable:v0.3@sha256:acb7e2e06c1d20f6255e5311d1c38c92412ad05eb9a56ad1acb6bf967e3bd6c3
+    # 2023-01-06
+    image: vallezw/sheetable:v0.8@sha256:8e725e6222c9b5fcdcb69091bcb747fb66960904bb9a1e5ecbae6c3d18b86b6b
     environment:
       CONFIG_PATH: '/data'
       DB_DRIVER: 'postgres'
       DB_HOST: 'postgres'
-      DB_USER: 'sheetable'
-      DB_NAME: 'sheetable'
       DB_PORT: 5432
       PORT: 8000
       # https://sheetable.net/docs/configuration/
     env_file:
-      - "/mnt/data/services/sheetable/secret.env"
+      - "~/docker/services/sheetable/secret.env"
     ports:
       - "8000"
     volumes:
-      - "/mnt/data/sheetable/:/data/"
+      - "~/docker/data/sheetable/:/data/"
     restart: unless-stopped
     depends_on:
       - traefik

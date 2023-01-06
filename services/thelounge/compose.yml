@@ -2,13 +2,14 @@ version: '3.7'
 
 services:
   thelounge:
-    image: linuxserver/thelounge:version-4.2.0
+    # 2023-01-06
+    image: linuxserver/thelounge@sha256:0bfd6c44b992a32a9d8f340cd693b25c1659e66c21153be29ddf66a6f95f2173
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
+      PUID: 1000
+      PGID: 1000
+      TZ: 'America/New_York'
     volumes:
-      - "/mnt/data/thelounge/config/:/config/:rw"
+      - "~/docker/data/thelounge/config/:/config/:rw"
     ports:
       - "9000"
     restart: unless-stopped

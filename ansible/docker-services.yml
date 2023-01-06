@@ -1,0 +1,6 @@
+---
+- hosts:
+    - docker.eagle.zah.arpa
+  roles:
+    - z_docker_services
+

@@ -20,11 +20,6 @@
 #    - base
 #  become: 'yes'
 
-- hosts:
-    - docker.eagle.zah.arpa
-  roles:
-    - z_docker_services
-
 #- hosts:
 #    - proxmox_eagle
 #  roles:
