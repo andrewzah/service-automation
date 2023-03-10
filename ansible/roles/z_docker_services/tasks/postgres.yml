@@ -220,3 +220,75 @@
     type: database
     role: '{{ sheetable.db_username }}'
     state: present
+
+################
+### KANBOARD ###
+################
+
+- name: PG - kanboard database
+  community.postgresql.postgresql_db:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    name: '{{ kanboard.db.name }}'
+    state: present
+
+- name: PG - kanboard user
+  community.postgresql.postgresql_user:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    db: '{{ kanboard.db.name }}'
+    name: '{{ kanboard.db.username }}'
+    password: '{{ kanboard.db.password }}'
+    state: present
+
+- name: PG - kanboard privs
+  community.postgresql.postgresql_privs:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    db: '{{ kanboard.db.name }}'
+    privs: ALL
+    type: database
+    role: '{{ kanboard.db.username }}'
+    state: present
+
+################
+### misskey ###
+################
+
+- name: PG - misskey database
+  community.postgresql.postgresql_db:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    name: '{{ misskey.postgres.database }}'
+    state: present
+
+- name: PG - misskey user
+  community.postgresql.postgresql_user:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    db: '{{ misskey.postgres.database }}'
+    name: '{{ misskey.postgres.username }}'
+    password: '{{ misskey.postgres.password }}'
+    state: present
+
+- name: PG - misskey privs
+  community.postgresql.postgresql_privs:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    db: '{{ misskey.postgres.database }}'
+    privs: ALL
+    type: database
+    role: '{{ misskey.postgres.username }}'
+    state: present

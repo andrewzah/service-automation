@@ -36,6 +36,14 @@
     group: 'ansible'
     mode: '0400'
 
+- name: kanboard secret.env template
+  ansible.builtin.template:
+    src: kanboard.env.j2
+    dest: '~/docker/services/kanboard/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0600'
+
 - name: mariadb secret.env template
   ansible.builtin.template:
     src: mariadb.env.j2
@@ -100,6 +108,14 @@
     group: 'ansible'
     mode: '0400'
 
+- name: misskey secret.env template
+  ansible.builtin.template:
+    src: misskey.env.j2
+    dest: '~/docker/services/misskey/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
 ###################
 ### other files ###
 ###################
@@ -119,6 +135,14 @@
     owner: 'ansible'
     group: 'ansible'
     mode: '0644'
+
+- name: misskey default.yml
+  ansible.builtin.template:
+    src: misskey.yml.j2
+    dest: '~/docker/services/misskey/default.yml'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
 
 #- name: radicale users template
 #  ansible.builtin.template:

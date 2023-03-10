@@ -45,3 +45,5 @@ mariadb_password: '{{ v_mariadb_password }}'
 mariadb_root_password: '{{ v_mariadb_root_password }}'
 
 sheetable: '{{ v_sheetable }}'
+kanboard: '{{ v_kanboard }}'
+misskey: '{{ v_misskey }}'

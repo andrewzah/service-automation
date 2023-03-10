@@ -1,0 +1,7 @@
+---
+- hosts:
+    - proxmox_eagle
+  roles:
+    - z_proxmox
+  become: 'yes'
+

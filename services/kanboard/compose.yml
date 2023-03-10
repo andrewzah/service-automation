@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  kanboard:
+    # 2023-02-28
+    image: kanboard/kanboard:v1.2.26@sha256:653045ddaa10cccb24588e02d43dc18d2def1927ab0d89062d8dc3c19560ddc6
+    env_file:
+      - "~/docker/services/kanboard/secret.env"
+    ports:
+      - "80"
+      - "3280"
+    volumes:
+      - "~/docker/data/kanboard/data:/var/www/app/data"
+      - "~/docker/data/kanboard/plugins:/var/www/app/plugins"
+      - "~/docker/data/kanboard/ssl:/etc/nginx/ssl"
+    restart: unless-stopped
+    depends_on:
+      - eas
+      - postgres
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kanban.rule=Host(`kanban.zah.rocks`)"
+      - "traefik.http.routers.kanban.entrypoints=websecure"
+      - "traefik.http.routers.kanban.tls.certresolver=myresolver"
+      - 'traefik.http.routers.kanban.middlewares=eas-default'

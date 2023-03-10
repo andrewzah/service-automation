@@ -34,6 +34,41 @@ swap: 512
 - [ ] `apt update`
 - [ ] `apt install -y curl jq openresolv wireguard iptables nfs-common openssh-server`
 - [ ] `systemctl enable --now sshd`
+- [ ] download mullvad configs.zip and unzip into /etc/wireguard
+- [ ] ln -s a us config to tun0.conf (ls -1 | shuf -n1)
+- [ ] `chown -R root:root /etc/wireguard`
+- [ ] `chmod 600 -R /etc/wireguard`
+- [ ] `wg-quick up tun0`
+
+```
+reset-iptables.sh
+
+#!/bin/bash
+
+set -ex
+
+# Accept all traffic first to avoid ssh lockdown  via iptables firewall rules #
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
+ 
+# Flush All Iptables Chains/Firewall rules #
+iptables -F
+ 
+# Delete all Iptables Chains #
+iptables -X
+ 
+# Flush all counters too #
+iptables -Z 
+# Flush and delete all nat and  mangle #
+iptables -t nat -F
+iptables -t nat -X
+iptables -t mangle -F
+iptables -t mangle -X
+iptables -t raw -F
+iptables -t raw -X
+
+```
 
 ## venice.zah.arpa
 - [ ] `systemctl enable --now sshd`

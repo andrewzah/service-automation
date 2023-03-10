@@ -1,55 +1,9 @@
 ---
-- name: Ensure old versions of Docker are not installed
-  apt:
-    name:
-      - 'containerd'
-      - 'docker'
-      - 'docker-engine'
-      - 'docker.io'
-      - 'runc'
-    state: 'absent'
 
-- name: Ensure packages are installed
-  apt:
-    name:
-      - 'ca-certificates'
-      - 'curl'
-      - 'gnupg'
-    state: 'present'
-    update_cache: 'yes'
+- name: install on debian-likes
+  ansible.builtin.include_tasks: debian.yml
+  when: ansible_os_family == "Debian"
 
-- name: Add Example GPG key
-  ansible.builtin.get_url:
-    url: '{{ docker_apt_gpg_key }}'
-    dest: '/etc/apt/trusted.gpg.d/docker.asc'
-    mode: '0644'
-    force: true
-
-- name: Add Docker repository
-  apt_repository:
-    repo: '{{ docker_apt_repository }}'
-    state: present
-    update_cache: true
-
-- name: install Docker
-  package:
-    name:
-      - 'docker-ce'
-      - 'docker-ce-cli'
-      - 'containerd.io'
-      - 'docker-compose-plugin'
-    state: 'present'
-  notify: restart docker
-
-- name: ensure Docker is started and enabled at boot
-  service:
-    name: 'docker'
-    state: 'started'
-    enabled: true
-
-- name: Ensure docker users are added to the docker group
-  user:
-    name: '{{ item }}'
-    groups: 'docker'
-    append: true
-  with_items: '{{ docker_users }}'
+- name: install on RHEL-likes
+  ansible.builtin.include_tasks: rhel.yml
+  when: ansible_os_family == "RedHat"

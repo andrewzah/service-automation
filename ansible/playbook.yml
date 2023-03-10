@@ -13,17 +13,11 @@
 #  become: 'yes'
 #  roles:
 #    - docker
-
+#
 #- hosts:
 #    - docker.eagle.zah.arpa
 #  roles:
 #    - base
-#  become: 'yes'
-
-#- hosts:
-#    - proxmox_eagle
-#  roles:
-#    - z_proxmox
 #  become: 'yes'
 
 #- hosts:

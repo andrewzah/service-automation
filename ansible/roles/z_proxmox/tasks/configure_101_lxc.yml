@@ -1,0 +1,131 @@
+---
+
+# fails if 101 doesn't exist
+- name: STOP takanaka LXC - 101 - atlas
+  become: 'yes'
+  ignore_errors: 'yes'
+  community.general.proxmox:
+    vmid: 101
+    node: eagle
+    api_user: root@pam
+    api_password: '{{ pass_root_proxmox }}'
+    api_host: 127.0.0.1
+    state: 'stopped'
+    force: true
+
+- name: REMOVE takanaka LXC - 101
+  become: 'yes'
+  ignore_errors: 'yes'
+  community.general.proxmox:
+    vmid: 101
+    node: eagle
+    api_user: root@pam
+    api_password: '{{ pass_root_proxmox }}'
+    api_host: 127.0.0.1
+    state: 'absent'
+    force: true
+
+- name: create takanaka LXC - 101
+  community.general.proxmox:
+    #force: true
+    api_user: 'root@pam'
+    api_password: '{{ pass_root_proxmox }}'
+    api_host: 127.0.0.1
+    cores: 4
+    disk: 'eagle-zfs:50'
+    hostname: 'takanaka.zah.arpa'
+    memory: '12288'
+    netif: '{"net0":"name=eth0,gw=192.168.1.1,ip=192.168.2.11/32,bridge=vmbr0"}'
+    node: 'eagle'
+    onboot: 'yes'
+    ostemplate: 'iso-storage:vztmpl/almalinux-8-default_20210928_amd64.tar.xz'
+    password: '{{ pass_root_takanaka }}'
+    pubkey: '{{ ssh_pubkey_soar }}'
+    state: present
+    storage: 'eagle-zfs'
+    unprivileged: true
+    vmid: 101
+    features:
+      - 'nesting=1'
+      - 'fuse=1'
+    mounts:
+      mp0: '/eagle/backups,mp=/mnt/eagle/backups'
+      mp1: '/eagle/media,mp=/mnt/eagle/media'
+      mp2: '/eagle/data,mp=/mnt/eagle/data'
+
+- name: check if /etc/pve/lxc/101.conf exists
+  ansible.builtin.stat:
+    path: '/etc/pve/lxc/101.conf'
+  register: conf101
+
+- name: START docker LXC - 101 - takanaka
+  when: not conf101.stat.exists
+  become: 'yes'
+  community.general.proxmox:
+    vmid: 101
+    node: eagle
+    api_user: root@pam
+    api_password: '{{ pass_root_proxmox }}'
+    api_host: 127.0.0.1
+    state: 'started'
+    force: true
+
+- name: STOP docker LXC - 101 - takanaka
+  when: not conf101.stat.exists
+  become: 'yes'
+  community.general.proxmox:
+    vmid: 101
+    node: eagle
+    api_user: root@pam
+    api_password: '{{ pass_root_proxmox }}'
+    api_host: 127.0.0.1
+    state: 'stopped'
+    force: true
+
+- name: add mount mappings for '101 - takanaka'
+  become: 'yes'
+  ansible.builtin.lineinfile:
+    dest: '/etc/pve/lxc/101.conf'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    state: 'present'
+  with_items:
+    - regexp: '^lxc.idmap = u 0 100000 1000$'
+      line: 'lxc.idmap = u 0 100000 1000'
+    - regexp: '^lxc.idmap = g 0 100000 1000$'
+      line: 'lxc.idmap = g 0 100000 1000'
+    - regexp: '^lxc.idmap = u 1000 1000 1$'
+      line: 'lxc.idmap = u 1000 1000 1'
+    - regexp: '^lxc.idmap = g 1000 1000 1$'
+      line: 'lxc.idmap = g 1000 1000 1'
+    - regexp: '^lxc.idmap = u 1001 101001 64535$'
+      line: 'lxc.idmap = u 1001 101001 64535'
+    - regexp: '^lxc.idmap = g 1001 101001 64535$'
+      line: 'lxc.idmap = g 1001 101001 64535'
+
+- name: edit /etc/subuid
+  become: 'yes'
+  ansible.builtin.lineinfile:
+    dest: '/etc/subuid'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    state: 'present'
+  with_items:
+    - regexp: '^root:1000:1$'
+      line: 'root:1000:1'
+
+- name: edit /etc/subgid
+  become: 'yes'
+  ansible.builtin.lineinfile:
+    dest: '/etc/subgid'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    state: 'present'
+  with_items:
+    - regexp: '^root:1000:1$'
+      line: 'root:1000:1'
+
+#export COMPOSE_FILE=$(ls -1 ~/docker/services/*/compose.yml | paste -sd ":" -)
+#export COMPOSE_PROJECT_NAME=zah
+#alias v='nvim' 
+#alias dc='docker compose'

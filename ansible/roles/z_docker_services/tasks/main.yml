@@ -1,20 +1,38 @@
 ---
-- name: ensure packages are installed
+- name: ensure debian packages are installed
   become: 'yes'
   ansible.builtin.apt:
     name:
-      - 'git'
-      - 'rsync'
-      - 'python3'
-      - 'python3-pip'
-      - 'python3-mysqldb'
-      - 'libpq-dev'
-      - 'libldap2-dev'
-      - 'libsasl2-dev'
-      - 'libmariadb-dev'
       - 'default-libmysqlclient-dev'
+      - 'git'
+      - 'libldap2-dev'
+      - 'libmariadb-dev'
+      - 'libpq-dev'
+      - 'libsasl2-dev'
+      - 'python3'
+      - 'python3-mysqldb'
+      - 'python3-pip'
+      - 'rsync'
     state: 'present'
     update_cache: 'yes'
+  when: ansible_os_family == 'Debian'
+
+- name: ensure rhel packages are installed
+  become: 'yes'
+  ansible.builtin.yum:
+    name:
+      - 'fuse-overlayfs'
+      - 'gcc'
+      - 'git'
+      - 'libpq-devel'
+      - 'mariadb-devel'
+      - 'openldap-devel'
+      - 'python39'
+      - 'python39-devel'
+      - 'python39-pip'
+      - 'rsync'
+    state: 'latest'
+  when: ansible_os_family == 'RedHat'
 
 - name: install python packages for managing docker
   ansible.builtin.pip:
@@ -24,12 +42,49 @@
       - 'docker-compose'
       - 'psycopg2'
       - 'python-ldap'
+    executable: pip3.9
+    extra_args: --user
+
+- name: change ssh port to 2222
+  become: 'yes'
+  ansible.builtin.lineinfile:
+    dest: '/etc/ssh/sshd_config'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    state: 'present'
+  with_items:
+    - regexp: '^Port 2222$'
+      line: 'Port 2222'
+
+- name: restart ssh
+  become: 'yes'
+  ansible.builtin.service:
+    name: 'sshd'
+    state: 'restarted'
 
 - name: ensure services/ is absent
   become: yes
   ansible.builtin.file:
-    path: '~/docker/services'
+    path: '/home/ansible/docker/services'
     state: 'absent'
+
+- name: ensure docker dir exists
+  become: yes
+  ansible.builtin.file:
+    path: '/home/ansible/docker'
+    state: 'directory'
+    owner: ansible
+    group: ansible
+    mode: '0700'
+
+- name: create symbolic link for data dir
+  become: yes
+  ansible.builtin.file:
+    src: '/mnt/eagle/data/docker'
+    dest: '/home/ansible/docker/data'
+    state: 'link'
+    owner: ansible
+    group: ansible
 
 #- name: copy local services/
 #  ansible.builtin.copy:
@@ -107,9 +162,12 @@
     state: 'present'
     recreate: 'smart'
     services:
+      #- 'ntfy'
+      #- 'rallly'
+      #- 'sheetable'
+      #- 'thelounge'
+      #- 'kanboard'
       - 'baikal'
-      - 'cryptpad'
-      - 'dashy'
       - 'eas'
       - 'healthchecks'
       - 'hedgedoc'
@@ -117,17 +175,19 @@
       - 'lam'
       - 'mariadb'
       - 'memcached'
-      - 'ntfy'
+      - 'navidrome'
+      - 'misskey'
       - 'openldap'
-      - 'photostructure'
       - 'postgres'
-      - 'rallly'
       - 'redis'
-      - 'sheetable'
       - 'syncthing'
-      - 'thelounge'
       - 'traefik'
+      - 'unifi-controller'
       - 'vaultwarden'
+      - 'yarr'
+      #- 'photostructure'
+     # - 'cryptpad'
+     # - 'dashy'
 
 - name: Prune containers older than 24h
   community.docker.docker_prune:

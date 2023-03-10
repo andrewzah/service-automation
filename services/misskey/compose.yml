@@ -1,0 +1,20 @@
+services:
+  # /files mount requires chown of uid/gid 991
+  misskey:
+    # 2023-03-10
+    image: misskey/misskey:13@sha256:da129b2184bba2da7ac874a9efe6e3ce720bb79ab7c9ed5235fd4a935070705d
+    ports:
+      - "3000"
+    depends_on:
+      - postgres
+      - traefik
+    env_file:
+      - "~/docker/services/misskey/secret.env"
+    volumes:
+      - "~/docker/data/misskey/files/:/misskey/files/:z"
+      - "~/docker/services/misskey/default.yml:/misskey/.config/default.yml:z"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.misskey.rule=Host(`greendolphin.social`)"
+      - "traefik.http.routers.misskey.entrypoints=websecure"
+      - "traefik.http.routers.misskey.tls.certresolver=myresolver"

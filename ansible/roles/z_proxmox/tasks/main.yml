@@ -37,6 +37,13 @@
       - 'proxmoxer'
     state: 'latest'
 
+##################
+### docker LXC ###
+##################
+
+- name: configure 101 lxc
+  ansible.builtin.include_tasks: configure_101_lxc.yml
+
 ##########################
 ### labchicanery games ###
 ##########################
@@ -48,30 +55,39 @@
 ### palmettotech.dev zulip ###
 ##############################
 
-- name: configure 104 lxc
-  ansible.builtin.include_tasks: configure_104_lxc.yml
+#- name: configure 104 lxc
+#  ansible.builtin.include_tasks: configure_104_lxc.yml
 
 ###################
 ### START NODES ###
 ###################
-
-- name: ensure games LXC is started
+#
+- name: ensure docker LXC is started
   community.general.proxmox:
     node: 'eagle'
     api_user: 'root@pam'
     api_password: '{{ pass_root_proxmox }}'
     api_host: '127.0.0.1'
-    vmid: 103
+    vmid: 101
     state: 'started'
 
-- name: ensure palmettotech.dev LXC is started
-  community.general.proxmox:
-    node: 'eagle'
-    api_user: 'root@pam'
-    api_password: '{{ pass_root_proxmox }}'
-    api_host: '127.0.0.1'
-    vmid: 104
-    state: 'started'
+#- name: ensure games LXC is started
+#  community.general.proxmox:
+#    node: 'eagle'
+#    api_user: 'root@pam'
+#    api_password: '{{ pass_root_proxmox }}'
+#    api_host: '127.0.0.1'
+#    vmid: 103
+#    state: 'started'
+#
+#- name: ensure palmettotech.dev LXC is started
+#  community.general.proxmox:
+#    node: 'eagle'
+#    api_user: 'root@pam'
+#    api_password: '{{ pass_root_proxmox }}'
+#    api_host: '127.0.0.1'
+#    vmid: 104
+#    state: 'started'
 
 - name: sleep for 5 seconds
   ansible.builtin.wait_for:

@@ -50,26 +50,38 @@
   with_items:
     - "{{ nodes }}"
 
-- name: apt update 
+#- name: apt update
+#  command:
+#    pct exec {{ item.name }} -- apt update
+#  with_items:
+#    - "{{ nodes }}"
+
+- name: dnf update
   command:
-    pct exec {{ item.name }} -- apt update
+    pct exec {{ item.name }} -- dnf update -y
   with_items:
     - "{{ nodes }}"
 
-- name: apt install sudo
+#- name: apt install sudo
+#  command:
+#    pct exec {{ item.name }} -- apt install sudo -y
+#  with_items:
+#    - "{{ nodes }}"
+
+- name: dnf install sudo, openssh-server
   command:
-    pct exec {{ item.name }} -- apt install sudo -y
+    pct exec {{ item.name }} -- dnf install -y sudo openssh-server
   with_items:
     - "{{ nodes }}"
 
 - name: add 'ansible' to 'sudoers'
   command:
-    pct exec {{ item.name }} -- usermod -aG sudo ansible
+    pct exec {{ item.name }} -- usermod -aG wheel ansible
   with_items:
     - "{{ nodes }}"
 
 - name: add 'ansible' to 'sudoers'
   command:
-    pct exec {{ item.name }} -- systemctl enable --now ssh
+    pct exec {{ item.name }} -- systemctl enable --now sshd
   with_items:
     - "{{ nodes }}"

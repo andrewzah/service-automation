@@ -1,4 +1,15 @@
 ---
+- hosts: docker_services
+  become: 'yes'
+  roles:
+    - docker
+
+#- hosts:
+#    - docker.eagle.zah.arpa
+#  roles:
+#    - base
+#  become: 'yes'
+
 - hosts:
     - docker.eagle.zah.arpa
   roles:

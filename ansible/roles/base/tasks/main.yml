@@ -12,7 +12,7 @@
 
 - name: ensure services are started
   become: 'yes'
-  service:
+  ansible.builtin.service:
     name: ntp
     state: started
 

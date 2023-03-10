@@ -1,9 +1,9 @@
-version: '3.7'
+version: '3.8'
 
 services:
   unifi-controller:
-    # 2022-02-06
-    image: linuxserver/unifi-controller:6.5.55@sha256:9d4cae869628ffc0650314df6d64c8b4197718ce5d37c2606ae09375df64b17e
+    # 2023-02-28
+    image: linuxserver/unifi-controller:7.2.92@sha256:c70bf1c80a927ae1cf34dd83dbfea7b9e8c61efd8272d32a59cf06f6ada75ef3
     environment:
       MEM_LIMIT: '1024M'
     ports:
@@ -12,5 +12,5 @@ services:
       - "8081:8080"
       - "8444:8443"
     volumes:
-      - "/mnt/data/unifi-controller/:/config/"
+      - "~/docker/data/unifi-controller/:/config/:rw"
     restart: unless-stopped

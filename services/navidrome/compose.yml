@@ -3,7 +3,6 @@ version: '3.7'
 services:
   navidrome:
     # 2022-11-07
-    user: '1005'
     image: deluan/navidrome@sha256:a1732c8b50760713fea48ca9b949fb7bd1a75c2891363f468c38903a26606f4c
     environment:
       ND_PORT: 4533
