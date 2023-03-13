@@ -292,3 +292,39 @@
     type: database
     role: '{{ misskey.postgres.username }}'
     state: present
+
+#############
+### gitea ###
+#############
+
+- name: PG - gitea database
+  community.postgresql.postgresql_db:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    name: '{{ gitea.postgres.database }}'
+    state: present
+
+- name: PG - gitea user
+  community.postgresql.postgresql_user:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    db: '{{ gitea.postgres.database }}'
+    name: '{{ gitea.postgres.username }}'
+    password: '{{ gitea.postgres.password }}'
+    state: present
+
+- name: PG - gitea privs
+  community.postgresql.postgresql_privs:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    db: '{{ gitea.postgres.database }}'
+    privs: ALL
+    type: database
+    role: '{{ gitea.postgres.username }}'
+    state: present

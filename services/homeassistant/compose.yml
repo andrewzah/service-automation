@@ -1,0 +1,37 @@
+services:
+  homeassistant:
+    # 2023-03-13
+    image: linuxserver/homeassistant:2023.3.3@sha256:fb7ddf55a059d576e828bc4b4ee53cc65d97f36f3badf68b796ec524da1e757a
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: 'America/New_York'
+    devices:
+      # zigbee
+      - /dev/ttyUSB1
+    # TODO: don't use network_mode: host?
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - "~/docker/data/homeassistant/config:/config"
+      - "/etc/localtime:/etc/localtime:ro"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=8123"
+      - "traefik.http.routers.homeassistant.rule=Host(`home.gen.zah.rocks`)"
+      - "traefik.http.routers.homeassistant.entrypoints=websecure"
+      - "traefik.http.routers.homeassistant.tls.certresolver=myresolver"
+      - "traefik.http.services.homeassistant.loadBalancer.server.port=8123"
+      - 'traefik.http.routers.homeassistant.middlewares=eas-default'
+
+  zwavejs:
+    # 2023-03-13
+    image: zwavejs/zwave-js-ui:8@sha256:5a079aba0042cde236fe105d60702a16c7770a6df67c0cbd514593a61ba361f1
+    network_mode: host
+    environment:
+      TZ: 'America/New_York'
+    devices:
+      - '/dev/ttyUSB0'
+    restart: unless-stopped
+    volumes:
+      - '~/docker/data/zwavejs/:/usr/src/app/store/:rw'

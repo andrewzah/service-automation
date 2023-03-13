@@ -31,14 +31,19 @@ swap: 512
 - [ ] `exportfs -arv`
 
 ## bernard.zah.arpa
+convert to almalinux, as we're no longer friends with debian
+
 - [ ] `apt update`
-- [ ] `apt install -y curl jq openresolv wireguard iptables nfs-common openssh-server`
+- [ ] `apt install -y curl jq qbittorrent-nox openresolv wireguard iptables nfs-common openssh-server`
 - [ ] `systemctl enable --now sshd`
-- [ ] download mullvad configs.zip and unzip into /etc/wireguard
-- [ ] ln -s a us config to tun0.conf (ls -1 | shuf -n1)
+- [ ] download CACHED mullvad configs.zip and unzip into /etc/wireguard
+- [ ] ln -s a us-atl config to tun0.conf (due to the port)
 - [ ] `chown -R root:root /etc/wireguard`
 - [ ] `chmod 600 -R /etc/wireguard`
 - [ ] `wg-quick up tun0`
+- [ ] `ip route add 192.168.0.0/16 via 192.168.1.1 on dev eth0`
+
+and set qbittorent-nox to listen on port 57240
 
 ```
 reset-iptables.sh
@@ -67,7 +72,9 @@ iptables -t mangle -F
 iptables -t mangle -X
 iptables -t raw -F
 iptables -t raw -X
+```
 
+```
 ```
 
 ## venice.zah.arpa

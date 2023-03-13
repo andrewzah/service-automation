@@ -2,7 +2,8 @@ version: '3.7'
 
 services:
   healthchecks:
-    image: 'ghcr.io/linuxserver/healthchecks:2.3.20221011@sha256:319849e7afb958a2ea7c7110bee3ad59dbb59cdbc2d66775178c70e915855ad5'
+    # 2023-03-11
+    image: 'ghcr.io/linuxserver/healthchecks:2.7.20230306@sha256:ab7023e81525473003c80e7803dba111a6bb734273cc1d14c3ef2672e86a0a07'
     environment:
       PUID: 1000
       PGID: 1000
@@ -20,14 +21,11 @@ services:
     volumes:
       - "~/docker/data/healthchecks/config/:/config/"
     restart: unless-stopped
-    depends_on:
-      - traefik
-      - eas
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.healthchecks.rule=Host(`healthchecks.zah.rocks`)"
       - "traefik.http.routers.healthchecks.entrypoints=websecure"
-      - 'traefik.http.routers.healthchecks.middlewares=eas-healthchecks'
+      #- 'traefik.http.routers.healthchecks.middlewares=eas-healthchecks'
       - "traefik.http.routers.healthchecks.tls.certresolver=myresolver"
       #- "traefik.http.middlewares.eas-healthchecks.forwardauth.trustForwardHeader=true"
       #- "traefik.http.middlewares.eas-healthchecks.forwardauth.authResponseHeaders=X-Userinfo, X-Id-Token, X-Access-Token, Authorization"

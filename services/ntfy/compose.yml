@@ -2,11 +2,10 @@ version: '3.7'
 
 services:
   ntfy:
-    # 2022-09-30
-    image: binwiederhier/ntfy:v1.28.0@sha256:45cacbfa46554b8feba86bb2fec42e638dd911e70061128a5690896839ec0156
+    # 2023-03-12
+    image: binwiederhier/ntfy:v2.1.2@sha256:6a5db6e74d09d8fff91a557cedafb03e8817728e61ad27b61eaef294f299f79e
     environment:
       TZ: 'America/New_York'
-    #user: 1000:1000
     command:
       - "serve"
     ports:
