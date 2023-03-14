@@ -33,8 +33,6 @@ services:
       - "~/docker/data/navidrome:/data"
       - "/mnt/eagle/media/music:/music"
     restart: unless-stopped
-    depends_on:
-      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.navidrome.rule=Host(`music.zah.rocks`)"

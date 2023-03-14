@@ -37,11 +37,12 @@
 - name: install python packages for managing docker
   ansible.builtin.pip:
     name:
-      - 'pyyaml'
       - 'docker'
       - 'docker-compose'
+      - 'mysqlclient'
       - 'psycopg2'
       - 'python-ldap'
+      - 'pyyaml'
     executable: pip3.9
     extra_args: --user
 
@@ -164,6 +165,7 @@
     services:
       - 'baikal'
       - 'eas'
+      - 'ghost'
       - 'gitea'
       - 'healthchecks'
       - 'hedgedoc'
