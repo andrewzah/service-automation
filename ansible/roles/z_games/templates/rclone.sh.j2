@@ -41,3 +41,10 @@ rclone sync \
 #rclone sync \
 #  "${MC_DATA_DIR}/labchicanery-creative/data" \
 #  "${REMOTE_NAME}:${BUCKET_NAME}/labchicanery-creative/"
+
+curl \
+  -fsS \
+  -m 10 \
+  --retry 5 \
+  -o /dev/null \
+  '{{ pushover.minecraft_backup }}'
