@@ -1,0 +1,10 @@
+goatcounter_version := 'v2.4.1'
+
+build gv=goatcounter_version:
+  docker build . \
+    --build-arg "GOATCOUNTER_VERSION={{gv}}" \
+    --progress plain \
+    -t "andrewzah/goatcounter:{{gv}}"
+
+push gv=goatcounter_version:
+  docker push "andrewzah/goatcounter:{{gv}}"

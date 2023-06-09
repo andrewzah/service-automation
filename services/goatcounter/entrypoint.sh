@@ -1,6 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
-goatcounter serve -port "${GC_PORT}" \
+set -e
+
+/bin/goatcounter serve -port "${GC_PORT}" \
   -listen "${GC_LISTEN}" \
   -db "${GC_DB}" \
   -tls "${GC_TLS}" \

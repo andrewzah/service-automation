@@ -328,3 +328,39 @@
     type: database
     role: '{{ gitea.postgres.username }}'
     state: present
+
+###################
+### GOATCOUNTER ###
+###################
+
+- name: PG - goatcounter database
+  community.postgresql.postgresql_db:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    name: '{{ goatcounter.postgres.database }}'
+    state: present
+
+- name: PG - goatcounter user
+  community.postgresql.postgresql_user:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    db: '{{ goatcounter.postgres.database }}'
+    name: '{{ goatcounter.postgres.username }}'
+    password: '{{ goatcounter.postgres.password }}'
+    state: present
+
+- name: PG - goatcounter privs
+  community.postgresql.postgresql_privs:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    db: '{{ goatcounter.postgres.database }}'
+    privs: ALL
+    type: database
+    role: '{{ goatcounter.postgres.username }}'
+    state: present
