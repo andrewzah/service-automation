@@ -6,9 +6,6 @@ services:
       PUID: 1000
       PGID: 1000
       TZ: 'America/New_York'
-    devices:
-      # zigbee
-      - /dev/ttyUSB1
     # TODO: don't use network_mode: host?
     network_mode: host
     restart: unless-stopped

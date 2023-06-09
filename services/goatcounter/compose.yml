@@ -1,9 +1,9 @@
 services:
   goatcounter:
+    image: docker.io/andrewzah/goatcounter:v2.4.1
     environment:
       GC_PORT: "3443"
       GC_LISTEN: "0.0.0.0:3443"
-      GC_DB: "sqlite:///data/goatcounter.db"
       GC_TLS: "none"
       GC_ERRORS: "mailto:zah@andrewzah.com"
       GC_EMAIL_FROM: "goatcounter@zah.rocks"

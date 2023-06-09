@@ -116,6 +116,14 @@
     group: 'ansible'
     mode: '0400'
 
+- name: goatcounter secret.env template
+  ansible.builtin.template:
+    src: goatcounter.env.j2
+    dest: '~/docker/services/goatcounter/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
 - name: misskey secret.env template
   ansible.builtin.template:
     src: misskey.env.j2

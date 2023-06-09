@@ -165,8 +165,8 @@
     services:
       - 'baikal'
       - 'eas'
-      - 'ghost'
       - 'gitea'
+      - 'goatcounter'
       - 'healthchecks'
       - 'hedgedoc'
       - 'homeassistant'
@@ -174,9 +174,7 @@
       - 'lam'
       - 'mariadb'
       - 'memcached'
-      - 'misskey'
       - 'navidrome'
-      - 'ntfy'
       - 'openldap'
       - 'postgres'
       - 'redis'
@@ -185,13 +183,6 @@
       - 'unifi-controller'
       - 'vaultwarden'
       - 'yarr'
-      #- 'photostructure'
-      # - 'cryptpad'
-      # - 'dashy'
-      #- 'rallly'
-      #- 'sheetable'
-      #- 'thelounge'
-      #- 'kanboard'
 
 - name: Prune containers older than 24h
   community.docker.docker_prune:
