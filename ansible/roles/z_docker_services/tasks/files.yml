@@ -44,22 +44,6 @@
     group: 'ansible'
     mode: '0600'
 
-- name: ghost secret.env template
-  ansible.builtin.template:
-    src: ghost.env.j2
-    dest: '~/docker/services/ghost/secret.env'
-    owner: 'ansible'
-    group: 'ansible'
-    mode: '0600'
-
-- name: ghost-hgb secret.env template
-  ansible.builtin.template:
-    src: ghost-hgb.env.j2
-    dest: '~/docker/services/ghost-hgb/secret.env'
-    owner: 'ansible'
-    group: 'ansible'
-    mode: '0600'
-
 - name: mariadb secret.env template
   ansible.builtin.template:
     src: mariadb.env.j2

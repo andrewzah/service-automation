@@ -4,50 +4,24 @@
 ### GHOST ###
 #############
 
-- name: MARIADB - ghost database
-  community.mysql.mysql_db:
-    login_host: 127.0.0.1
-    login_port: 3307
-    login_user: 'root'
-    login_password: '{{ mariadb_root_password }}'
-    name: '{{ ghost.mariadb.database }}'
-    state: 'present'
-
-- name: MARIADB - ghost user
-  community.mysql.mysql_user:
-    login_host: 127.0.0.1
-    login_port: 3307
-    login_user: 'root'
-    login_password: '{{ mariadb_root_password }}'
-    #host: '172.%.%.%'
-    host: '%'
-    name: '{{ ghost.mariadb.username }}'
-    password: '{{ ghost.mariadb.password }}'
-    state: 'present'
-    priv: '{{ ghost.mariadb.database }}.*:ALL,GRANT'
-
-#################
-### GHOST-HGB ###
-#################
-
-- name: MARIADB - ghost-hgb database
-  community.mysql.mysql_db:
-    login_host: 127.0.0.1
-    login_port: 3307
-    login_user: 'root'
-    login_password: '{{ mariadb_root_password }}'
-    name: '{{ ghost_hgb.mariadb.database }}'
-    state: 'present'
-
-- name: MARIADB - ghost-hgb user
-  community.mysql.mysql_user:
-    login_host: 127.0.0.1
-    login_port: 3307
-    login_user: 'root'
-    login_password: '{{ mariadb_root_password }}'
-    #host: '172.%.%.%'
-    host: '%'
-    name: '{{ ghost_hgb.mariadb.username }}'
-    password: '{{ ghost_hgb.mariadb.password }}'
-    state: 'present'
-    priv: '{{ ghost_hgb.mariadb.database }}.*:ALL,GRANT'
+#- name: MARIADB - ghost database
+#  community.mysql.mysql_db:
+#    login_host: 127.0.0.1
+#    login_port: 3307
+#    login_user: 'root'
+#    login_password: '{{ mariadb_root_password }}'
+#    name: '{{ ghost.mariadb.database }}'
+#    state: 'present'
+#
+#- name: MARIADB - ghost user
+#  community.mysql.mysql_user:
+#    login_host: 127.0.0.1
+#    login_port: 3307
+#    login_user: 'root'
+#    login_password: '{{ mariadb_root_password }}'
+#    #host: '172.%.%.%'
+#    host: '%'
+#    name: '{{ ghost.mariadb.username }}'
+#    password: '{{ ghost.mariadb.password }}'
+#    state: 'present'
+#    priv: '{{ ghost.mariadb.database }}.*:ALL,GRANT'

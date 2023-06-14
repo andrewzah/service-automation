@@ -165,7 +165,7 @@
     services:
       - 'baikal'
       - 'com-andrewzah'
-      #- 'com-homegrownbinaries'
+      - 'com-homegrownbinaries'
       - 'eas'
       - 'gitea'
       - 'goatcounter'

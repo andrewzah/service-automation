@@ -1,10 +1,10 @@
 services:
-  com-andrewzah:
+  com-homegrownbinaries:
     # 2023-06-13
     image: docker.io/andrewzah/homegrownbinaries:latest
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.andrewzahcom.rule=Host(`homegrownbinaries.com`)"
-      - "traefik.http.routers.andrewzahcom.entrypoints=websecure"
-      - "traefik.http.routers.andrewzahcom.tls.certresolver=myresolver"
+      - "traefik.http.routers.homegrownbinariescom.rule=Host(`homegrownbinaries.com`)"
+      - "traefik.http.routers.homegrownbinariescom.entrypoints=websecure"
+      - "traefik.http.routers.homegrownbinariescom.tls.certresolver=myresolver"
