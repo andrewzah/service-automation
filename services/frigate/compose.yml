@@ -1,0 +1,30 @@
+services:
+  frigate:
+    # 2023-05-18
+    image: ghcr.io/blakeblackshear/frigate:stable
+    environment:
+      FRIGATE_MQTT_USER: "mqtt"
+      FRIGATE_MQTT_PASSWORD: "mqtt"
+      FRIGATE_MQTT_RTSP_USER: "rtsp"
+      FRIGATE_MQTT_RTSP_PASSWORD: "rtsp"
+    volumes:
+      - "~/docker/services/frigate/config.yml:/config/config.yml:rw"
+      - "~/docker/data/frigate/storage/:/media/frigate/:rw"
+      - "~/docker/data/frigate/db/:/db/:rw"
+      - "/etc/localtime:/etc/localtime:ro"
+      - type: "tmpfs"
+        target: "/tmp/cache"
+        tmpfs:
+          size: 1000000000
+    restart: 'unless-stopped'
+    #cap_add:
+    #  - CAP_PERFMON
+    privileged: true
+    ports:
+      - "5000"
+      - "8554:8554"
+      - "8555:8555/tcp"
+      - "8555:8555/udp"
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+      - /dev/dri/renderD128:/dev/dri/renderD128

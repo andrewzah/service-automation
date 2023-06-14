@@ -1,0 +1,10 @@
+services:
+  com-andrewzah:
+    # 2023-06-13
+    image: docker.io/andrewzah/personal_site:latest
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.andrewzahcom.rule=Host(`andrewzah.com`)"
+      - "traefik.http.routers.andrewzahcom.entrypoints=websecure"
+      - "traefik.http.routers.andrewzahcom.tls.certresolver=myresolver"

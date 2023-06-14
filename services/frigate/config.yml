@@ -1,0 +1,19 @@
+mqtt:
+  host: mqtt.server.com
+cameras:
+  driveway:
+    ffmpeg:
+      inputs:
+        - path: rtsp://andrew:frigate@192.168.1.232:554/h264Preview_01_main
+  backyard:
+    ffmpeg:
+      inputs:
+        - path: rtsp://andrew:frigate@192.168.1.234:554/h264Preview_01_main
+database:
+  path: /db/frigate.db
+detectors:
+  coral:
+    type: edgetpu
+    device: usb
+    model:
+      path: '/edgetpu_model.tflite'

@@ -1,9 +1,9 @@
 version: '3.7'
 
 services:
-  # 2023-03-11
+  # 2023-03-21
   gitea:
-    image: gitea/gitea:1.18.5
+    image: gitea/gitea:1.19
     environment:
       USER_UID: 1000
       USER_PID: 1000

@@ -20,15 +20,15 @@ services:
       - "traefik.http.routers.homeassistant.tls.certresolver=myresolver"
       - "traefik.http.services.homeassistant.loadBalancer.server.port=8123"
       - 'traefik.http.routers.homeassistant.middlewares=eas-default'
-
-  zwavejs:
-    # 2023-03-13
-    image: zwavejs/zwave-js-ui:8@sha256:5a079aba0042cde236fe105d60702a16c7770a6df67c0cbd514593a61ba361f1
-    network_mode: host
-    environment:
-      TZ: 'America/New_York'
-    devices:
-      - '/dev/ttyUSB0'
-    restart: unless-stopped
-    volumes:
-      - '~/docker/data/zwavejs/:/usr/src/app/store/:rw'
+#
+#  zwavejs:
+#    # 2023-03-13
+#    image: zwavejs/zwave-js-ui:8@sha256:5a079aba0042cde236fe105d60702a16c7770a6df67c0cbd514593a61ba361f1
+#    network_mode: host
+#    environment:
+#      TZ: 'America/New_York'
+#    devices:
+#      - '/dev/ttyUSB0'
+#    restart: unless-stopped
+#    volumes:
+#      - '~/docker/data/zwavejs/:/usr/src/app/store/:rw'

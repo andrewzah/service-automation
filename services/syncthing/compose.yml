@@ -2,11 +2,11 @@ version: '3.7'
 
 services:
   syncthing:
-    # 2022-12-9
-    image: lscr.io/linuxserver/syncthing:1.22.2@sha256:2288c8a4e5d68298d133006da41c12e84133d1c25f2a0d0cd70f0e8f10dc0e95
+    # 2023-04-02
+    image: lscr.io/linuxserver/syncthing:1.23.2@sha256:56585a380a6ceb142f2605803b451a98665cc93dc4f7b4ba0fe8bb08b6e2a36c
     environment:
-      PUID: 1005
-      PGID: 1005
+      PUID: 1000
+      PGID: 1000
       TZ: 'America/New_York'
     volumes:
       - "~/docker/data/syncthing/config/:/config/:rw"
