@@ -173,6 +173,7 @@
       - 'hedgedoc'
       - 'homeassistant'
       - 'keycloak'
+      - 'komga'
       - 'lam'
       - 'mariadb'
       - 'memcached'

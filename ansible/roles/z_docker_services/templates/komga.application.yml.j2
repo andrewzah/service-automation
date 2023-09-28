@@ -1,0 +1,19 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            provider: keycloak # this must match the provider below
+            client-id: {{ komga.kc.client_id }}
+            client-secret: {{ komga.kc.client_secret }}
+            client-name: Keycloak
+            scope: openid,email
+            authorization-grant-type: authorization_code
+            # the placeholders in {} will be replaced automatically, you don't need to change this line
+            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+        provider:
+          keycloak: # this must match the provider above
+            user-name-attribute: preferred_username
+            # either set the issuer-uri, in which case the app will lookup the configuration for you automatically
+            issuer-uri: {{ komga.kc.issuer_uri }}

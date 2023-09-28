@@ -1,0 +1,25 @@
+---
+services:
+  komga:
+    # 2023-09-28
+    image: docker.io/gotson/komga:1.4.0@sha256:7c358e297404884f54c28d61a224548704f029b792eb3d384199b0d3c641824d
+    environment:
+      KOMGA_LIBRARIES_SCAN_CRON: '0 0 */24 * * ?'
+      KOMGA_OAUTH2_ACCOUNT_CREATION: 'true'
+    ports:
+      - "25600"
+    depends_on:
+      - eas
+      - traefik
+    volumes:
+      - "~/docker/services/komga/application.yml:/config/application.yml:ro"
+      - "~/docker/data/komga/config:/config/:rw"
+      - "~/docker/data/komga/data:/data/:rw"
+      - "/mnt/eagle/media/manga/:/data/eagle/:ro"
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.komga.rule=Host(`manga.zah.rocks`)"
+      - "traefik.http.routers.komga.entrypoints=websecure"
+      - 'traefik.http.routers.komga.middlewares=eas-default'
+      - "traefik.http.routers.komga.tls.certresolver=myresolver"

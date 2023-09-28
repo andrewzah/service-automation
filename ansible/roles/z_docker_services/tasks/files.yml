@@ -152,6 +152,14 @@
     group: 'ansible'
     mode: '0400'
 
+- name: komga application.yml template
+  ansible.builtin.template:
+    src: komga.application.yml.j2
+    dest: '~/docker/services/komga/application.yml'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0600'
+
 #- name: radicale users template
 #  ansible.builtin.template:
 #    src: radicale.users.j2
