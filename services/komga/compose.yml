@@ -15,7 +15,7 @@ services:
       - "~/docker/services/komga/application.yml:/config/application.yml:ro"
       - "~/docker/data/komga/config:/config/:rw"
       - "~/docker/data/komga/data:/data/:rw"
-      - "/mnt/eagle/media/manga/:/data/eagle/:ro"
+      - "/mnt/eagle/media/manga/:/data/eagle/:rw"
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
