@@ -1,0 +1,23 @@
+---
+services:
+  homebox:
+    # 2023-09-29
+    image: ghcr.io/hay-kot/homebox:latest
+    environment:
+      HBOX_LOG_LEVEL: 'info'
+      HBOX_LOG_FORMAT: 'text'
+      HBOX_WEB_MAX_UPLOAD_SIZE: 100
+      TZ: 'America/New_York'
+    env_file:
+      - "~/docker/services/homebox/secret.env"
+    ports:
+      - "7745"
+    volumes:
+      - "~/docker/data/homebox/data/:/data/:rw"
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homebox.rule=Host(`homebox.zah.rocks`)"
+      - "traefik.http.routers.homebox.entrypoints=websecure"
+      - 'traefik.http.routers.homebox.middlewares=eas-default'
+      - "traefik.http.routers.homebox.tls.certresolver=myresolver"

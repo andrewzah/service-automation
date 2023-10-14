@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# priority: 0 = normal, 1 = high , 2 = emergency
+
+/usr/local/bin/check-drive-status \
+  || send-message 1 "check-drive-status failed"
+
+/usr/local/bin/check-zpool-status \
+  || send-message 1 "check-zpool-status failed"
+
+exit 0

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+/sbin/zpool status > /var/tmp/zpooldrivestatus
+driveerrors=$(cat /var/tmp/zpooldrivestatus | grep ONLINE | grep -v state | awk '{print $3 $4 $5}' | grep -v 000)
+
+if [ "${driveerrors}" ]; then
+  cat /var/tmp/zpooldrivestatus & exit 1
+fi
+
+exit 0

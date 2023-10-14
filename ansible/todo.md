@@ -1,3 +1,9 @@
+- pushover scripts on every machine
+  - ssh login/logout
+  - monitoring scripts [e.g. eagle->zfs]
+
+---
+
 - [x] monitoring: telegraf / influx setup
   - [ ] customize-per machine
 - [ ] minecraft

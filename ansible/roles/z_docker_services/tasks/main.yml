@@ -171,6 +171,7 @@
       - 'goatcounter'
       - 'healthchecks'
       - 'hedgedoc'
+      - 'homebox'
       - 'homeassistant'
       - 'keycloak'
       - 'komga'

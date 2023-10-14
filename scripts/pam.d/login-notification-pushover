@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+if [[ "$PAM_TYPE" = "close_session" ]]; then
+  PUSHOVER_TYPE="closed"
+  PUSHOVER_APP_TOKEN="{{ pushover.token.pam_login }}"
+  PUSHOVER_PRIORITY="-1"
+elif [[ "$PAM_TYPE" = "open_session" ]]; then
+  PUSHOVER_TYPE="opened"
+  PUSHOVER_APP_TOKEN="{{ pushover.token.pam_login }}"
+  PUSHOVER_PRIORITY="0"
+else
+  exit 0
+fi
+
+if [[ -z "$PAM_RHOST" ]]; then
+  PAM_RHOST="localhost"
+fi
+
+DATE=$(date)
+
+PUSHOVER_URL="https://api.pushover.net/1/messages.json"
+PUSHOVER_USER_TOKEN="{{ pushover.token.user }}"
+
+PUSHOVER_TITLE="$HOSTNAME session notification"
+PUSHOVER_MESSAGE="User $PAM_USER $PUSHOVER_TYPE a session from $PAM_RHOST through $PAM_SERVICE at: $DATE."
+
+if [[ "$PAM_USER" == "root" ]]; then
+  PUSHOVER_PRIORITY="1"
+fi
+
+curl -s \
+    --data "token=$PUSHOVER_APP_TOKEN" \
+    --data user=$PUSHOVER_USER_TOKEN \
+    --data-urlencode title="$PUSHOVER_TITLE" \
+    --data priority=$PUSHOVER_PRIORITY \
+    --data-urlencode message="$PUSHOVER_MESSAGE" \
+    $PUSHOVER_URL \
+  > /dev/null 2>&1

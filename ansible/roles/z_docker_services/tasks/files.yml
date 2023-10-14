@@ -52,6 +52,14 @@
     group: 'ansible'
     mode: '0400'
 
+- name: homebox secret.env template
+  ansible.builtin.template:
+    src: homebox.env.j2
+    dest: '~/docker/services/homebox/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
 - name: postgres secret.env template
   ansible.builtin.template:
     src: postgres.env.j2

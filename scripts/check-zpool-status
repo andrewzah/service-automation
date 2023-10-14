@@ -1,0 +1,22 @@
+#!/bin/bash
+
+zpool list > /var/tmp/zpoollist 
+poollist=$(cat /var/tmp/zpoollist | awk '{print $1}' | awk 'NR>1')
+
+for pool in ${poollist[@]}; do
+  zpool status $pool > /var/tmp/$pool
+  poolstate=$(cat /var/tmp/$pool | egrep -i '(DEGRADED|FAULTED|OFFLINE|UNAVAIL|REMOVED|FAIL|DESTROYED|corrupt|cannot|unrecover)')
+
+  if [ "${poolstate}" ]; then
+    cat /var/tmp/zpoollist \
+      | awk '{print $1, "\t" $10}'
+
+    echo -en "\n\n"
+    cat /var/tmp/$pool
+
+    exit 1
+  fi
+done
+
+exit 0
+

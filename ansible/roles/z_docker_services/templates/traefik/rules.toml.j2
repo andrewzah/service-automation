@@ -1,4 +1,11 @@
 [http.routers]
+  [http.routers.jellyfin]
+    entrypoints = [ "websecure" ]
+    rule = "Host(`flix.zah.rocks`)"
+    service = "jellyfin"
+    [http.routers.jellyfin.tls]
+      certResolver = "myresolver"
+
   [http.routers.palmettotech-zulip]
     entrypoints = [ "websecure" ]
     rule = "Host(`zulip.palmettotech.dev`)"
@@ -21,6 +28,10 @@
       certResolver = "myresolver"
 
 [http.services]
+  [http.services.jellyfin.loadBalancer]
+    [[http.services.jellyfin.loadBalancer.servers]]
+      url = "http://192.168.2.6:8096"
+
   [http.services.palmettotech-zulip.loadBalancer]
     [[http.services.palmettotech-zulip.loadBalancer.servers]]
       url = "http://192.168.1.31:80"
