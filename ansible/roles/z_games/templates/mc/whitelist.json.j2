@@ -1,0 +1,8 @@
+[
+{% for uuid in uuids %}
+  {
+    "uuid": "{{ uuid.id }}",
+    "name": "{{ uuid.name }}"
+  }{{ ',' if not loop.last }}
+{% endfor %}
+]

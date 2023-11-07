@@ -1,0 +1,24 @@
+velocity:
+  motd: 'Lab Shenanigans'
+  port: 25565
+  query_port: 25549
+  metrics_id: '{{ v_velocity.metrics_id }}'
+  forwarding_secret: '{{ v_velocity.forwarding_secret }}'
+
+survival:
+  server_port: 25450
+  query_port: 25550
+  rcon_port: 25750
+  bluemap_port: 8100
+  rcon_pass: '{{ v_survival.rcon_pass }}'
+
+creative:
+  server_port: 25451
+  query_port: 25551
+  rcon_port: 25751
+  rcon_pass: '{{ v_creative.rcon_pass }}'
+
+proxy: '{{ v_proxy }}'
+
+healthchecks: '{{ v.healthchecks }}'
+ssh_keys: '{{ v_ssh_keys }}'

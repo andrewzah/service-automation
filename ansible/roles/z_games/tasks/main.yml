@@ -96,17 +96,7 @@
     - '~/minecraft/data/creative'
     - '~/minecraft/data/skyblock'
     - '~/minecraft/data/postgres'
-
-- name: ensure minecraft conf dirs exist
-  ansible.builtin.file:
-    path: '{{ item }}'
-    owner: 'guest'
-    group: 'guest'
-    mode: '0755'
-    state: 'directory'
-  with_items:
-    - '~/minecraft/data/velocity/config/plugins/huskchat'
-    - '~/minecraft/data/velocity/config/plugins/luckperms'
+    - '~/minecraft/data/velocity'
 
 - name: create symbolic links for world data dirs
   become: 'yes'
@@ -125,6 +115,19 @@
       dest: '/home/guest/minecraft/data/skyblock/data'
     - src: '/mnt/eagle/games/labchicanery-minecraft/postgres/data'
       dest: '/home/guest/minecraft/data/postgres/data'
+    - src: '/mnt/eagle/games/labchicanery-minecraft/velocity/config'
+      dest: '/home/guest/minecraft/data/velocity/config'
+
+- name: ensure minecraft conf dirs exist
+  ansible.builtin.file:
+    path: '{{ item }}'
+    owner: 'guest'
+    group: 'guest'
+    mode: '0755'
+    state: 'directory'
+  with_items:
+    - '~/minecraft/data/velocity/config/plugins/huskchat'
+    - '~/minecraft/data/velocity/config/plugins/luckperms'
 
 - name: docker-compose.yml template
   ansible.builtin.template:
@@ -140,6 +143,18 @@
 
 - name: configure mc plugins
   ansible.builtin.include_tasks: configure_mc_plugins.yml
+
+- name: configure survival whitelist
+  ansible.builtin.template:
+    src: 'mc/whitelist.json.j2'
+    dest: '/home/guest/minecraft/data/survival/data/whitelist.json'
+    mode: '0644'
+
+- name: configure creative whitelist
+  ansible.builtin.template:
+    src: 'mc/whitelist.json.j2'
+    dest: '/home/guest/minecraft/data/creative/data/whitelist.json'
+    mode: '0644'
 
 - name: Run 'docker-compose up' for postgres first
   environment:

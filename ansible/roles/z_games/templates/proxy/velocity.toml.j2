@@ -1,9 +1,9 @@
 # Config version. Do not change this
 config-version = "1.0"
-bind = '0.0.0.0:{{ velocity_port }}'
+bind = '0.0.0.0:{{ velocity.port }}'
 
 online-mode = true
-motd = '{{ velocity_motd }}'
+motd = Lab Shenanigans
 show-max-players = 20
 announce-forge = false
 
@@ -14,7 +14,7 @@ prevent-client-proxy-connections = false
 player-info-forwarding-mode = "modern"
 
 # If you are using modern or BungeeGuard IP forwarding, configure an unique secret here.
-forwarding-secret = '{{ velocity_forwarding_secret }}'
+forwarding-secret = '{{ velocity.forwarding_secret }}'
 
 # If enabled (default is false) and the proxy is in online mode, Velocity will kick
 # any existing player who is online if a duplicate connection attempt is made.
