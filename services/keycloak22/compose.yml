@@ -1,0 +1,21 @@
+---
+services:
+  keycloak22:
+    # 2023-11-03
+    image: quay.io/keycloak/keycloak:22.0.5-0@sha256:bfa8852e52c279f0857fe8da239c0ad6bbd2cc07793a28a6770f7e24c1e25444
+    command:
+      - "start"
+      - "--auto-build"
+      - "--http-enabled=true"
+      - "--hostname idp.zah.rocks"
+      - "--proxy passthrough"
+    env_file:
+      "~/docker/services/keycloak22/secret.env"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak22.rule=Host(`idp22.zah.rocks`)"
+      - "traefik.http.routers.keycloak22.entrypoints=websecure"
+      - "traefik.http.routers.keycloak22.tls.certresolver=myresolver"
+    restart: unless-stopped

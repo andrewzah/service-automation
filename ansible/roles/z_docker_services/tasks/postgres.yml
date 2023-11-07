@@ -364,3 +364,39 @@
     type: database
     role: '{{ goatcounter.postgres.username }}'
     state: present
+
+###################
+### KEYCLOAK 22 ###
+###################
+
+- name: PG - keycloak22 database
+  community.postgresql.postgresql_db:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    name: '{{ keycloak22.postgres.database }}'
+    state: present
+
+- name: PG - keycloak22 user
+  community.postgresql.postgresql_user:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    db: '{{ keycloak22.postgres.database }}'
+    name: '{{ keycloak22.postgres.username }}'
+    password: '{{ keycloak22.postgres.password }}'
+    state: present
+
+- name: PG - keycloak22 privs
+  community.postgresql.postgresql_privs:
+    login_host: 127.0.0.1
+    login_port: 5433
+    login_user: '{{ postgres_user }}'
+    login_password: '{{ postgres_password }}'
+    db: '{{ keycloak22.postgres.database }}'
+    privs: ALL
+    type: database
+    role: '{{ keycloak22.postgres.username }}'
+    state: present

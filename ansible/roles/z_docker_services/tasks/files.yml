@@ -36,6 +36,14 @@
     group: 'ansible'
     mode: '0400'
 
+- name: keycloak22 secret.env template
+  ansible.builtin.template:
+    src: keycloak22.env.j2
+    dest: '~/docker/services/keycloak22/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
 - name: kanboard secret.env template
   ansible.builtin.template:
     src: kanboard.env.j2
