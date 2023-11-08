@@ -22,12 +22,6 @@
     dest: '/home/guest/minecraft/data/velocity/config/plugins/huskchat/config.yml'
     mode: '0600'
 
-- name: velocity.huskchat - config.yml template
-  ansible.builtin.template:
-    src: 'proxy/huskchat/config.yml.j2'
-    dest: '/home/guest/minecraft/data/velocity/config/plugins/huskchat/config.yml'
-    mode: '0600'
-
 - name: velocity.luckperms - config.yml template
   ansible.builtin.template:
     src: 'proxy/luckperms/config.yml.j2'

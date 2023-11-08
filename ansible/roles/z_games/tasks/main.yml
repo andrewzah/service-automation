@@ -177,7 +177,7 @@
     project_src: '~/minecraft'
     remove_orphans: 'yes'
     state: 'present'
-    recreate: 'smart'
+    recreate: 'always'
     services:
       - 'proxy'
       - 'creative'

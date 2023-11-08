@@ -1,10 +1,13 @@
+# {{ ansible_managed }}
 # Config version. Do not change this
-config-version = "2.7.1"
+config-version = "2.6"
 
 bind = "0.0.0.0:25565"
 motd = "LabChicaneryMC - Where wild Philips can run free"
-show-max-players = 30
+show-max-players = 20
 online-mode = true
+player-info-forwarding-mode = "modern"
+forwarding-secret-file = "forwarding.secret"
 
 # Should the proxy enforce the new public key security standard? By default, this is on.
 force-key-authentication = false
@@ -25,15 +28,13 @@ prevent-client-proxy-connections = false
 #                  unable to implement network level firewalling (on a shared host).
 # - "modern":      Forward player IPs and UUIDs as part of the login process using
 #                  Velocity's native forwarding. Only applicable for Minecraft 1.13 or higher.
-player-info-forwarding-mode = "modern"
 
 # If you are using modern or BungeeGuard IP forwarding, configure a file that contains a unique secret here.
 # The file is expected to be UTF-8 encoded and not empty.
-forwarding-secret-file = "forwarding.secret"
 
 # Announce whether or not your server supports Forge. If you run a modded server, we
 # suggest turning this on.
-# 
+#
 # If your network runs one modpack consistently, consider using ping-passthrough = "mods"
 # instead for a nicer display in the server list.
 announce-forge = false
@@ -61,18 +62,15 @@ ping-passthrough = "DISABLED"
 enable-player-address-logging = true
 
 [servers]
-# Configure your servers here. Each key represents the server's name, and the value
-# represents the IP address of the server to connect to.
 survival = "survival:25565"
 creative = "creative:25565"
 
 # In what order we should try servers when a player logs in or is kicked from a server.
 try = [
-  "survival", "creative"
+    "survival", "creative"
 ]
 
 [forced-hosts]
-# Configure your forced hosts here.
 "mc.zah.rocks" = [
   "survival"
 ]
