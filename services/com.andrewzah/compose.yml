@@ -1,7 +1,7 @@
 services:
   com-andrewzah:
-    # 2023-06-13
-    image: docker.io/andrewzah/personal_site:latest
+    # 2023-11-17
+    image: docker.io/andrewzah/personal_site:latest@sha256:8a303f75d9e9d15d6ba9e3fc6eae625537420cc5e3e44b1311b63c25a279a623
     restart: unless-stopped
     labels:
       - "traefik.enable=true"

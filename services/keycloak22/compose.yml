@@ -7,7 +7,8 @@ services:
       - "start"
       - "--auto-build"
       - "--http-enabled=true"
-      - "--hostname idp.zah.rocks"
+      - "--hostname idp22.zah.rocks"
+      - "--hostname-admin idp22.zah.rocks"
       - "--proxy passthrough"
     env_file:
       "~/docker/services/keycloak22/secret.env"
