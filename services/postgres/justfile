@@ -1,0 +1,9 @@
+b:
+  #!/bin/sh
+  date=$(date +%Y-%m-%d)
+  tag="docker.io/andrewzah/postgres-custom:${date}"
+
+  docker build . \
+    --tag "$tag"
+
+  docker push "$tag"

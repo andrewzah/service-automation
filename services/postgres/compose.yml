@@ -3,7 +3,7 @@ version: '3.7'
 services:
   postgres:
     hostname: postgres
-    image: postgres:14.5-alpine
+    image: docker.io/andrewzah/postgres-custom@sha256:7f69fd32f40e77b6482a6017a2f11fad1f81369a7c2cdf7d943ecf468baeb875
     ports:
       - "5432"
       - "5433:5432"

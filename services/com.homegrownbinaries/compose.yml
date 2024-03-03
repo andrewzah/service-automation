@@ -1,6 +1,6 @@
 services:
   com-homegrownbinaries:
-    # 2023-06-13
+    # 2024-03-03
     image: docker.io/andrewzah/homegrownbinaries:latest
     restart: unless-stopped
     labels:
