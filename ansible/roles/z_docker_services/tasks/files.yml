@@ -152,14 +152,6 @@
 ### other files ###
 ###################
 
-- name: ntfy server.yml template
-  ansible.builtin.template:
-    src: ntfy.server.j2
-    dest: '~/docker/services/ntfy/server.yml'
-    owner: 'ansible'
-    group: 'ansible'
-    mode: '0644'
-
 - name: dashy conf.yml template
   ansible.builtin.template:
     src: dashy.conf.yml.j2

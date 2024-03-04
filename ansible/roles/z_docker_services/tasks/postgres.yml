@@ -1,30 +1,28 @@
 ---
 
-#################
-### BITWARDEN ###
-#################
-
-- name: PG - bitwarden database
+- name: PG - databases
   community.postgresql.postgresql_db:
     login_host: 127.0.0.1
     login_port: 5433
     login_user: '{{ postgres_user }}'
     login_password: '{{ postgres_password }}'
-    name: bitwarden
+    name: '{{ item.db_name }}'
     state: present
+  loop: '{{ z_services }}'
 
-- name: PG - bitwarden user
+- name: PG - users
   community.postgresql.postgresql_user:
     login_host: 127.0.0.1
     login_port: 5433
     login_user: '{{ postgres_user }}'
     login_password: '{{ postgres_password }}'
-    db: bitwarden
-    name: bitwarden
-    password: '{{ pg_bitwarden_password }}'
+    db: '{{ item.db_name }}'
+    name: '{{ item.username }}'
+    password: '{{ item.password }}'
     state: present
+  loop: '{{ z_services }}'
 
-- name: PG - bitwarden privs
+- name: PG - privs
   community.postgresql.postgresql_privs:
     login_host: 127.0.0.1
     login_port: 5433
@@ -33,406 +31,33 @@
     db: postgres
     privs: ALL
     type: database
-    obj: bitwarden
-    role: bitwarden
     state: present
+    obj: '{{ item.db_name }}'
+    role: '{{ item.username }}'
+  loop: '{{ z_services }}'
 
-################
-### HEDGEDOC ###
-################
-
-- name: PG - hedgedoc database
-  community.postgresql.postgresql_db:
+- name: PG - extensions
+  community.postgresql.postgresql_ext:
     login_host: 127.0.0.1
     login_port: 5433
     login_user: '{{ postgres_user }}'
     login_password: '{{ postgres_password }}'
-    name: hedgedoc
-    state: present
+    db: '{{ item.db_name }}'
+    name: '{{ item.ext_name }}'
+    state: 'present'
+    cascade: true
+  loop: '{{ z_extensions }}'
 
-- name: PG - hedgedoc user
-  community.postgresql.postgresql_user:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: hedgedoc
-    name: hedgedoc
-    password: '{{ pg_hedgedoc_password }}'
-    state: present
-
-- name: PG - hedgedoc privs
-  community.postgresql.postgresql_privs:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: postgres
-    privs: ALL
-    type: database
-    obj: hedgedoc
-    role: hedgedoc
-    state: present
-
-################
-### KEYCLOAK ###
-################
-
-- name: PG - keycloak database
-  community.postgresql.postgresql_db:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    name: keycloak
-    state: present
-
-- name: PG - keycloak user
-  community.postgresql.postgresql_user:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: keycloak
-    name: keycloak
-    password: '{{ pg_keycloak_password }}'
-    state: present
-
-- name: PG - keycloak privs
-  community.postgresql.postgresql_privs:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: postgres
-    privs: ALL
-    type: database
-    obj: keycloak
-    role: keycloak
-    state: present
-
-##############
-### RALLLY ###
-##############
-
-- name: PG - rallly database
-  community.postgresql.postgresql_db:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    name: rallly
-    state: present
-
-- name: PG - rallly user
-  community.postgresql.postgresql_user:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: rallly
-    name: rallly
-    password: '{{ pg_rallly_password }}'
-    state: present
-
-- name: PG - rallly privs
-  community.postgresql.postgresql_privs:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: postgres
-    privs: ALL
-    type: database
-    obj: rallly
-    role: rallly
-    state: present
-
-####################
-### HEALTHCHECKS ###
-####################
-
-- name: PG - healthchecks database
-  community.postgresql.postgresql_db:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    name: healthchecks
-    state: present
-
-- name: PG - healthchecks user
-  community.postgresql.postgresql_user:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: healthchecks
-    name: healthchecks
-    password: '{{ healthchecks.postgres.password }}'
-    state: present
-
-- name: PG - healthchecks privs
-  community.postgresql.postgresql_privs:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: postgres
-    privs: ALL
-    type: database
-    obj: healthchecks
-    role: healthchecks
-    state: present
-
-####################
-### SHEETABLE ###
-####################
-
-- name: PG - sheetable database
-  community.postgresql.postgresql_db:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    name: '{{ sheetable.db_name }}'
-    state: present
-
-- name: PG - sheetable user
-  community.postgresql.postgresql_user:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: '{{ sheetable.db_name }}'
-    name: '{{ sheetable.db_username }}'
-    password: '{{ sheetable.db_password }}'
-    state: present
-
-- name: PG - sheetable privs
-  community.postgresql.postgresql_privs:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: '{{ sheetable.db_name }}'
-    privs: ALL
-    type: database
-    role: '{{ sheetable.db_username }}'
-    state: present
-
-################
-### KANBOARD ###
-################
-
-- name: PG - kanboard database
-  community.postgresql.postgresql_db:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    name: '{{ kanboard.db.name }}'
-    state: present
-
-- name: PG - kanboard user
-  community.postgresql.postgresql_user:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: '{{ kanboard.db.name }}'
-    name: '{{ kanboard.db.username }}'
-    password: '{{ kanboard.db.password }}'
-    state: present
-
-- name: PG - kanboard privs
-  community.postgresql.postgresql_privs:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: '{{ kanboard.db.name }}'
-    privs: ALL
-    type: database
-    role: '{{ kanboard.db.username }}'
-    state: present
-
-################
-### misskey ###
-################
-
-- name: PG - misskey database
-  community.postgresql.postgresql_db:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    name: '{{ misskey.postgres.database }}'
-    state: present
-
-- name: PG - misskey user
-  community.postgresql.postgresql_user:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: '{{ misskey.postgres.database }}'
-    name: '{{ misskey.postgres.username }}'
-    password: '{{ misskey.postgres.password }}'
-    state: present
-
-- name: PG - misskey privs
-  community.postgresql.postgresql_privs:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: '{{ misskey.postgres.database }}'
-    privs: ALL
-    type: database
-    role: '{{ misskey.postgres.username }}'
-    state: present
-
-#############
-### gitea ###
-#############
-
-- name: PG - gitea database
-  community.postgresql.postgresql_db:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    name: '{{ gitea.postgres.database }}'
-    state: present
-
-- name: PG - gitea user
-  community.postgresql.postgresql_user:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: '{{ gitea.postgres.database }}'
-    name: '{{ gitea.postgres.username }}'
-    password: '{{ gitea.postgres.password }}'
-    state: present
-
-- name: PG - gitea privs
-  community.postgresql.postgresql_privs:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: '{{ gitea.postgres.database }}'
-    privs: ALL
-    type: database
-    role: '{{ gitea.postgres.username }}'
-    state: present
-
-###################
-### GOATCOUNTER ###
-###################
-
-- name: PG - goatcounter database
-  community.postgresql.postgresql_db:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    name: '{{ goatcounter.postgres.database }}'
-    state: present
-
-- name: PG - goatcounter user
-  community.postgresql.postgresql_user:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: '{{ goatcounter.postgres.database }}'
-    name: '{{ goatcounter.postgres.username }}'
-    password: '{{ goatcounter.postgres.password }}'
-    state: present
-
-- name: PG - goatcounter privs
-  community.postgresql.postgresql_privs:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: '{{ goatcounter.postgres.database }}'
-    privs: ALL
-    type: database
-    role: '{{ goatcounter.postgres.username }}'
-    state: present
-
-###################
-### KEYCLOAK 22 ###
-###################
-
-- name: PG - keycloak22 database
-  community.postgresql.postgresql_db:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    name: '{{ keycloak22.postgres.database }}'
-    state: present
-
-- name: PG - keycloak22 user
-  community.postgresql.postgresql_user:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: '{{ keycloak22.postgres.database }}'
-    name: '{{ keycloak22.postgres.username }}'
-    password: '{{ keycloak22.postgres.password }}'
-    state: present
-
-- name: PG - keycloak22 privs
-  community.postgresql.postgresql_privs:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: '{{ keycloak22.postgres.database }}'
-    privs: ALL
-    type: database
-    role: '{{ keycloak22.postgres.username }}'
-    state: present
-
-##############
-### IMMICH ###
-##############
-
-- name: PG - immich database
-  community.postgresql.postgresql_db:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    name: '{{ immich.postgres.database }}'
-    state: present
-
-- name: PG - immich user
-  community.postgresql.postgresql_user:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: '{{ immich.postgres.database }}'
-    name: '{{ immich.postgres.username }}'
-    password: '{{ immich.postgres.password }}'
-    state: present
-
-- name: PG - immich privs
-  community.postgresql.postgresql_privs:
-    login_host: 127.0.0.1
-    login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
-    db: '{{ immich.postgres.database }}'
-    privs: ALL
-    type: database
-    role: '{{ immich.postgres.username }}'
-    state: present
+#- name: PG - privs - public schema
+#  community.postgresql.postgresql_privs:
+#    login_host: 127.0.0.1
+#    login_port: 5433
+#    login_user: '{{ postgres_user }}'
+#    login_password: '{{ postgres_password }}'
+#    db: postgres
+#    privs: ALL
+#    schema: public
+#    state: present
+#    obj: '{{ item.db_name }}'
+#    role: '{{ item.username }}'
+#  loop: '{{ z_services }}'

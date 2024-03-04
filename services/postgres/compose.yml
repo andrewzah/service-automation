@@ -1,9 +1,9 @@
-version: '3.7'
+---
 
 services:
   postgres:
     hostname: postgres
-    image: docker.io/andrewzah/postgres-custom@sha256:7f69fd32f40e77b6482a6017a2f11fad1f81369a7c2cdf7d943ecf468baeb875
+    image: docker.io/andrewzah/postgres-custom:2024-03-03@sha256:bcc1a0963ed8757b00d6a20a59b62eabcb856eeed11ea47a1863495076a4959e
     ports:
       - "5432"
       - "5433:5432"
@@ -12,5 +12,5 @@ services:
     env_file:
       - "~/docker/services/postgres/secret.env"
     volumes:
-      - "~/docker/data/postgres/:/var/lib/postgresql/data/:rw"
+      - "~/docker/data/postgres15/:/var/lib/postgresql/data/:rw"
     restart: unless-stopped

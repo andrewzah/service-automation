@@ -122,6 +122,42 @@
 
 - name: run postgres stuff
   ansible.builtin.include_tasks: postgres.yml
+  vars:
+    z_extensions:
+      - db_name: '{{ immich.postgres.database }}'
+        ext_name: 'vector'
+
+    z_services:
+      - db_name: 'bitwarden'
+        username: 'bitwarden'
+        password: '{{ pg_bitwarden_password }}'
+      - db_name: 'hedgedoc'
+        username: 'hedgedoc'
+        password: '{{ pg_hedgedoc_password }}'
+      - db_name: 'keycloak'
+        username: 'keycloak'
+        password: '{{ pg_keycloak_password }}'
+      - db_name: 'healthchecks'
+        username: 'healthchecks'
+        password: '{{ healthchecks.postgres.password }}'
+      - db_name: '{{ sheetable.db_name }}'
+        username: '{{ sheetable.db_username }}'
+        password: '{{ sheetable.db_password }}'
+      - db_name: '{{ kanboard.db.name }}'
+        username: '{{ kanboard.db.username }}'
+        password: '{{ kanboard.db.password }}'
+      - db_name: '{{ gitea.postgres.database }}'
+        username: '{{ gitea.postgres.username }}'
+        password: '{{ gitea.postgres.password }}'
+      - db_name: '{{ goatcounter.postgres.database }}'
+        username: '{{ goatcounter.postgres.username }}'
+        password: '{{ goatcounter.postgres.password }}'
+      - db_name: '{{ keycloak22.postgres.database }}'
+        username: '{{ keycloak22.postgres.username }}'
+        password: '{{ keycloak22.postgres.password }}'
+      - db_name: '{{ immich.postgres.database }}'
+        username: '{{ immich.postgres.username }}'
+        password: '{{ immich.postgres.password }}'
 
 - name: Run `docker-compose up` for mariadb
   environment:
@@ -164,8 +200,6 @@
     recreate: 'smart'
     services:
       - 'baikal'
-      - 'com-andrewzah'
-      - 'com-homegrownbinaries'
       - 'eas'
       - 'gitea'
       - 'goatcounter'
@@ -184,13 +218,16 @@
       - 'memcached'
       - 'navidrome'
       - 'openldap'
-      - 'org-scfgc'
       - 'postgres'
       - 'redis'
       - 'syncthing'
       - 'traefik'
       - 'unifi-controller'
       - 'vaultwarden'
+      # sites
+      - 'com-andrewzah'
+      - 'com-homegrownbinaries'
+      - 'org-scfgc'
 
 - name: Prune containers older than 24h
   community.docker.docker_prune:
