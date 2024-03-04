@@ -1,7 +1,0 @@
-:8080 {
-  encode gzip
-
-  file_server * {
-    root /var/www
-  }
-}

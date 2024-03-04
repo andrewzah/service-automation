@@ -1,9 +1,0 @@
-version: '3.7'
-
-services:
-  whoami:
-    image: containous/whoami
-    ports:
-      - "3011:80"
-    read_only: true
-    restart: unless-stopped
