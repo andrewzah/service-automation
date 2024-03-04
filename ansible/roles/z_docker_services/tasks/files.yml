@@ -140,6 +140,14 @@
     group: 'ansible'
     mode: '0400'
 
+- name: immich secret.env template
+  ansible.builtin.template:
+    src: immich.env.j2
+    dest: '~/docker/services/immich/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
 ###################
 ### other files ###
 ###################

@@ -1,0 +1,19 @@
+---
+
+services:
+  exercisediary:
+    # 2023-12-29
+    image: aceberg/exercisediary:0.1.1@sha256:5d45dff96fdc176ed617cad3d418ac15f722e73568036153bd2c44022fd8face
+    environment:
+      TZ: 'America/New_York'
+    volumes:
+      - "~/docker/data/exercisediary/:/data/ExerciseDiary/:rw"
+    ports:
+      - "8851"
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.exercisediary.rule=Host(`exercisediary.zah.rocks`)"
+      - "traefik.http.routers.exercisediary.entrypoints=websecure"
+      - 'traefik.http.routers.exercisediary.middlewares=eas-default'
+      - "traefik.http.routers.exercisediary.tls.certresolver=myresolver"

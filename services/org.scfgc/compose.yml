@@ -1,0 +1,9 @@
+services:
+  org-scfgc:
+    image: docker.io/andrewzah/scfgc-org:latest
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.scfgcorg.rule=Host(`scfgc.org`)"
+      - "traefik.http.routers.scfgcorg.entrypoints=websecure"
+      - "traefik.http.routers.scfgcorg.tls.certresolver=myresolver"
