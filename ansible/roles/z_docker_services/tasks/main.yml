@@ -158,6 +158,9 @@
       - db_name: '{{ immich.postgres.database }}'
         username: '{{ immich.postgres.username }}'
         password: '{{ immich.postgres.password }}'
+      - db_name: '{{ memos.postgres.database }}'
+        username: '{{ memos.postgres.username }}'
+        password: '{{ memos.postgres.password }}'
 
 - name: Run `docker-compose up` for mariadb
   environment:
@@ -208,14 +211,15 @@
       - 'homeassistant'
       - 'homebox'
       - 'immich'
-      - 'immich-microservices'
       - 'immich-machine-learning'
+      - 'immich-microservices'
       - 'keycloak'
       - 'keycloak22'
       - 'komga'
       - 'lam'
       - 'mariadb'
       - 'memcached'
+      - 'memos'
       - 'navidrome'
       - 'openldap'
       - 'postgres'

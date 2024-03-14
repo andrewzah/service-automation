@@ -1,7 +1,7 @@
 services:
   com-homegrownbinaries:
-    # 2024-03-03
-    image: docker.io/andrewzah/homegrownbinaries:latest
+    # 2024-03-10
+    image: docker.io/andrewzah/homegrownbinaries:latest@sha256:5db05c18363b958bece69934b4c794636d595cdbe914a17576b33c142adc37c3
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
