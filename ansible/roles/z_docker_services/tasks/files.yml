@@ -20,6 +20,14 @@
     group: 'ansible'
     mode: '0400'
 
+- name: atuin secret.env template
+  ansible.builtin.template:
+    src: atuin.env.j2
+    dest: '~/docker/services/atuin/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
 - name: hedgedoc secret.env template
   ansible.builtin.template:
     src: hedgedoc.env.j2
