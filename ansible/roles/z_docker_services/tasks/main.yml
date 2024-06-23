@@ -161,9 +161,9 @@
       - db_name: '{{ immich.postgres.database }}'
         username: '{{ immich.postgres.username }}'
         password: '{{ immich.postgres.password }}'
-      - db_name: '{{ memos.postgres.database }}'
-        username: '{{ memos.postgres.username }}'
-        password: '{{ memos.postgres.password }}'
+      - db_name: '{{ memos.db.database }}'
+        username: '{{ memos.db.username }}'
+        password: '{{ memos.db.password }}'
 
 - name: Run `docker-compose up` for mariadb
   environment:

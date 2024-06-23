@@ -36,6 +36,14 @@
     group: 'ansible'
     mode: '0400'
 
+- name: memos secret.env template
+  ansible.builtin.template:
+    src: memos.env.j2
+    dest: '~/docker/services/memos/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
 - name: keycloak secret.env template
   ansible.builtin.template:
     src: keycloak.env.j2

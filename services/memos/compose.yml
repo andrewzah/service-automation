@@ -1,21 +1,21 @@
-version: '3.7'
+---
 
 services:
   memos:
-    # 2024-03-10, v0.20.1
-    image: docker.io/neosmemo/memos:latest@sha256:99fe58b680e843fbce91211dfdd8ac1e42c76c15aab2aeecd6beb0f50fc32432
-    command:
-      - "./memos"
-      - "--mode prod"
-      - "--addr memos.zah.rocks"
-      - "--port 5230"
-      - "--data /data"
-      - "--driver postgres"
-      - "--dsn postgres"
-    ports:
-      - "5230"
+    image: docker.io/neosmemo/memos:0.22@sha256:6a3e76b69de8e0c425fbbfc67dbd7791dafe36fce6890ca100d0d339f85aed3b
+    command: [ "./memos" ]
+    environment:
+      MEMOS_MODE: 'prod'
+      MEMOS_DATA: '/data'
+      MEMOS_ADDR: '0.0.0.0'
+      MEMOS_PORT: '5230'
+      MEMOS_DRIVER: 'postgres'
+    env_file:
+      - "~/docker/services/memos/secret.env"
     volumes:
       - "~/docker/data/memos/:/data/:rw"
+    ports:
+      - "5230"
     restart: unless-stopped
     labels:
       - "traefik.enable=true"

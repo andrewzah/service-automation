@@ -11,7 +11,6 @@
 #  become: 'yes'
 
 - hosts:
-    - docker.eagle.zah.arpa
+    - takanaka
   roles:
     - z_docker_services
-

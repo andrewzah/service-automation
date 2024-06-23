@@ -1,17 +1,17 @@
 [base]
-docker.eagle.zah.arpa ansible_ssh_private_key_file=~/.ssh/ansible-docker-ed25519
+takanaka ansible_ssh_private_key_file=~/.ssh/ansible-docker
 
 [docker_services]
-docker.eagle.zah.arpa ansible_ssh_private_key_file=~/.ssh/ansible-docker-ed25519
+takanaka ansible_ssh_private_key_file=~/.ssh/ansible-docker
 
 [z_docker_services]
-docker.eagle.zah.arpa ansible_ssh_private_key_file=~/.ssh/ansible-docker-ed25519 ansible_python_interpreter=/usr/bin/python3.9
+takanaka ansible_ssh_private_key_file=~/.ssh/ansible-docker ansible_python_interpreter=/usr/bin/python3
 
 [proxmox_eagle]
-eagle.zah.arpa
+eagle
 
 [games_prepare]
-nominal-setup ansible_ssh_host=nominal.zah.arpa   remote_user=ansible ansible_ssh_private_key_file=~/.ssh/ansible-docker-ed25519
+nominal-setup ansible_ssh_host=nominal.zah.arpa   remote_user=ansible ansible_ssh_private_key_file=~/.ssh/ansible-docker
 
 [z_games]
 nominal-games ansible_ssh_host=nominal.zah.arpa   remote_user=guest ansible_ssh_private_key_file=~/.ssh/id_ed25519 ansible_user=guest ansible_become_method=su

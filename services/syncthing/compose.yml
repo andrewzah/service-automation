@@ -1,9 +1,9 @@
-version: '3.7'
+---
 
 services:
   syncthing:
-    # 2023-04-02
-    image: lscr.io/linuxserver/syncthing:1.23.2@sha256:56585a380a6ceb142f2605803b451a98665cc93dc4f7b4ba0fe8bb08b6e2a36c
+    # 2024-06-23
+    image: linuxserver/syncthing:1.27.8@sha256:6e70dd0cc0ddb038a8f58cf0945d6659b13c984f11d708407469bf16d520574c
     environment:
       PUID: 1000
       PGID: 1000
