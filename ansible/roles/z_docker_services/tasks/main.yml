@@ -236,6 +236,7 @@
       - 'com-andrewzah'
       - 'com-homegrownbinaries'
       - 'org-scfgc'
+      - 'online-worldwarrior'
 
 - name: Prune containers older than 24h
   community.docker.docker_prune:

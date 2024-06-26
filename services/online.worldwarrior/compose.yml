@@ -1,0 +1,12 @@
+---
+
+services:
+  online-worldwarrior:
+    # 2024-06-26
+    image: andrewzah/online.worldwarrior:latest@sha256:f224fcb515e4463ce98f34718190130688ea364ebc459116ccbb3fe49bf0294d
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.andrewzahcom.rule=Host(`worldwarrior.online`)"
+      - "traefik.http.routers.andrewzahcom.entrypoints=websecure"
+      - "traefik.http.routers.andrewzahcom.tls.certresolver=myresolver"
