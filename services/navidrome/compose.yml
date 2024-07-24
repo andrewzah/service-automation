@@ -1,34 +1,31 @@
-version: '3.7'
+---
 
 services:
   navidrome:
-    # 2022-11-07
-    image: deluan/navidrome@sha256:a1732c8b50760713fea48ca9b949fb7bd1a75c2891363f468c38903a26606f4c
+    # 2024-07-10
+    image: docker.io/deluan/navidrome:pr-2709@sha256:4e5846c25eef2d38f4ccf43cd51541e75a034a339300250cd2ac7c6142d64932
     environment:
       ND_PORT: 4533
       ND_MUSICFOLDER: '/music'
       ND_DATAFOLDER: '/data'
-      ND_SCANSCHEDULE: '@every 1m'
+      ND_SCANSCHEDULE: '@every 24h'
       ND_COVERJPEGQUALITY: 85
       ND_TRANSCODINGCACHESIZE: "500MB"
       ND_LOGLEVEL: 'info'
-      # enable things we want
       ND_ENABLEDOWNLOADS: 'true'
-      # disable for performance fix
       ND_DEVACTIVITYPANEL: 'false'
-      # TODO: spotify
-      #ND_SPOTIFY_ID:
-      #ND_SPOTIFY_SECRET:
-      # disable things we don't need / want
       ND_AUTOIMPORTPLAYLISTS: 'false'
+      ND_ENABLECOVERANIMATION: 'false'
+      ND_LISTENBRAINZ_ENABLED: 'false'
       ND_ENABLEGRAVATAR: 'false'
       ND_ENABLESTARRATING: 'false'
       ND_LASTFM_ENABLED: 'false'
-      # disable for security
-      ND_ENABLETRANSCODINGCONFIG: 'false'
+      ND_DEFAULTLANGUAGE: 'en'
       ND_PROMETHEUS_ENABLED: 'true'
+      ND_ENABLETRANSCODINGCONFIG: 'false'
+      ND_MAXSIDEBARPLAYLISTS: 7
     ports:
-        - "4533"
+      - "4533"
     volumes:
       - "~/docker/data/navidrome:/data"
       - "/mnt/eagle/media/music:/music"

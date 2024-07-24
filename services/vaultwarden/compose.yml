@@ -1,9 +1,9 @@
-version: '3.7'
+---
 
 services:
   vaultwarden:
-    # 2022-09-25
-    image: vaultwarden/server:1.25.2-alpine@sha256:7011d4216a00fcd79785b8b31d61b897e05d959aa37681323dd9c0155655bbbc
+    # 2024-07-23
+    image: vaultwarden/server:1.31.0-alpine@sha256:f87cade4696ba7e5b82ae129856032a4098af5326d683695757968cec30cc60c
     environment:
       DOMAIN: 'https://bit.zah.rocks'
       WEBSOCKET_ENABLED: 'true'
@@ -17,8 +17,6 @@ services:
     volumes:
       - "~/docker/data/bitwarden-rs/:/data/:rw"
     restart: unless-stopped
-    depends_on:
-      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.vaultwarden-ui.rule=Host(`bit.zah.rocks`)"
@@ -26,7 +24,7 @@ services:
       - "traefik.http.routers.vaultwarden-ui.tls.certresolver=myresolver"
       - "traefik.http.routers.vaultwarden-ui.service=vaultwarden-ui"
       - "traefik.http.services.vaultwarden-ui.loadbalancer.server.port=80"
-
+      # websockets
       - "traefik.http.routers.vaultwarden-wss.rule=Host(`bit.zah.rocks`) && Path(`/notifications/hub`)"
       - "traefik.http.routers.vaultwarden-wss.tls.certresolver=myresolver"
       - "traefik.http.routers.vaultwarden-wss.entrypoints=websecure"

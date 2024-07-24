@@ -1,16 +1,17 @@
-version: '3.7'
+---
 
 services:
   healthchecks:
-    # 2023-03-11
-    image: 'ghcr.io/linuxserver/healthchecks:2.7.20230306@sha256:ab7023e81525473003c80e7803dba111a6bb734273cc1d14c3ef2672e86a0a07'
+    # 2024-07-23
+    image: 'ghcr.io/linuxserver/healthchecks:3.4.20240722@sha256:32e289b3f0080dcb117c44fe157523f43ae42ff7b1c0082290b8374dd1a1581b'
     environment:
+      TZ: 'Asia/Seoul'
       PUID: 1000
       PGID: 1000
       SITE_ROOT: "https://healthchecks.zah.rocks"
-      SITE_NAME: "Zah Healthchecks <zah@andrewzah.com>"
-      ALLOWED_HOSTS: "['healthchecks.zah.rocks']"
-      REGENERATE_SETTINGS: "True"
+      SITE_NAME: "Zah Healthchecks"
+      ALLOWED_HOSTS: 'healthchecks.zah.rocks'
+      REGENERATE_SETTINGS: 'True'
       UWSGI_BUFFER_SIZE: 65535
       COMPRESS_ENABLED: 'True'
       DEBUG: 'False'
@@ -25,7 +26,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.healthchecks.rule=Host(`healthchecks.zah.rocks`)"
       - "traefik.http.routers.healthchecks.entrypoints=websecure"
-      #- 'traefik.http.routers.healthchecks.middlewares=eas-healthchecks'
       - "traefik.http.routers.healthchecks.tls.certresolver=myresolver"
+      #- 'traefik.http.routers.healthchecks.middlewares=eas-healthchecks'
       #- "traefik.http.middlewares.eas-healthchecks.forwardauth.trustForwardHeader=true"
       #- "traefik.http.middlewares.eas-healthchecks.forwardauth.authResponseHeaders=X-Userinfo, X-Id-Token, X-Access-Token, Authorization"

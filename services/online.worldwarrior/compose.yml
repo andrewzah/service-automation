@@ -2,11 +2,13 @@
 
 services:
   online-worldwarrior:
-    # 2024-06-26
-    image: docker.io/andrewzah/online.worldwarrior:latest@sha256:ca6c74d2889c403eed273ae43706c2224567114dbae39270e9ac53f365462c10
+    # 2024-07-05
+    image: docker.io/andrewzah/online.worldwarrior:0.7.5@sha256:9a83105d10c10fa1921660d09662edd63c0df4b448dd323540801f6b218c2864
     restart: unless-stopped
+    ports:
+      - "2020"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.andrewzahcom.rule=Host(`worldwarrior.online`)"
-      - "traefik.http.routers.andrewzahcom.entrypoints=websecure"
-      - "traefik.http.routers.andrewzahcom.tls.certresolver=myresolver"
+      - "traefik.http.routers.online-worldwarrior.rule=Host(`worldwarrior.online`)"
+      - "traefik.http.routers.online-worldwarrior.entrypoints=websecure"
+      - "traefik.http.routers.online-worldwarrior.tls.certresolver=myresolver"
