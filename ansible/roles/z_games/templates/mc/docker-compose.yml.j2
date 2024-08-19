@@ -1,11 +1,11 @@
+---
 # {{ ansible_managed }}
-version: "3"
 
 services:
   proxy:
     image: itzg/bungeecord:java17@sha256:f67819eeefd9fe6d4ee5f6f4f3c67c171ba92e27cb22166a4abad3d1874afd4c
     environment:
-      PLUGINS: 'https://download.luckperms.net/1521/velocity/LuckPerms-Velocity-5.4.108.jar,https://github.com/WiIIiam278/HuskChat/releases/download/2.7.1/HuskChat-2.7.1.jar'
+      PLUGINS: 'https://download.luckperms.net/1552/velocity/LuckPerms-Velocity-5.4.137.jar,https://github.com/WiIIiam278/HuskChat/releases/download/2.7.1/HuskChat-2.7.1.jar'
       JVM_OPTS: '-XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:+UnlockExperimentalVMOptions -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:MaxInlineLevel=15'
       TYPE: 'VELOCITY'
       ENABLE_RCON: 'yes'
