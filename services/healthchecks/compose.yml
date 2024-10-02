@@ -2,8 +2,8 @@
 
 services:
   healthchecks:
-    # 2024-07-23
-    image: 'ghcr.io/linuxserver/healthchecks:3.4.20240722@sha256:32e289b3f0080dcb117c44fe157523f43ae42ff7b1c0082290b8374dd1a1581b'
+    # 2024-10-02
+    image: ghcr.io/linuxserver/healthchecks:3.6.20240930
     environment:
       TZ: 'Asia/Seoul'
       PUID: 1000
@@ -12,7 +12,6 @@ services:
       SITE_NAME: "Zah Healthchecks"
       ALLOWED_HOSTS: 'healthchecks.zah.rocks'
       REGENERATE_SETTINGS: 'True'
-      UWSGI_BUFFER_SIZE: 65535
       COMPRESS_ENABLED: 'True'
       DEBUG: 'False'
     env_file:

@@ -1,6 +1,9 @@
+---
+
 services:
+  # 2024-10-02
   goatcounter:
-    image: docker.io/andrewzah/goatcounter:v2.4.1
+    image: docker.io/andrewzah/goatcounter:530ab5edff553923fb04d9e1b1a9771f8a6d0461@sha256:96c27e440b608a2df5e641b72f90b88d146ff9de6c5adc246948021de7bea049
     environment:
       GC_PORT: "3443"
       GC_LISTEN: "0.0.0.0:3443"

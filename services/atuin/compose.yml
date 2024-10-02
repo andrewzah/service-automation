@@ -2,15 +2,15 @@
 
 services:
   atuin:
-    # 2024-03-16
-    image: ghcr.io/atuinsh/atuin:82a7c8d
-    ports:
-        - "8888"
+    # 2024-10-02
+    image: ghcr.io/atuinsh/atuin:6e15286
     command: server start
     environment:
       RUST_LOG: 'info'
     env_file:
       "~/docker/services/atuin/secret.env"
+    ports:
+      - "8888"
     restart: unless-stopped
     labels:
       - "traefik.enable=true"

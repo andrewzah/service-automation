@@ -2,8 +2,8 @@
 
 services:
   online-worldwarrior:
-    # 2024-07-05
-    image: docker.io/andrewzah/online.worldwarrior:0.7.5@sha256:9a83105d10c10fa1921660d09662edd63c0df4b448dd323540801f6b218c2864
+    # 2024-10-02
+    image: docker.io/andrewzah/online.worldwarrior:0.7.5@sha256:0827108f2d7c2f545dbca1448ea05202d7186b665707eb49e6bfc00c72ce516f
     restart: unless-stopped
     ports:
       - "2020"
