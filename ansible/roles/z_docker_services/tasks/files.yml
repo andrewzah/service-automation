@@ -52,10 +52,10 @@
     group: 'ansible'
     mode: '0400'
 
-- name: keycloak22 secret.env template
+- name: keycloak25 secret.env template
   ansible.builtin.template:
-    src: keycloak22.env.j2
-    dest: '~/docker/services/keycloak22/secret.env'
+    src: keycloak25.env.j2
+    dest: '~/docker/services/keycloak25/secret.env'
     owner: 'ansible'
     group: 'ansible'
     mode: '0400'

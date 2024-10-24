@@ -1,0 +1,25 @@
+---
+
+services:
+  huginn:
+    # 2024-10-24
+    image: docker.io/huginn/huginn@sha256:c4941d46d901fdf21fa49daa3e9a992b4a2615a1024f7cc7c40fd4f534fab6e0
+    environment:
+      RAILS_ENV: 'production'
+      PORT: 3000
+      FORCE_SSL: 'true'
+      DOMAIN: 'huginn.zah.rocks'
+      DOMAINS: 'huginn.zah.rocks'
+      HUGINN_DOMAIN: 'huginn.zah.rocks'
+      HUGINN_DOMAINS: 'huginn.zah.rocks'
+    env_file:
+      - "~/docker/services/huginn/secret.env"
+    ports:
+      - "3000"
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.huginn.rule=Host(`huginn.zah.rocks`)"
+      - "traefik.http.routers.huginn.entrypoints=websecure"
+      - 'traefik.http.routers.huginn.middlewares=eas-default'
+      - "traefik.http.routers.huginn.tls.certresolver=myresolver"

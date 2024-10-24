@@ -1,5 +1,5 @@
 ---
-- name: Ensure old versions of Docker are not installed
+- name: Ensure old versions of Docker are not installed on debian
   apt:
     name:
       - 'containerd'

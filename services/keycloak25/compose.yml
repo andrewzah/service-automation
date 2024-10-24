@@ -1,8 +1,8 @@
 ---
 services:
   keycloak25:
-    # 2024-10-02
-    image: quay.io/keycloak/keycloak:@sha256:89aae522be5c945670620f61bdabed612835fb151de8d5aa7091d093e1718a30
+    # 2024-10-03
+    image: quay.io/keycloak/keycloak@sha256:82c5b7a110456dbd42b86ea572e728878549954cc8bd03cd65410d75328095d2
     command:
       - "start"
       - "--http-enabled=true"
@@ -15,7 +15,7 @@ services:
       - "/etc/localtime:/etc/localtime:ro"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.keycloak22.rule=Host(`idp25.zah.rocks`)"
-      - "traefik.http.routers.keycloak22.entrypoints=websecure"
-      - "traefik.http.routers.keycloak22.tls.certresolver=myresolver"
+      - "traefik.http.routers.keycloak25.rule=Host(`idp25.zah.rocks`)"
+      - "traefik.http.routers.keycloak25.entrypoints=websecure"
+      - "traefik.http.routers.keycloak25.tls.certresolver=myresolver"
     restart: unless-stopped

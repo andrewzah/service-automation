@@ -27,7 +27,7 @@
 
 - name: create takanaka LXC - 101
   community.general.proxmox:
-    #force: true
+    force: true
     api_user: 'root@pam'
     api_password: '{{ pass_root_proxmox }}'
     api_host: 127.0.0.1
@@ -38,13 +38,13 @@
     netif: '{"net0":"name=eth0,gw=192.168.1.1,ip=192.168.2.11/32,bridge=vmbr0"}'
     node: 'eagle'
     onboot: 'yes'
-    ostemplate: 'iso-storage:vztmpl/almalinux-8-default_20210928_amd64.tar.xz'
+    ostemplate: 'iso-storage:vztmpl/almalinux-9-default_20240911_amd64.tar.xz'
     password: '{{ pass_root_takanaka }}'
     pubkey: '{{ ssh_pubkey_soar }}'
     state: present
-    storage: 'eagle-zfs'
     unprivileged: true
     vmid: 101
+    timeout: 600
     features:
       - 'nesting=1'
       - 'fuse=1'

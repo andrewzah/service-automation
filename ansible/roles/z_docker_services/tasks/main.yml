@@ -25,11 +25,13 @@
       - 'gcc'
       - 'git'
       - 'libpq-devel'
-      - 'mariadb-devel'
+      - 'mysql-common'
+      - 'mariadb'
+      - 'mariadb-connector-c-devel'
       - 'openldap-devel'
-      - 'python39'
-      - 'python39-devel'
-      - 'python39-pip'
+      - 'python3.12'
+      - 'python3.12-devel'
+      - 'python3.12-pip'
       - 'rsync'
     state: 'latest'
   when: ansible_os_family == 'RedHat'
@@ -38,24 +40,30 @@
   ansible.builtin.pip:
     name:
       - 'docker'
-      - 'docker-compose'
       - 'mysqlclient'
       - 'psycopg2'
       - 'python-ldap'
-      - 'pyyaml'
-    executable: pip3.9
+      - 'pyyaml==6.0.2'
+    executable: pip3.12
     extra_args: --user
 
-- name: change ssh port to 2222
-  become: 'yes'
-  ansible.builtin.lineinfile:
-    dest: '/etc/ssh/sshd_config'
-    regexp: '{{ item.regexp }}'
-    line: '{{ item.line }}'
-    state: 'present'
-  with_items:
-    - regexp: '^Port 2222$'
-      line: 'Port 2222'
+    #TODO: move to proxmox101 setup - it's too late here
+    #- name: change ssh port to 2222
+    #  become: 'yes'
+    #  ansible.builtin.lineinfile:
+    #    dest: '/etc/ssh/sshd_config'
+    #    regexp: '{{ item.regexp }}'
+    #    line: '{{ item.line }}'
+    #    state: 'present'
+    #  with_items:
+    #    - regexp: '^Port 2222$'
+    #      line: 'Port 2222'
+    #
+    #- name: remove the 'Development tools' package group
+    #  ansible.builtin.dnf:
+    #    name: '@Development tools'
+    #    state: absent
+    #  when: ansible_os_family == 'RedHat'
 
 - name: restart ssh
   become: 'yes'
@@ -112,11 +120,12 @@
   environment:
     COMPOSE_FILE: "{{ compose_files.stdout }}"
     COMPOSE_PROJECT_NAME: 'zah'
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: '~/docker'
     remove_orphans: 'yes'
     state: 'present'
-    recreate: 'smart'
+    recreate: 'always'
+    check_files_existing: false
     services:
       - 'postgres'
 
@@ -155,25 +164,29 @@
       - db_name: '{{ goatcounter.postgres.database }}'
         username: '{{ goatcounter.postgres.username }}'
         password: '{{ goatcounter.postgres.password }}'
-      - db_name: '{{ keycloak22.postgres.database }}'
-        username: '{{ keycloak22.postgres.username }}'
-        password: '{{ keycloak22.postgres.password }}'
+      - db_name: '{{ keycloak25.postgres.database }}'
+        username: '{{ keycloak25.postgres.username }}'
+        password: '{{ keycloak25.postgres.password }}'
       - db_name: '{{ immich.postgres.database }}'
         username: '{{ immich.postgres.username }}'
         password: '{{ immich.postgres.password }}'
       - db_name: '{{ memos.db.database }}'
         username: '{{ memos.db.username }}'
         password: '{{ memos.db.password }}'
+      - db_name: '{{ huginn.db.database }}'
+        username: '{{ huginn.db.username }}'
+        password: '{{ huginn.db.password }}'
 
 - name: Run `docker-compose up` for mariadb
   environment:
     COMPOSE_FILE: "{{ compose_files.stdout }}"
     COMPOSE_PROJECT_NAME: 'zah'
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: '~/docker'
     remove_orphans: 'yes'
     state: 'present'
-    recreate: 'smart'
+    recreate: 'always'
+    check_files_existing: false
     services:
       - 'mariadb'
 
@@ -184,11 +197,12 @@
   environment:
     COMPOSE_FILE: "{{ compose_files.stdout }}"
     COMPOSE_PROJECT_NAME: 'zah'
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: '~/docker'
     remove_orphans: 'yes'
     state: 'present'
-    recreate: 'smart'
+    recreate: 'always'
+    check_files_existing: false
     services:
       - 'openldap'
 
@@ -199,11 +213,12 @@
   environment:
     COMPOSE_FILE: "{{ compose_files.stdout }}"
     COMPOSE_PROJECT_NAME: 'zah'
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: '~/docker'
     remove_orphans: 'yes'
     state: 'present'
-    recreate: 'smart'
+    recreate: 'auto'
+    check_files_existing: false
     services:
       - 'atuin'
       - 'baikal'
@@ -214,8 +229,9 @@
       - 'hedgedoc'
       - 'homeassistant'
       - 'homebox'
+      - 'huginn'
       - 'keycloak'
-      - 'keycloak22'
+      - 'keycloak25'
       - 'komga'
       - 'lam'
       - 'mariadb'

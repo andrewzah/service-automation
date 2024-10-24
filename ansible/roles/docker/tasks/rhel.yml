@@ -1,6 +1,13 @@
 ---
-- name: Ensure old versions of Docker are not installed
-  yum:
+- name: Ensure ansible_python_interpreter is set correctly
+  command: /usr/bin/python3.12 --version
+
+- name: Run ansible module
+  ansible.builtin.command:
+    cmd: echo "Running with Python 3.12"
+
+- name: Ensure old versions of Docker are not installed on rhel
+  ansible.builtin.dnf:
     name:
       - 'docker'
       - 'docker-client'
@@ -14,8 +21,8 @@
       - 'runc'
     state: 'absent'
 
-- name: Ensure packages are installed
-  yum:
+- name: Ensure packages are installed on rhel
+  ansible.builtin.dnf:
     name:
       - 'yum-utils'
       #- 'ca-certificates'

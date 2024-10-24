@@ -3,6 +3,8 @@
 - name: install on debian-likes
   ansible.builtin.include_tasks: debian.yml
   when: ansible_os_family == "Debian"
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.12
 
 - name: install on RHEL-likes
   ansible.builtin.include_tasks: rhel.yml
