@@ -3,7 +3,7 @@
 services:
   huginn:
     # 2024-10-24
-    image: docker.io/huginn/huginn@sha256:c4941d46d901fdf21fa49daa3e9a992b4a2615a1024f7cc7c40fd4f534fab6e0
+    image: ghcr.io/huginn/huginn:3284a800a0f0d763d101c25523d84066eb2a1a30
     environment:
       RAILS_ENV: 'production'
       PORT: 3000
@@ -12,6 +12,7 @@ services:
       DOMAINS: 'huginn.zah.rocks'
       HUGINN_DOMAIN: 'huginn.zah.rocks'
       HUGINN_DOMAINS: 'huginn.zah.rocks'
+      DO_NOT_CREATE_DATABASE: 1
     env_file:
       - "~/docker/services/huginn/secret.env"
     ports:
