@@ -1,0 +1,30 @@
+name: "selhosted"
+is_done_tick_dot_com: false
+telegram:
+  token: "{{ donetick.secrets.telegram }}"
+database:
+  type: "sqlite"
+  migration: true
+jwt:
+  secret: "{{ donetick.secrets.jwt }}"
+  session_time: 168h
+  max_refresh: 168h
+server:
+  port: 2021
+  read_timeout: 2s
+  write_timeout: 1s
+  rate_period: 60s
+  rate_limit: 300
+  cors_allow_origins:
+    - "http://localhost:7926"
+  serve_frontend: true
+scheduler_jobs:
+  due_job: 30m
+  overdue_job: 3h
+  pre_due_job: 3h
+email:
+  host: 
+  port: 
+  key: 
+  email:  
+  appHost:  

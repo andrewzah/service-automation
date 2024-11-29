@@ -1,0 +1,18 @@
+---
+services:
+  donetick:
+    # alpine, 2024-11-27
+    image: docker.io/donetick/donetick:latest@sha256:ecf9d4df3883abdec9ea0d0361cf5f9dfdb44a5b4863a951d4fb5c506c27176f
+    environment:
+      DT_ENV: 'selfhosted'
+    volumes:
+      - "~/docker/data/donetick/config/:/config/:rw"
+      - "~/docker/data/donetick/data/:/usr/src/app/data/:rw"
+    ports:
+      - "2021"
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.donetick.rule=Host(`donetick.zah.rocks`)"
+      - "traefik.http.routers.donetick.entrypoints=websecure"
+      - "traefik.http.routers.donetick.tls.certresolver=myresolver"
