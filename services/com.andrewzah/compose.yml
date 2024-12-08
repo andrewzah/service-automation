@@ -9,4 +9,4 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.andrewzahcom.rule=Host(`andrewzah.com`)"
       - "traefik.http.routers.andrewzahcom.entrypoints=websecure"
-      - "traefik.http.routers.andrewzahcom.tls.certresolver=myresolver"
+      - "traefik.http.routers.andrewzahcom.tls.certresolver=cloudflare"

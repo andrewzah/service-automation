@@ -20,6 +20,14 @@
     group: 'ansible'
     mode: '0400'
 
+- name: traefik secret.env template
+  ansible.builtin.template:
+    src: traefik.env.j2
+    dest: '~/docker/services/traefik/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
 - name: atuin secret.env template
   ansible.builtin.template:
     src: atuin.env.j2

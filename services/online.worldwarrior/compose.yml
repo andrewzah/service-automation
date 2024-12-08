@@ -11,4 +11,4 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.online-worldwarrior.rule=Host(`worldwarrior.online`)"
       - "traefik.http.routers.online-worldwarrior.entrypoints=websecure"
-      - "traefik.http.routers.online-worldwarrior.tls.certresolver=myresolver"
+      - "traefik.http.routers.online-worldwarrior.tls.certresolver=cloudflare"

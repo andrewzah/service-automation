@@ -6,13 +6,6 @@
     [http.routers.jellyfin.tls]
       certResolver = "myresolver"
 
-  [http.routers.palmettotech-zulip]
-    entrypoints = [ "websecure" ]
-    rule = "Host(`zulip.palmettotech.dev`)"
-    service = "palmettotech-zulip"
-    [http.routers.palmettotech-zulip.tls]
-      certResolver = "myresolver"
-
   [http.routers.bluemap-survival]
     entrypoints = [ "websecure" ]
     rule = "Host(`survival-map.mc.zah.rocks`)"
@@ -31,10 +24,6 @@
   [http.services.jellyfin.loadBalancer]
     [[http.services.jellyfin.loadBalancer.servers]]
       url = "http://192.168.2.6:8096"
-
-  [http.services.palmettotech-zulip.loadBalancer]
-    [[http.services.palmettotech-zulip.loadBalancer.servers]]
-      url = "http://192.168.2.31:80"
 
   [http.services.bluemap-survival.loadBalancer]
     [[http.services.bluemap-survival.loadBalancer.servers]]

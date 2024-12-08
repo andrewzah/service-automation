@@ -3,7 +3,8 @@
 services:
   # 2024-10-02
   goatcounter:
-    image: docker.io/andrewzah/goatcounter:530ab5edff553923fb04d9e1b1a9771f8a6d0461@sha256:96c27e440b608a2df5e641b72f90b88d146ff9de6c5adc246948021de7bea049
+    ## @sha256:96c27e440b608a2df5e641b72f90b88d146ff9de6c5adc246948021de7bea049
+    image: docker.io/andrewzah/goatcounter:530ab5edff553923fb04d9e1b1a9771f8a6d0461@sha256:2dbb366e754dbdbc039a6b49e264fe9222f243d24a402b418c36dfdb49f4a8a5 
     environment:
       GC_PORT: "3443"
       GC_LISTEN: "0.0.0.0:3443"
@@ -19,6 +20,11 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.goatcounter.rule=Host(`stats.benzah.com`) || Host(`stats.andrewzah.com`) || Host(`stats.homegrownbinaries.com`) || Host(`stats.worldwarrior.online`)"
-      - "traefik.http.routers.goatcounter.entrypoints=websecure"
-      - "traefik.http.routers.goatcounter.tls.certresolver=myresolver"
+      ## dns-challenge
+      - "traefik.http.routers.goatcounter-dns.rule=Host(`stats.andrewzah.com`) || Host(`stats.worldwarrior.online`)"
+      - "traefik.http.routers.goatcounter-dns.entrypoints=websecure"
+      - "traefik.http.routers.goatcounter-dns.tls.certresolver=cloudflare"
+      ## tls-challenge
+      - "traefik.http.routers.goatcounter-tls.rule=Host(`stats.benzah.com`) || Host(`stats.homegrownbinaries.com`)"
+      - "traefik.http.routers.goatcounter-tls.entrypoints=websecure"
+      - "traefik.http.routers.goatcounter-tls.tls.certresolver=myresolver"

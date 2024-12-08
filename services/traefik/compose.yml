@@ -5,27 +5,41 @@ services:
     # 2024-10-02
     image: traefik:v3.1.4@sha256:6215528042906b25f23fcf51cc5bdda29e078c6e84c237d4f59c00370cb68440
     hostname: 'traefik'
-    restart: 'unless-stopped'
     command:
-      - "--api.insecure=true"
+      - "--api.insecure=false"
       - "--api.dashboard=true"
+      ## providers
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--providers.file=true"
       - "--providers.file.watch=true"
       - "--providers.file.filename=/etc/traefik/rules.toml"
+      ## entrypoints
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.ssh.address=:22"
-      #- "--entrypoints.hkps.address=:11371"
-      - "--entryPoints.web.forwardedHeaders.insecure"
-      - "--entryPoints.websecure.forwardedHeaders.insecure"
+      - "--entrypoints.web.forwardedHeaders.insecure"
+      - "--entrypoints.websecure.forwardedHeaders.insecure"
+      ## entrypoint redirections
       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
       - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
       - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+      ## generic resolver
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       - "--certificatesresolvers.myresolver.acme.email=admin@andrewzah.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      #- "--certificatesResolvers.myresolver.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory"
+      ## cloudflare resolver
+      - "--certificatesresolvers.cloudflare.acme.storage=/letsencrypt/cloudflare-acme.json"
+      - "--certificatesresolvers.cloudflare.acme.email=admin@andrewzah.com"
+      - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
+      - "--certificatesresolvers.cloudflare.acme.dnsChallenge.provider=cloudflare"
+      - "--certificatesresolvers.cloudflare.acme.dnsChallenge.delayBeforeCheck=0"
+      - "--certificatesresolvers.cloudflare.acme.dnsChallenge.resolvers=1.1.1.1:53"
+      #- "--certificatesResolvers.cloudflare.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory"
+    env_file:
+      - "~/docker/services/traefik/secret.env"
+    restart: 'unless-stopped'
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"

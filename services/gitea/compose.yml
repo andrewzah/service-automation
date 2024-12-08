@@ -20,7 +20,7 @@ services:
       - "traefik.http.routers.gitea-web.rule=Host(`git.andrewzah.com`)"
       - "traefik.http.routers.gitea-web.entrypoints=websecure"
       #- 'traefik.http.routers.gitea-web.middlewares=eas-default'
-      - "traefik.http.routers.gitea-web.tls.certresolver=myresolver"
+      - "traefik.http.routers.gitea-web.tls.certresolver=cloudflare"
       - "traefik.http.routers.gitea-web.service=gitea-web"
       - "traefik.http.services.gitea-web.loadbalancer.server.port=3000"
       #
