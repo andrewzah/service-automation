@@ -2,8 +2,8 @@
 
 services:
   vaultwarden:
-    # 2024-10-02
-    image: vaultwarden/server:1.32.0-alpine@sha256:e3efdc8a9961643f5f0d2c72596aedfe4b4fcfce9836e18c1e8ba0b8c2e06459
+    # 2024-11-26
+    image: vaultwarden/server:1.32.5-alpine@sha256:76d46d32ba4120b022e0a69487f9fd79fc52e2765b1650c5c51a5dd912a3c288
     environment:
       DOMAIN: 'https://bit.zah.rocks'
       WEBSOCKET_ENABLED: 'true'

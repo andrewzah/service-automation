@@ -1,10 +1,9 @@
 ---
 
 services:
-  # 2024-10-02
+  # 2024-11-11
   goatcounter:
-    ## @sha256:96c27e440b608a2df5e641b72f90b88d146ff9de6c5adc246948021de7bea049
-    image: docker.io/andrewzah/goatcounter:530ab5edff553923fb04d9e1b1a9771f8a6d0461@sha256:2dbb366e754dbdbc039a6b49e264fe9222f243d24a402b418c36dfdb49f4a8a5 
+    image: docker.io/andrewzah/goatcounter:530ab5edff553923fb04d9e1b1a9771f8a6d0461@sha256:2dbb366e754dbdbc039a6b49e264fe9222f243d24a402b418c36dfdb49f4a8a5
     environment:
       GC_PORT: "3443"
       GC_LISTEN: "0.0.0.0:3443"
