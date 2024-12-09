@@ -4,24 +4,26 @@
 ### GHOST ###
 #############
 
-#- name: MARIADB - ghost database
-#  community.mysql.mysql_db:
-#    login_host: 127.0.0.1
-#    login_port: 3307
-#    login_user: 'root'
-#    login_password: '{{ mariadb_root_password }}'
-#    name: '{{ ghost.mariadb.database }}'
-#    state: 'present'
-#
-#- name: MARIADB - ghost user
-#  community.mysql.mysql_user:
-#    login_host: 127.0.0.1
-#    login_port: 3307
-#    login_user: 'root'
-#    login_password: '{{ mariadb_root_password }}'
-#    #host: '172.%.%.%'
-#    host: '%'
-#    name: '{{ ghost.mariadb.username }}'
-#    password: '{{ ghost.mariadb.password }}'
-#    state: 'present'
-#    priv: '{{ ghost.mariadb.database }}.*:ALL,GRANT'
+- name: MARIADB - setup database
+  community.mysql.mysql_db:
+    login_host: 127.0.0.1
+    login_port: 3307
+    login_user: 'root'
+    login_password: '{{ mariadb_root_password }}'
+    name: '{{ item.db_name }}'
+    state: 'present'
+  loop: '{{ z_services }}'
+
+- name: MARIADB - setup user
+  community.mysql.mysql_user:
+    login_host: 127.0.0.1
+    login_port: 3307
+    login_user: 'root'
+    login_password: '{{ mariadb_root_password }}'
+    #host: '172.%.%.%'
+    host: '%'
+    name: '{{ item.username }}'
+    password: '{{ item.password }}'
+    state: 'present'
+    priv: '{{ item.db_name }}.*:ALL,GRANT'
+  loop: '{{ z_services }}'

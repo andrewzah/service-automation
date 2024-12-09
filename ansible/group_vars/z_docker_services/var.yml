@@ -1,23 +1,13 @@
-postgres_db: '{{ vault_postgres_db }}'
-postgres_user: '{{ vault_postgres_user }}'
-postgres_password: '{{ vault_postgres_password }}'
-
-smtp_user: '{{ v_smtp_user }}'
-smtp_port: '{{ v_smtp_port }}'
-smtp_host: '{{ v_smtp_host }}'
-
 smtp_rallly_email: '{{ v_smtp_rallly_email }}'
 smtp_rallly_password: '{{ v_smtp_rallly_password }}'
 
 pg_bitwarden_password: '{{ v_pg_bitwarden_password }}'
 pg_hedgedoc_password: '{{ v_pg_hedgedoc_password }}'
-pg_keycloak_password: '{{ v_pg_keycloak_password }}'
 pg_rallly_password: '{{ v_pg_rallly_password }}'
 
 ntfy_smtp_user: '{{ v_ntfy_smtp_user }}'
 ntfy_smtp_password: '{{ v_ntfy_smtp_password }}'
 
-keycloak_admin_password: '{{ v_keycloak_admin_password }}'
 kc_hedgedoc_client_secret: '{{ v_kc_hedgedoc_client_secret }}'
 
 lam_password: '{{ v_lam_password }}'

@@ -200,6 +200,14 @@
     group: 'ansible'
     mode: '0600'
 
+- name: romm secret.env template
+  ansible.builtin.template:
+    src: romm.env.j2
+    dest: '~/docker/services/romm/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
 #- name: radicale users template
 #  ansible.builtin.template:
 #    src: radicale.users.j2

@@ -192,6 +192,11 @@
 
 - name: run mariadb stuff
   ansible.builtin.include_tasks: mariadb.yml
+  vars:
+    z_services:
+      - db_name: '{{ romm.db.database }}'
+        username: '{{ romm.db.username }}'
+        password: '{{ romm.db.password }}'
 
 - name: Run `docker-compose up` for openldap
   environment:

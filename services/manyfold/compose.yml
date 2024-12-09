@@ -1,0 +1,29 @@
+---
+
+services:
+  manyfold:
+    # 2024-12-09
+    image: docker pull ghcr.io/manyfold3d/manyfold:0.91.0@sha256:a9983eb03df2bea89da7bfa0a4c69296702ebd52411fd4335469582b324701d3
+    environment:
+      PUID: 1000
+      PGID: 1000
+      REDIS_URL: 'redis://redis:6379/1'
+      DEMO_MODE: 'false'
+      PUBLIC_HOSTNAME: 'manyfold.zah.rocks'
+      FORCE_OIDC: 'enabled'
+      HTTPS_ONLY: 'enabled'
+      MULTIUSER: 'enabled'
+      REGISTRATION: 'disabled'
+      FEDERATION: 'disabled'
+    env_file:
+      - "~/docker/services/manyfold/secret.env"
+    volumes:
+      - "~/docker/data/manyfold/libraries/:/libraries/:rw"
+    restart: unless-stopped
+    ports:
+      - "3214"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.manyfold.rule=Host(`manyfold.zah.rocks`)"
+      - "traefik.http.routers.manyfold.entrypoints=websecure"
+      - "traefik.http.routers.manyfold.tls.certresolver=myresolver"

@@ -1,0 +1,20 @@
+---
+
+services:
+  romm:
+    # 2024-12-09
+    image: docker.io/rommapp/romm:3.6@sha256:d4ca71e95e1100c84edd07b8a1e6891c4c4eb2e1d74b5dc73e4d7b64c3b44a12
+    ports:
+      - "8080"
+    volumes:
+      ## Resources fetched from IGDB (covers, screenshots, etc.)
+      - "~/docker/data/romm/resources/:/romm/resources/:rw"
+      ## Cached data for background tasks
+      - "~/docker/data/romm/redis_data/:/redis-data/:rw"
+      ## Your game library. Check https://github.com/rommapp/romm?tab=readme-ov-file#folder-structure for more details.
+      - "~/docker/data/romm/library:/romm/library/:rw"
+      ## Uploaded saves, states, etc.
+      - "~/docker/data/romm/assets/:/romm/assets/:rw"
+      ## Path where config.yml is stored
+      - "~/docker/data/romm/config/:/romm/config/:rw"
+    restart: unless-stopped
