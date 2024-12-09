@@ -1,13 +1,8 @@
 ---
 
-#############
-### GHOST ###
-#############
-
 - name: MARIADB - setup database
   community.mysql.mysql_db:
-    config_file: ''
-    login_host: 127.0.0.1
+    login_host: 'localhost'
     login_port: 3307
     login_user: '{{ mariadb.root_username }}'
     login_password: '{{ mariadb.root_password }}'
@@ -17,8 +12,7 @@
 
 - name: MARIADB - setup user
   community.mysql.mysql_user:
-    config_file: ''
-    login_host: 127.0.0.1
+    login_host: 'localhost'
     login_port: 3307
     login_user: '{{ mariadb.root_username }}'
     login_password: '{{ mariadb.root_password }}'
