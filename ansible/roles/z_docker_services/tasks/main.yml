@@ -183,6 +183,9 @@
       - db_name: '{{ monicahq.db.database }}'
         username: '{{ monicahq.db.username }}'
         password: '{{ monicahq.db.password }}'
+      - db_name: '{{ vaultwarden.db.database }}'
+        username: '{{ vaultwarden.db.username }}'
+        password: '{{ vaultwarden.db.password }}'
 
 - name: Run `docker-compose up` for mariadb
   environment:
