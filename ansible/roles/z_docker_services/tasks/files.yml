@@ -200,10 +200,26 @@
     group: 'ansible'
     mode: '0600'
 
+- name: manyfold secret.env template
+  ansible.builtin.template:
+    src: manyfold.env.j2
+    dest: '~/docker/services/manyfold/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
 - name: romm secret.env template
   ansible.builtin.template:
     src: romm.env.j2
     dest: '~/docker/services/romm/secret.env'
+    owner: 'ansible'
+    group: 'ansible'
+    mode: '0400'
+
+- name: monicahq secret.env template
+  ansible.builtin.template:
+    src: monicahq.env.j2
+    dest: '~/docker/services/monicahq/secret.env'
     owner: 'ansible'
     group: 'ansible'
     mode: '0400'

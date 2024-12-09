@@ -6,20 +6,22 @@
 
 - name: MARIADB - setup database
   community.mysql.mysql_db:
+    config_file: ''
     login_host: 127.0.0.1
     login_port: 3307
-    login_user: 'root'
-    login_password: '{{ mariadb_root_password }}'
+    login_user: '{{ mariadb.root_username }}'
+    login_password: '{{ mariadb.root_password }}'
     name: '{{ item.db_name }}'
     state: 'present'
   loop: '{{ z_services }}'
 
 - name: MARIADB - setup user
   community.mysql.mysql_user:
+    config_file: ''
     login_host: 127.0.0.1
     login_port: 3307
-    login_user: 'root'
-    login_password: '{{ mariadb_root_password }}'
+    login_user: '{{ mariadb.root_username }}'
+    login_password: '{{ mariadb.root_password }}'
     #host: '172.%.%.%'
     host: '%'
     name: '{{ item.username }}'

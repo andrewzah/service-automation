@@ -4,8 +4,8 @@
   community.postgresql.postgresql_db:
     login_host: 127.0.0.1
     login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
+    login_user: '{{ postgres.user }}'
+    login_password: '{{ postgres.password }}'
     name: '{{ item.db_name }}'
     state: present
   loop: '{{ z_services }}'
@@ -14,8 +14,8 @@
   community.postgresql.postgresql_user:
     login_host: 127.0.0.1
     login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
+    login_user: '{{ postgres.user }}'
+    login_password: '{{ postgres.password }}'
     db: '{{ item.db_name }}'
     name: '{{ item.username }}'
     password: '{{ item.password }}'
@@ -26,8 +26,8 @@
   community.postgresql.postgresql_privs:
     login_host: 127.0.0.1
     login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
+    login_user: '{{ postgres.user }}'
+    login_password: '{{ postgres.password }}'
     db: postgres
     privs: ALL
     type: database
@@ -40,8 +40,8 @@
   community.postgresql.postgresql_ext:
     login_host: 127.0.0.1
     login_port: 5433
-    login_user: '{{ postgres_user }}'
-    login_password: '{{ postgres_password }}'
+    login_user: '{{ postgres.user }}'
+    login_password: '{{ postgres.password }}'
     db: '{{ item.db_name }}'
     name: '{{ item.ext_name }}'
     state: 'present'
