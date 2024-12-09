@@ -1,0 +1,16 @@
+---
+
+services:
+  monicahq:
+    image: docker.io/library/monica:fpm@sha256:6d493a488c1807eb618b2b2a9e216067288d591cf629be932daf8ea445ef903c
+    ports:
+      - "80"
+    env_file:
+      - "~/docker/services/monicahq/secret.env"
+    volumes:
+      - "~/docker/data/monicahq/data/:/var/www/html/storage/"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hedgedoc.rule=Host(`monicahq.zah.rocks`)"
+      - "traefik.http.routers.hedgedoc.entrypoints=websecure"
+      - "traefik.http.routers.hedgedoc.tls.certresolver=myresolver"
