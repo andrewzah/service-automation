@@ -180,9 +180,6 @@
       - db_name: '{{ manyfold.db.database }}'
         username: '{{ manyfold.db.username }}'
         password: '{{ manyfold.db.password }}'
-      - db_name: '{{ monicahq.db.database }}'
-        username: '{{ monicahq.db.username }}'
-        password: '{{ monicahq.db.password }}'
       - db_name: '{{ vaultwarden.db.database }}'
         username: '{{ vaultwarden.db.username }}'
         password: '{{ vaultwarden.db.password }}'
@@ -208,6 +205,9 @@
       - db_name: '{{ romm.db.database }}'
         username: '{{ romm.db.username }}'
         password: '{{ romm.db.password }}'
+      - db_name: '{{ monicahq.db.database }}'
+        username: '{{ monicahq.db.username }}'
+        password: '{{ monicahq.db.password }}'
 
 - name: Run `docker-compose up` for openldap
   environment:
@@ -251,6 +251,7 @@
       - 'komga'
       - 'lam'
       - 'mariadb'
+      - 'monicahq'
       - 'memcached'
       - 'memos'
       - 'navidrome'

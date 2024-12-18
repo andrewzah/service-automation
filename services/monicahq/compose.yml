@@ -2,7 +2,7 @@
 
 services:
   monicahq:
-    image: docker.io/library/monica:fpm@sha256:6d493a488c1807eb618b2b2a9e216067288d591cf629be932daf8ea445ef903c
+    image: docker.io/library/monica:4.1.2-apache@sha256:9d914445b4aeb450e4eb23ef9db0a4e6a9085f4e8a21459868c8caf7a68add35
     ports:
       - "80"
     environment:
