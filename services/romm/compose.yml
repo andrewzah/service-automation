@@ -3,18 +3,34 @@
 services:
   romm:
     # 2024-12-09
-    image: docker.io/rommapp/romm:3.6@sha256:d4ca71e95e1100c84edd07b8a1e6891c4c4eb2e1d74b5dc73e4d7b64c3b44a12
+    #image: docker.io/rommapp/romm:3.6@sha256:d4ca71e95e1100c84edd07b8a1e6891c4c4eb2e1d74b5dc73e4d7b64c3b44a12
+    image: docker.io/rommapp/romm:latest
+    environment:
+      ROMM_HOST: 'romm.zah.rocks'
+    env_file:
+      - "~/docker/services/romm/secret.env"
     ports:
       - "8080"
     volumes:
       ## Resources fetched from IGDB (covers, screenshots, etc.)
       - "~/docker/data/romm/resources/:/romm/resources/:rw"
-      ## Cached data for background tasks
-      - "~/docker/data/romm/redis_data/:/redis-data/:rw"
+
       ## Your game library. Check https://github.com/rommapp/romm?tab=readme-ov-file#folder-structure for more details.
-      - "~/docker/data/romm/library:/romm/library/:rw"
+      #- "~/docker/data/romm/library/:/romm/library/:rw"
+      - "/mnt/eagle/data/roms/:/romm/library/:rw"
+
       ## Uploaded saves, states, etc.
       - "~/docker/data/romm/assets/:/romm/assets/:rw"
       ## Path where config.yml is stored
       - "~/docker/data/romm/config/:/romm/config/:rw"
+
+      ## Cached data for background tasks
+      - "~/docker/data/romm/redis_data/:/redis-data/:rw"
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.romm.loadbalancer.server.port=8080"
+      - "traefik.http.routers.romm.rule=Host(`romm.zah.rocks`)"
+      - "traefik.http.routers.romm.entrypoints=websecure"
+      - "traefik.http.routers.romm.tls.certresolver=myresolver"
+      #- 'traefik.http.routers.romm.middlewares=eas-default'
